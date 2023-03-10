@@ -1,9 +1,22 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
 
-const app = createApp(App)
+/* import the fontawesome core */
+import { library } from '@fortawesome/fontawesome-svg-core';
 
-app.use(router)
+/* import font awesome icon component */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-app.mount('#app')
+/* import specific icons */
+import { faLocationDot, faEnvelope, faPaw, faPhoneFlip } from '@fortawesome/free-solid-svg-icons';
+import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+
+/* add icons to the library */
+library.add(faLocationDot, faEnvelope, faPhoneFlip, faPaw ,faFacebook, faInstagram, faWhatsapp);
+
+const app = createApp(App);
+
+app.use(router);
+app.component('font-awesome-icon', FontAwesomeIcon);
+app.mount('#app');
