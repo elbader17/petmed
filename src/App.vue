@@ -15,6 +15,7 @@ import AppFooter from './components/AppFooter.vue';
 <style>
 * {
   font-family: "Poppins", Sans-serif;
+  box-sizing: border-box;
   margin: 0px;
   padding: 0px;
 }

@@ -3,39 +3,34 @@ import { RouterLink } from 'vue-router'
 </script>
 
 <template>
-    <div class="hero">
-      <video class="video" autoplay loop muted plays-inline>
-        <source src="../assets/img/pet.mp4" type="video/mp4">
-      </video>
-      <div class="content">
-        <img class="image" src="../assets/img/img_ban.png" alt="">
-        <RouterLink to="/planes">Consultar planes</RouterLink>
-      </div>
+  <div class="hero">
+    <video class="video" autoplay loop muted plays-inline>
+      <source src="../assets/img/pet.mp4" type="video/mp4">
+    </video>
+    <div class="content">
+      <img class="content-image" src="../assets/img/img_ban.png" alt="Somos el mimo que se merece">
+      <RouterLink to="/planes"><button class="hero-button">Consultar planes</button></RouterLink>
     </div>
+  </div>
 </template>
 
 <style scoped>
 .hero {
-  width: 100%;
-  height: 100vh;
+  min-height: 35rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .content {
-  text-align: center;
-  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  margin: auto;
 }
-
-/*.video {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-  width: 100%;
-  height: auto;
-}*/
 
 .video {
   height: 100%;
@@ -43,29 +38,30 @@ import { RouterLink } from 'vue-router'
   top: 0;
   left: 0;
   position: absolute;
-  overflow: hidden;
+  object-fit: cover;
   z-index: -1;
   direction: ltr;
 }
 
-.image {
+.content-image {
   width: 18.5rem;
+  margin-bottom: 2rem;
 }
 
-a {
+.hero-button {
   font-size: 0.875rem;
   font-weight: 500;
+  border: none;
   text-decoration: none;
   text-transform: uppercase;
   fill: #ffffff;
   color: #ffffff;
   background-color: #3CBEB4;
-  border-radius: 1.0652rem;
-  box-shadow: 0.3125rem -0.3125rem 3.75rem 0rem rgba(0, 0, 0, 0.1);
-  padding: 0.75rem 1.25rem 0.75rem 1.25rem;
+  border-radius: 1rem;
+  padding: 0.5rem 1.25rem;
 }
 
-a:hover {
+.hero-button:hover {
   color: #ffffff;
   background-color: #FF6438;
   border-color: #E9E9E9;
