@@ -1,63 +1,98 @@
 <script setup></script>
 
 <template>
-  <div>
-    <div>
-      <img class="logo-footer" src="../assets/img/Recurso-2-866x1024.png" alt="PetMed logo blanco">
+  <footer class="footer">
+    <div class="footer-logo">
+      <img class="logo" src="../assets/img/Recurso-2-866x1024.png" alt="PetMed logo blanco">
     </div>
-    <div>
-      <h2>Contacto</h2>
-      <ul>
-        <li>
-          <font-awesome-icon icon="fa-solid fa-envelope" size="lg" />
-          <h3>ventas@petmed.ar</h3>
+    <div class="footer-contact">
+      <h2 class="contact-title">Contacto</h2>
+      <ul class="contact-list">
+        <li class="contact-item">
+          <font-awesome-icon icon="fa-solid fa-envelope" size="lg" class="item-icon" />
+          <h3 class="item-text">ventas@petmed.ar</h3>
         </li>
-        <li>
-          <font-awesome-icon icon="fa-brands fa-whatsapp" size="lg" />
-          <h3>+54 358 517-6454</h3>
+        <li class="contact-item">
+          <font-awesome-icon icon="fa-brands fa-whatsapp" size="lg" class="item-icon" />
+          <h3 class="item-text">+54 358 517-6454</h3>
         </li>
       </ul>
     </div>
-    <div>
-      <h2>Dirección</h2>
-      <font-awesome-icon icon="fa-solid fa-location-dot" size="lg" />
-      <h3>Ituzaingó 1348, Río Cuarto, Cba</h3>
-    </div>
-    <div>
-      <h2>Seguinos en</h2>
-      <ul>
-        <li><font-awesome-icon icon="fa-brands fa-instagram" size="2x" /></li>
-        <li><font-awesome-icon icon="fa-brands fa-facebook" size="2x" /></li>
+    <div class="footer-direction">
+      <h2 class="direction-title">Dirección</h2>
+      <ul class="direction-list">
+        <li class="direction-item">
+          <font-awesome-icon icon="fa-solid fa-location-dot" size="lg" class="item-icon" />
+          <a href="https://goo.gl/maps/Y7kbXBjigwZuRJFX9" class="item-link"><h3 class="item-text">Ituzaingó 1348, Río Cuarto, Cba</h3></a>
+        </li>
       </ul>
     </div>
-  </div>
+    <div class="footer-follow">
+      <h2 class="follow-title">Seguinos en</h2>
+      <ul class="follow-list">
+        <li class="follow-item">
+          <a href="http://www.instagram.com/petmed.ar" class="item-link">
+            <font-awesome-icon icon="fa-brands fa-instagram" size="2x" class="item-icon" />
+          </a>
+        </li>
+        <li class="follow-item">
+          <a href="https://www.facebook.com/petmed.ar" class="item-link">
+            <font-awesome-icon icon="fa-brands fa-facebook" size="2x" class="item-icon" />
+          </a>
+        </li>
+      </ul>
+    </div>
+  </footer>
 </template>
 
 <style scoped>
-* {
-  background-color: #8D57B0;
+.footer {
+  background-color: #9E63C4;
   color: #fff;
-  font-weight: 300;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+  padding: 3rem 1.25rem;
 }
 
-.logo-footer {
+.logo {
   width: 6.55rem;
 }
 
-h2 {
-  font-size: 1.25rem;
-}
-
-h3 {
-  font-size: 0.875rem;
-}
-
-ul {}
-
-li {
+.follow-list {
   list-style-type: none;
+  display: flex;
 }
+
+.contact-item,
+.direction-item
+ {
+  list-style-type: none;
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.contact-title,
+.direction-title,
+.follow-title {
+  font-size: 1.25rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+
+.item-text {
+  font-size: 0.875rem;
+  font-weight: 300;
+  margin-left: 0.5rem;
+}
+
+.direction-item .item-link {
+  text-decoration: none;
+  color: #fff;
+}
+
+.follow-item .item-icon {
+  color: #fff;
+  margin-right: 1rem;
+}
+
 </style>

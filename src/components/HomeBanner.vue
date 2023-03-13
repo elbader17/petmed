@@ -16,7 +16,7 @@ import { RouterLink } from 'vue-router'
 
 <style scoped>
 .hero {
-  min-height: 35rem;
+  min-height: 30rem;
   display: flex;
   align-items: center;
   justify-content: center;

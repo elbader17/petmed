@@ -6,7 +6,7 @@
     <ul class="benefits-list">
       <li class="benefits-item">
         <img src="../assets/img/cobertura-medica-veterinaria.png" class="item-img" alt="Cobertura medica">
-        <h2>Amplia cobertura médica veterinaria</h2>
+        <h2 class="item-text">Amplia cobertura médica veterinaria</h2>
       </li>
       <li class="benefits-item">
         <img src="../assets/img/cartilla-de-prestadores.png" class="item-img" alt="Cartilla de prestadores">
@@ -62,6 +62,12 @@
 
 .item-img {
   width: 6.15rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease-out 0s;
+}
+
+.item-img:hover {
+  transform: scale(1.1);
 }
 
 .item-text {
