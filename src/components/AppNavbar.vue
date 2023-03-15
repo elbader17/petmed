@@ -34,7 +34,7 @@ import { RouterLink } from 'vue-router'
 .header {
   background-color: #fff;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   padding: 0.3rem 1.25rem;
 }

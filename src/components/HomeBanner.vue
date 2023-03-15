@@ -1,5 +1,6 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink } from 'vue-router';
+import SeparadorContenido from './icons/SeparadorContenido.vue';
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import { RouterLink } from 'vue-router'
       <img class="content-image" src="../assets/img/img_ban.png" alt="Somos el mimo que se merece">
       <RouterLink to="/planes"><button class="hero-button">Consultar planes</button></RouterLink>
     </div>
+    <SeparadorContenido class="separador-superior" />
   </div>
 </template>
 
@@ -18,9 +20,17 @@ import { RouterLink } from 'vue-router'
 .hero {
   min-height: 30rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
+}
+
+.separador-superior {
+  transform: rotate(180deg) translateY(-0.5rem);
+  fill: #fff;
+  width: calc(178% + 1.3px);
+  height: 3.875rem;
 }
 
 .content {

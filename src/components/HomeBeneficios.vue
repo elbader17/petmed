@@ -16,8 +16,6 @@
         <img src="../assets/img/Petshop.png" class="item-img" alt="Petshop">
         <h2 class="item-text">Beneficios en Petshop, alimentos y peluquería</h2>
       </li>
-    </ul>
-    <ul class="benefits-list">
       <li class="benefits-item">
         <img src="../assets/img/Atencion-las-24hs.png" class="item-img" alt="Atención 24hs">
         <h2 class="item-text">Atención las 24hs para su mascota</h2>
@@ -37,7 +35,6 @@
 <style scoped>
 .benefits {
   text-align: center;
-  width: 70%;
   margin: 0 auto;
   padding: 3.125rem;
 }
@@ -51,11 +48,14 @@
 
 .benefits-list {
   display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
 }
 
 .benefits-item {
-  width: 100vh;
-  position: relative;
+  flex-grow: 1;
+  flex-basis: 0;
+  min-width: 33%;
   list-style-type: none;
   padding: 1rem;
 }

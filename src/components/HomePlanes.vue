@@ -1,5 +1,6 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink } from 'vue-router';
+import SeparadorContenido from './icons/SeparadorContenido.vue';
 </script>
 
 <template>
@@ -7,27 +8,40 @@ import { RouterLink } from 'vue-router'
     <div class="plans-header">
       <h1 class="plans-title">Nuestros Planes</h1>
       <h2 class="plans-subtitle">A La Medida De Tu Mascota</h2>
+      <SeparadorContenido  class="separador-intermedio"/>
     </div>
     <ul class="plans-list">
       <li class="list-item">
-        <img src="../assets/img/c1.jpg" class="item-img" alt="Plan 1005">
+        <div class="item-img">
+          <img src="../assets/img/c1.jpg" alt="Plan 1005">
+        </div>
         <div class="item-info">
           <h1 class="info-title">Plan 1005</h1>
-          <RouterLink to="/planes"><p class="info-link">Ver mas beneficios</p></RouterLink>
+          <RouterLink to="/planes">
+            <p class="info-link">Ver mas beneficios</p>
+          </RouterLink>
         </div>
       </li>
       <li class="list-item">
-        <img src="../assets/img/c2.jpg" class="item-img" alt="Plan 2010">
+        <div class="item-img">
+          <img src="../assets/img/c2.jpg" alt="Plan 2010">
+        </div>
         <div class="item-info">
           <h1 class="info-title">Plan 2010</h1>
-          <RouterLink to="/planes"><p class="info-link">Ver mas beneficios</p></RouterLink>
+          <RouterLink to="/planes">
+            <p class="info-link">Ver mas beneficios</p>
+          </RouterLink>
         </div>
       </li>
       <li class="list-item">
-        <img src="../assets/img/c3.jpg" class="item-img" alt="Plan 3015">
+        <div class="item-img">
+          <img src="../assets/img/c3.jpg" alt="Plan 3015">
+        </div>
         <div class="item-info">
           <h1 class="info-title">Plan 3015</h1>
-          <RouterLink to="/planes"><p>Ver mas beneficios</p></RouterLink>
+          <RouterLink to="/planes">
+            <p class="info-link">Ver mas beneficios</p>
+          </RouterLink>
         </div>
       </li>
     </ul>
@@ -40,6 +54,9 @@ import { RouterLink } from 'vue-router'
 }
 
 .plans-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-image: url(../assets/img/col3.png);
   background-position: bottom right;
   background-repeat: no-repeat;
@@ -62,44 +79,86 @@ import { RouterLink } from 'vue-router'
   text-transform: capitalize;
 }
 
+.separador-intermedio {
+  transform: rotate(180deg) translateY(-0.5rem);
+  fill: #3CBEB4;
+  width: calc(100% + 1.3px);
+  height: 3.875rem;
+}
+
 .plans-list {
   display: flex;
-  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   background-color: #3CBEB4;
 }
 
 .list-item {
-  width: 27.2rem;
+  /* flex-grow: 1;
+  flex-basis: 0; */
+  width: 450px;
+  height: 450px;
   list-style-type: none;
-  text-align: left;
+  background-size: cover;
   overflow: hidden;
 }
 
 .item-img {
-  width: 30rem;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.item-img img {
+  position: absolute;
+  display: block;
+  transform: translateX(-2rem);
+  transition: transform 0.3s ease;
+}
+
+.list-item:hover .item-img img {
+  transform: translateX(0rem);
+  transition: transform 0.3s ease;
 }
 
 .item-info {
-  height: 22.2rem;
-  width: 27.2rem;
-  color: #FFFF;
-  padding: 1rem;
-  box-sizing: border-box;
-  position: absolute;
-  background: rgb(27, 27, 27, .5);
-  bottom: -53.66rem;
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: flex-start;
+  padding-left: 1rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  transform: translateY(-16rem);
+  transition: transform 0.3s ease;
+}
+
+.list-item:hover .item-info {
+  transform: translateY(-18rem);
 }
 
 .info-title {
+  color: #FFFF;
   font-weight: 400;
+  padding-bottom: 10rem;
 }
 
 a {
-  color: #FFFF;
   text-decoration: none;
+}
+
+.info-link {
+  color: #FFFF;
   font-weight: 300;
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+.list-item:hover .info-link {
+  opacity: 1;
+  transition: 0.3s ease;
 }
 </style>

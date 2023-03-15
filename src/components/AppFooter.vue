@@ -50,8 +50,20 @@
   background-color: #9E63C4;
   color: #fff;
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   padding: 3rem 1.25rem;
+  background-image: url('../assets/img/trr2.png');
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+.footer-logo,
+.footer-contact,
+.footer-direction,
+.footer-follow {
+  padding: 0.25rem;
 }
 
 .logo {
