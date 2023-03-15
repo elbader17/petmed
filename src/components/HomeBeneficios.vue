@@ -34,8 +34,10 @@
 
 <style scoped>
 .benefits {
-  text-align: center;
+  width: 90%;
+  max-width: 1240px;
   margin: 0 auto;
+  text-align: center;
   padding: 3.125rem;
 }
 

@@ -2,45 +2,47 @@
 
 <template>
   <footer class="footer">
-    <div class="footer-logo">
-      <img class="logo" src="../assets/img/Recurso-2-866x1024.png" alt="PetMed logo blanco">
-    </div>
-    <div class="footer-contact">
-      <h2 class="contact-title">Contacto</h2>
-      <ul class="contact-list">
-        <li class="contact-item">
-          <font-awesome-icon icon="fa-solid fa-envelope" size="lg" class="item-icon" />
-          <h3 class="item-text">ventas@petmed.ar</h3>
-        </li>
-        <li class="contact-item">
-          <font-awesome-icon icon="fa-brands fa-whatsapp" size="lg" class="item-icon" />
-          <h3 class="item-text">+54 358 517-6454</h3>
-        </li>
-      </ul>
-    </div>
-    <div class="footer-direction">
-      <h2 class="direction-title">Dirección</h2>
-      <ul class="direction-list">
-        <li class="direction-item">
-          <font-awesome-icon icon="fa-solid fa-location-dot" size="lg" class="item-icon" />
-          <a href="https://goo.gl/maps/Y7kbXBjigwZuRJFX9" class="item-link"><h3 class="item-text">Ituzaingó 1348, Río Cuarto, Cba</h3></a>
-        </li>
-      </ul>
-    </div>
-    <div class="footer-follow">
-      <h2 class="follow-title">Seguinos en</h2>
-      <ul class="follow-list">
-        <li class="follow-item">
-          <a href="http://www.instagram.com/petmed.ar" class="item-link">
-            <font-awesome-icon icon="fa-brands fa-instagram" size="2x" class="item-icon" />
-          </a>
-        </li>
-        <li class="follow-item">
-          <a href="https://www.facebook.com/petmed.ar" class="item-link">
-            <font-awesome-icon icon="fa-brands fa-facebook" size="2x" class="item-icon" />
-          </a>
-        </li>
-      </ul>
+    <div class="footer-container">
+      <img class="footer-logo" src="../assets/img/Recurso-2-866x1024.png" alt="PetMed logo blanco">
+      <div class="footer-contact">
+        <h2 class="contact-title">Contacto</h2>
+        <ul class="contact-list">
+          <li class="contact-item">
+            <font-awesome-icon icon="fa-solid fa-envelope" size="lg" class="item-icon" />
+            <h3 class="item-text">ventas@petmed.ar</h3>
+          </li>
+          <li class="contact-item">
+            <font-awesome-icon icon="fa-brands fa-whatsapp" size="lg" class="item-icon" />
+            <h3 class="item-text">+54 358 517-6454</h3>
+          </li>
+        </ul>
+      </div>
+      <div class="footer-direction">
+        <h2 class="direction-title">Dirección</h2>
+        <ul class="direction-list">
+          <li class="direction-item">
+            <font-awesome-icon icon="fa-solid fa-location-dot" size="lg" class="item-icon" />
+            <a href="https://goo.gl/maps/Y7kbXBjigwZuRJFX9" class="item-link">
+              <h3 class="item-text">Ituzaingó 1348, Río Cuarto, Cba</h3>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="footer-follow">
+        <h2 class="follow-title">Seguinos en</h2>
+        <ul class="follow-list">
+          <li class="follow-item">
+            <a href="http://www.instagram.com/petmed.ar" class="item-link">
+              <font-awesome-icon icon="fa-brands fa-instagram" size="2x" class="item-icon" />
+            </a>
+          </li>
+          <li class="follow-item">
+            <a href="https://www.facebook.com/petmed.ar" class="item-link">
+              <font-awesome-icon icon="fa-brands fa-facebook" size="2x" class="item-icon" />
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </footer>
 </template>
@@ -48,25 +50,33 @@
 <style scoped>
 .footer {
   background-color: #9E63C4;
+  background-image: url('../assets/img/trr2.png');
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-blend-mode: soft-light;
+}
+
+.footer-container {
+  width: 90%;
+  max-width: 1240px;
+  margin: 0 auto;
   color: #fff;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   padding: 3rem 1.25rem;
-  background-image: url('../assets/img/trr2.png');
-  background-position: center center;
-  background-attachment: fixed;
+
 }
 
-.footer-logo,
 .footer-contact,
 .footer-direction,
 .footer-follow {
   padding: 0.25rem;
 }
 
-.logo {
+.footer-logo {
   width: 6.55rem;
 }
 
@@ -76,8 +86,7 @@
 }
 
 .contact-item,
-.direction-item
- {
+.direction-item {
   list-style-type: none;
   display: flex;
   margin-top: 0.5rem;
@@ -106,5 +115,4 @@
   color: #fff;
   margin-right: 1rem;
 }
-
 </style>

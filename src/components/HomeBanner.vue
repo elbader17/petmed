@@ -29,7 +29,7 @@ import SeparadorContenido from './icons/SeparadorContenido.vue';
 .separador-superior {
   transform: rotate(180deg) translateY(-0.5rem);
   fill: #fff;
-  width: calc(178% + 1.3px);
+  width: 100%;
   height: 3.875rem;
 }
 

@@ -8,7 +8,7 @@ import SeparadorContenido from './icons/SeparadorContenido.vue';
     <div class="plans-header">
       <h1 class="plans-title">Nuestros Planes</h1>
       <h2 class="plans-subtitle">A La Medida De Tu Mascota</h2>
-      <SeparadorContenido  class="separador-intermedio"/>
+      <SeparadorContenido class="separador-intermedio"/>
     </div>
     <ul class="plans-list">
       <li class="list-item">
@@ -63,6 +63,7 @@ import SeparadorContenido from './icons/SeparadorContenido.vue';
   background-size: 14rem auto;
   opacity: 0.97;
   height: 10.5rem;
+  margin-top: 3rem;
 }
 
 .plans-title {
@@ -80,9 +81,9 @@ import SeparadorContenido from './icons/SeparadorContenido.vue';
 }
 
 .separador-intermedio {
-  transform: rotate(180deg) translateY(-0.5rem);
+  transform: rotate(180deg) translateY(-0.25rem) rotateY(180deg);
   fill: #3CBEB4;
-  width: calc(100% + 1.3px);
+  width: 100%;
   height: 3.875rem;
 }
 
@@ -96,7 +97,9 @@ import SeparadorContenido from './icons/SeparadorContenido.vue';
 
 .list-item {
   /* flex-grow: 1;
-  flex-basis: 0; */
+  flex-basis: 0;
+  width: 34vw;
+  height: 48vh; */
   width: 450px;
   height: 450px;
   list-style-type: none;

@@ -4,37 +4,45 @@ import { RouterLink } from 'vue-router'
 
 <template>
   <header class="header">
-    <RouterLink to="/" class="logo">
-      <img class="logo-img" src="../assets/img/l1.png" alt="PetMed logo" />
-    </RouterLink>
-    <nav class="navbar">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <RouterLink to="/" class="nav-link">Home</RouterLink>
-        </li>
-        <li class="nav-item">
-          <RouterLink to="/nosotros" class="nav-link">Nosotros</RouterLink>
-        </li>
-        <li class="nav-item">
-          <RouterLink to="/afiliaciones" class="nav-link">Afiliaciones</RouterLink>
-        </li>
-        <li class="nav-item">
-          <RouterLink to="/cartilla-de-prestadores" class="nav-link">Cartilla de prestadores</RouterLink>
-        </li>
-        <li class="nav-item">
-          <RouterLink to="/contacto" class="nav-link">Contacto</RouterLink>
-        </li>
-      </ul>
-    </nav>
-    <RouterLink to="/planes"><button class="header-button">Ver planes</button></RouterLink>
+    <div class="header-container">
+      <RouterLink to="/" class="logo">
+        <img class="logo-img" src="../assets/img/l1.png" alt="PetMed logo" />
+      </RouterLink>
+      <nav class="navbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <RouterLink to="/" class="nav-link">Home</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink to="/nosotros" class="nav-link">Nosotros</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink to="/afiliaciones" class="nav-link">Afiliaciones</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink to="/cartilla-de-prestadores" class="nav-link">Cartilla de prestadores</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink to="/contacto" class="nav-link">Contacto</RouterLink>
+          </li>
+        </ul>
+      </nav>
+      <RouterLink to="/planes"><button class="header-button">Ver planes</button></RouterLink>
+    </div>
   </header>
 </template>
 
 <style scoped>
 .header {
   background-color: #fff;
+}
+
+.header-container {
+  width: 90%;
+  max-width: 1240px;
+  margin: 0 auto;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   padding: 0.3rem 1.25rem;
 }
