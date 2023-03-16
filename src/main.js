@@ -9,11 +9,11 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 /* import specific icons */
-import { faLocationDot, faEnvelope, faPaw, faPhoneFlip } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faEnvelope, faPaw, faPhoneFlip, faBars } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 /* add icons to the library */
-library.add(faLocationDot, faEnvelope, faPhoneFlip, faPaw ,faFacebook, faInstagram, faWhatsapp);
+library.add(faBars ,faLocationDot, faEnvelope, faPhoneFlip, faPaw ,faFacebook, faInstagram, faWhatsapp);
 
 const app = createApp(App);
 

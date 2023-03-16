@@ -77,4 +77,10 @@
   font-size: 1.25rem;
   font-weight: 500;
 }
+
+@media all and (max-width: 767px) {
+  .benefits-list {
+    flex-direction: column;
+  }
+}
 </style>

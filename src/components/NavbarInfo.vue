@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <header class="navbar-info">
+  <div class="navbar-info">
     <div class="navbar-info-container">
       <ul class="contact-list">
         <li class="contact-item">
@@ -27,7 +27,7 @@
         </li>
       </ul>
     </div>
-  </header>
+  </div>
 </template>
 
 <style scoped>
@@ -79,5 +79,16 @@
 .follow-item .item-icon {
   color: #fff;
   margin: 0.5rem;
+}
+
+@media all and (max-width: 1023px) {
+  .navbar-info-container {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .contact-list {
+    display: none;
+  }
 }
 </style>

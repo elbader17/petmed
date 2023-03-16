@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <footer class="footer">
+  <div class="footer">
     <div class="footer-container">
       <img class="footer-logo" src="../assets/img/Recurso-2-866x1024.png" alt="PetMed logo blanco">
       <div class="footer-contact">
@@ -44,7 +44,7 @@
         </ul>
       </div>
     </div>
-  </footer>
+  </div>
 </template>
 
 <style scoped>
@@ -66,18 +66,20 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 3rem 1.25rem;
-
+  padding: 2rem 1.25rem;
 }
 
 .footer-contact,
 .footer-direction,
 .footer-follow {
   padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .footer-logo {
   width: 6.55rem;
+  padding: 0.25rem;
 }
 
 .follow-list {
@@ -114,5 +116,30 @@
 .follow-item .item-icon {
   color: #fff;
   margin-right: 1rem;
+}
+
+@media all and (max-width: 767px) {
+  .footer-container {
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+  }
+
+  .footer-contact,
+  .footer-direction,
+  .footer-follow {
+    align-items: center;
+  }
+
+  .contact-title,
+  .direction-title,
+  .follow-title {
+    margin-top: 1.25rem;
+    margin-bottom: 0.05rem;
+  }
+
+  .follow-item .item-icon {
+    margin: 0.35rem;
+  }
 }
 </style>
