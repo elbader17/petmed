@@ -8,13 +8,11 @@ import SeparadorContenido from './icons/SeparadorContenido.vue';
     <div class="plans-header">
       <h1 class="plans-title">Nuestros Planes</h1>
       <h2 class="plans-subtitle">A La Medida De Tu Mascota</h2>
-      <SeparadorContenido class="separador-intermedio"/>
+      <SeparadorContenido class="separador-intermedio" />
     </div>
     <ul class="plans-list">
-      <li class="list-item">
-        <div class="item-img">
-          <img src="../assets/img/c1.jpg" alt="Plan 1005">
-        </div>
+      <li class="item-img">
+        <img src="../assets/img/c1.jpg" alt="Plan 1005">
         <div class="item-info">
           <h1 class="info-title">Plan 1005</h1>
           <RouterLink to="/planes">
@@ -22,10 +20,8 @@ import SeparadorContenido from './icons/SeparadorContenido.vue';
           </RouterLink>
         </div>
       </li>
-      <li class="list-item">
-        <div class="item-img">
-          <img src="../assets/img/c2.jpg" alt="Plan 2010">
-        </div>
+      <li class="item-img">
+        <img src="../assets/img/c2.jpg" alt="Plan 2010">
         <div class="item-info">
           <h1 class="info-title">Plan 2010</h1>
           <RouterLink to="/planes">
@@ -33,10 +29,8 @@ import SeparadorContenido from './icons/SeparadorContenido.vue';
           </RouterLink>
         </div>
       </li>
-      <li class="list-item">
-        <div class="item-img">
-          <img src="../assets/img/c3.jpg" alt="Plan 3015">
-        </div>
+      <li class="item-img">
+        <img src="../assets/img/c3.jpg" alt="Plan 3015">
         <div class="item-info">
           <h1 class="info-title">Plan 3015</h1>
           <RouterLink to="/planes">
@@ -89,64 +83,56 @@ import SeparadorContenido from './icons/SeparadorContenido.vue';
 
 .plans-list {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: nowrap;
   background-color: #3CBEB4;
-}
-
-.list-item {
-  /* flex-grow: 1;
-  flex-basis: 0;
-  width: 34vw;
-  height: 48vh; */
-  width: 450px;
-  height: 450px;
+  display: flex;
   list-style-type: none;
-  background-size: cover;
   overflow: hidden;
 }
 
 .item-img {
-  position: relative;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
+  position: relative;
 }
 
 .item-img img {
-  position: absolute;
-  display: block;
-  transform: translateX(-2rem);
+  /* transform: translateX(-2rem); */
   transition: transform 0.3s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.list-item:hover .item-img img {
-  transform: translateX(0rem);
+.item-img:hover img {
+  /* transform: translateX(0rem); */
+  transform: scale(1.2);
   transition: transform 0.3s ease;
 }
 
 .item-info {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding-left: 1rem;
-  box-sizing: border-box;
-  overflow: hidden;
-  transform: translateY(-16rem);
+  transform: translateY(2rem);
   transition: transform 0.3s ease;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
-.list-item:hover .item-info {
-  transform: translateY(-18rem);
+.item-info:hover {
+  transform: translateY(0rem);
 }
 
 .info-title {
   color: #FFFF;
   font-weight: 400;
-  padding-bottom: 10rem;
+  position: absolute;
+  top: 45%;
 }
 
 a {
@@ -158,10 +144,18 @@ a {
   font-weight: 300;
   opacity: 0;
   transition: 0.3s ease;
+  position: absolute;
+  bottom: 10%;
 }
 
-.list-item:hover .info-link {
+.item-info:hover .info-link {
   opacity: 1;
   transition: 0.3s ease;
+}
+
+@media all and (max-width: 767px) {
+  .plans-list {
+    flex-direction: column;
+  }
 }
 </style>
