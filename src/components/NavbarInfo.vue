@@ -1,10 +1,13 @@
 <script setup>
+import { useCheckScreen } from '@/composables/checkScreen';
+
+const { mobile } = useCheckScreen();
 </script>
 
 <template>
   <div class="navbar-info">
     <div class="navbar-info-container">
-      <ul class="contact-list">
+      <ul v-show="!mobile" class="contact-list">
         <li class="contact-item">
           <font-awesome-icon icon="fa-solid fa-envelope" size="lg" class="item-icon" />
           <h3 class="item-text">ventas@petmed.ar</h3>
@@ -81,14 +84,10 @@
   margin: 0.5rem;
 }
 
-@media all and (max-width: 1023px) {
+@media all and (max-width: 768px) {
   .navbar-info-container {
     flex-direction: column;
     justify-content: center;
-  }
-
-  .contact-list {
-    display: none;
   }
 }
 </style>

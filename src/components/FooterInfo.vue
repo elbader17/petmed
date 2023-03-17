@@ -1,11 +1,14 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { useCheckScreen } from '@/composables/checkScreen';
+
+const { mobile } = useCheckScreen();
 </script>
 
 <template>
   <div class="footer-info">
     <div class="footer-info-container">
-      <h2>PETMED</h2>
+      <h2 v-show="!mobile">PETMED</h2>
       <RouterLink to="">Términos y Condiciones</RouterLink>
     </div>
   </div>
@@ -36,4 +39,10 @@ h2, a {
   text-decoration: none;
 }
 
+@media all and (max-width: 767px) {
+  .footer-info-container {
+    flex-direction: column;
+    justify-content: center;
+  }
+}
 </style>
