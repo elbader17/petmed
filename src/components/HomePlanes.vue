@@ -1,6 +1,30 @@
 <script setup>
-import { RouterLink } from 'vue-router';
 import SeparadorContenido from './icons/SeparadorContenido.vue';
+import HomePlanesItems from './HomePlanesItems.vue';
+import image1 from '@/assets/img/c1.jpg';
+import image2 from '@/assets/img/c2.jpg';
+import image3 from '@/assets/img/c3.jpg';
+
+const planes = [
+  {
+    id: 1,
+    image: image1,
+    name: "Plan 1005",
+    link: "/planes"
+  },
+  {
+    id: 2,
+    image: image2,
+    name: "Plan 2010",
+    link: "/planes"
+  },
+  {
+    id: 3,
+    image: image3,
+    name: "Plan 3015",
+    link: "/planes"
+  }
+];
 </script>
 
 <template>
@@ -11,33 +35,10 @@ import SeparadorContenido from './icons/SeparadorContenido.vue';
       <SeparadorContenido class="separador-intermedio" />
     </div>
     <ul class="plans-list">
-      <li class="item-img">
-        <img src="../assets/img/c1.jpg" alt="Plan 1005">
-        <div class="item-info">
-          <h1 class="info-title">Plan 1005</h1>
-          <RouterLink to="/planes">
-            <p class="info-link">Ver mas beneficios</p>
-          </RouterLink>
-        </div>
-      </li>
-      <li class="item-img">
-        <img src="../assets/img/c2.jpg" alt="Plan 2010">
-        <div class="item-info">
-          <h1 class="info-title">Plan 2010</h1>
-          <RouterLink to="/planes">
-            <p class="info-link">Ver mas beneficios</p>
-          </RouterLink>
-        </div>
-      </li>
-      <li class="item-img">
-        <img src="../assets/img/c3.jpg" alt="Plan 3015">
-        <div class="item-info">
-          <h1 class="info-title">Plan 3015</h1>
-          <RouterLink to="/planes">
-            <p class="info-link">Ver mas beneficios</p>
-          </RouterLink>
-        </div>
-      </li>
+      <HomePlanesItems 
+        v-for="plan in planes" :key="plan.id"
+        :plan="plan"
+      />
     </ul>
   </div>
 </template>
@@ -88,72 +89,13 @@ import SeparadorContenido from './icons/SeparadorContenido.vue';
   display: flex;
   list-style-type: none;
   overflow: hidden;
-}
-
-.item-img {
-  width: 100%;
-  position: relative;
-}
-
-.item-img img {
-  /* transform: translateX(-2rem); */
-  transition: transform 0.3s ease;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.item-img:hover img {
-  /* transform: translateX(0rem); */
-  transform: scale(1.2);
-  transition: transform 0.3s ease;
-}
-
-.item-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-left: 1rem;
-  transform: translateY(2rem);
-  transition: transform 0.3s ease;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.item-info:hover {
-  transform: translateY(0rem);
-}
-
-.info-title {
-  color: #FFFF;
-  font-weight: 400;
-  position: absolute;
-  top: 45%;
-}
-
-a {
-  text-decoration: none;
-}
-
-.info-link {
-  color: #FFFF;
-  font-weight: 300;
-  opacity: 0;
-  transition: 0.3s ease;
-  position: absolute;
-  bottom: 10%;
-}
-
-.item-info:hover .info-link {
-  opacity: 1;
-  transition: 0.3s ease;
+  margin: 0 auto;
 }
 
 @media all and (max-width: 767px) {
+  .plans-header {
+    background-size: 10rem auto;
+  }
   .plans-list {
     flex-direction: column;
   }

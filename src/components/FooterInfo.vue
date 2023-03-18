@@ -1,16 +1,23 @@
 <script setup>
-import { RouterLink } from 'vue-router';
+import { ref } from 'vue';
 import { useCheckScreen } from '@/composables/checkScreen';
+import FooterTerminosYCondicones from './FooterTerminosYCondicones.vue';
 
 const { mobile } = useCheckScreen();
+const modal = ref(false);
+
+const abrirModal = () => {
+  modal.value = !modal.value;
+}
 </script>
 
 <template>
   <div class="footer-info">
     <div class="footer-info-container">
       <h2 v-show="!mobile">PETMED</h2>
-      <RouterLink to="">Términos y Condiciones</RouterLink>
+      <button @click="modal = true">Términos y Condiciones</button>
     </div>
+    <FooterTerminosYCondicones v-show="modal" @abrirModal="abrirModal" />
   </div>
 </template>
 

@@ -19,14 +19,21 @@ import { RouterLink } from 'vue-router';
     <li class="nav-item">
       <RouterLink :to="{ name: 'contacto' }" class="nav-link">Contacto</RouterLink>
     </li>
-    <button class="header-button">
-      <RouterLink :to="{ name: 'planes' }">Ver planes</RouterLink>
-    </button>
+    <li class="nav-button">
+      <RouterLink :to="{ name: 'planes' }">
+        <button class="button-link">Ver planes</button>
+      </RouterLink>
+    </li>
   </ul>
 </template>
 
 <style scoped>
-
+.navbar {
+  padding: 0.625rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
 .navbar-nav {
   list-style: none;
@@ -67,7 +74,15 @@ import { RouterLink } from 'vue-router';
   background: #000;
 }
 
-.header-button {
+.nav-button {
+  text-decoration: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-top: 0.25rem;
+}
+
+.button-link {
+  color: #FFFFFF;
   letter-spacing: 0.1rem;
   font-weight: 300;
   text-transform: uppercase;
@@ -78,15 +93,7 @@ import { RouterLink } from 'vue-router';
   transition: all 0.3s ease-out 0s;
 }
 
-.header-button a {
-  text-decoration: none;
-  color: #FFFFFF;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.header-button:hover {
+.button-link:hover {
   background-color: #393d3f;
   transform: scale(1.2);
   transition: all 0.5s cubic-bezier(0.5, 2.5, 0.5, 0) 0s;
