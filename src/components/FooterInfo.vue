@@ -39,11 +39,19 @@ const abrirModal = () => {
   padding: 0.5rem 1.25rem;
 }
 
-h2, a {
+button {
+  border: none;
+  background: none;
   color: #fff;
   font-size: 17px;
   font-weight: 300;
-  text-decoration: none;
+  cursor: pointer;
+}
+
+h2 {
+  color: #fff;
+  font-size: 17px;
+  font-weight: 300;
 }
 
 @media all and (max-width: 767px) {
