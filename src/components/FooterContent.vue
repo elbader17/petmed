@@ -118,7 +118,7 @@
   margin-right: 1rem;
 }
 
-@media all and (max-width: 767px) {
+@media all and (max-width: 768px) {
   .footer-container {
     flex-direction: column;
     align-content: center;

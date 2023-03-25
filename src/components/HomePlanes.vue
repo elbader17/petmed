@@ -92,7 +92,7 @@ const planes = [
   margin: 0 auto;
 }
 
-@media all and (max-width: 767px) {
+@media all and (max-width: 768px) {
   .plans-header {
     background-size: 10rem auto;
   }

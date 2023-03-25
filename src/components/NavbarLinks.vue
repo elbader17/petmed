@@ -42,25 +42,15 @@ import { RouterLink } from 'vue-router';
   justify-content: space-evenly;
 }
 
-.nav-item {
+.nav-link {
   display: inline-block;
   padding: 0.8rem 1.25rem;
   position: relative;
-}
-
-.nav-link {
-  color: #000;
-  font-weight: 300;
-  font-size: 0.9rem;
-  text-transform: uppercase;
   text-decoration: none;
-  overflow: hidden;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: #000;
 }
 
-.nav-item::after {
+.nav-link::after {
   content: '';
   position: absolute;
   width: 100%;
@@ -70,7 +60,21 @@ import { RouterLink } from 'vue-router';
   transition: transform 0.3s ease;
 }
 
-.nav-item:hover::after {
+.nav-item {
+  font-weight: 300;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  overflow: hidden;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-link:hover::after {
+  background: #000;
+}
+
+.router-link-active::after {
   background: #000;
 }
 

@@ -23,6 +23,7 @@ export const useCheckScreen = () => {
       return;
     }
     if (windowWidth <= 768) {
+      mobileL.value = true;
       mobile.value = true;
       return;
     }

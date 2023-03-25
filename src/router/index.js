@@ -1,10 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import NosotrosView from '../views/NosotrosView.vue';
-import AfiliacionesView from '../views/AfiliacionesView.vue';
-import CartaPrestadoresView from '../views/CartaPrestadoresView.vue';
-import ContactoView from '../views/ContactoView.vue';
-import PlanesView from '../views/PlanesView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,32 +6,32 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: () => import('../views/HomeView.vue')
     },
     {
       path: '/nosotros',
       name: 'nosotros',
-      component: NosotrosView
+      component: () => import('../views/NosotrosView.vue')
     },
     {
       path: '/afiliaciones',
       name: 'afiliaciones',
-      component: AfiliacionesView
+      component: () => import('../views/AfiliacionesView.vue')
     },
     {
       path: '/cartilla-de-prestadores',
       name: 'cartilla-de-prestadores',
-      component: CartaPrestadoresView
+      component: () => import('../views/CartaPrestadoresView.vue')
     },
     {
       path: '/contacto',
       name: 'contacto',
-      component: ContactoView
+      component: () => import('../views/ContactoView.vue')
     },
     {
       path: '/planes',
       name: 'planes',
-      component: PlanesView
+      component: () => import('../views/PlanesView.vue')
     }
   ]
 })

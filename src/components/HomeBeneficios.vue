@@ -78,7 +78,7 @@
   font-weight: 500;
 }
 
-@media all and (max-width: 767px) {
+@media all and (max-width: 768px) {
   .benefits-list {
     flex-direction: column;
   }
