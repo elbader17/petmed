@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import NosotrosView from '../views/NosotrosView.vue';
-import AfiliacionesView from '../views/AfiliacionesView.vue';
-import CartaPrestadoresView from '../views/CartaPrestadoresView.vue';
-import ContactoView from '../views/ContactoView.vue';
-import PlanesView from '../views/PlanesView.vue';
+import AboutUsView from '../views/AboutUsView.vue';
+import AffiliationsView from '../views/AffiliationsView.vue';
+import LetterProvidersView from '../views/LetterProvidersView.vue';
+import ContactView from '../views/ContactView.vue';
+import PlanView from '../views/PlanView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,27 +17,27 @@ const router = createRouter({
     {
       path: '/nosotros',
       name: 'nosotros',
-      component: NosotrosView
+      component: AboutUsView
     },
     {
       path: '/afiliaciones',
       name: 'afiliaciones',
-      component: AfiliacionesView
+      component: AffiliationsView
     },
     {
       path: '/cartilla-de-prestadores',
       name: 'cartilla-de-prestadores',
-      component: CartaPrestadoresView
+      component: LetterProvidersView
     },
     {
       path: '/contacto',
       name: 'contacto',
-      component: ContactoView
+      component: ContactView
     },
     {
       path: '/planes',
       name: 'planes',
-      component: PlanesView
+      component: PlanView
     }
   ]
 })
