@@ -135,7 +135,7 @@ const emit = defineEmits(['abrirModal'])
   padding: 2rem;
   width: 70%;
   height: 70%;
-  overflow: scroll;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-end;

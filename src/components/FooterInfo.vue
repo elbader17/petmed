@@ -54,7 +54,7 @@ h2 {
   font-weight: 300;
 }
 
-@media all and (max-width: 767px) {
+@media all and (max-width: 768px) {
   .footer-info-container {
     flex-direction: column;
     justify-content: center;

@@ -6,38 +6,39 @@ import LetterProvidersView from '../views/LetterProvidersView.vue';
 import ContactView from '../views/ContactView.vue';
 import PlanView from '../views/PlanView.vue';
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: () => import('../views/HomeView.vue')
     },
     {
       path: '/nosotros',
       name: 'nosotros',
-      component: AboutUsView
+      component: () => import('../views/AboutUsView.vue')
     },
     {
       path: '/afiliaciones',
       name: 'afiliaciones',
-      component: AffiliationsView
+      component: () => import('../views/AffiliationsView.vue')
     },
     {
       path: '/cartilla-de-prestadores',
       name: 'cartilla-de-prestadores',
-      component: LetterProvidersView
+      component: () => import('../views/LetterProvidersView.vue')
     },
     {
       path: '/contacto',
       name: 'contacto',
-      component: ContactView
+      component: () => import('../views/ContactView.vue')
     },
     {
       path: '/planes',
       name: 'planes',
-      component: PlanView
+      component: () => import('../views/PlanView.vue')
     }
   ]
 })
