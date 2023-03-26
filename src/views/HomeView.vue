@@ -1,14 +1,14 @@
 <script setup>
 import HomeBanner from '../components/HomeBanner.vue';
-import HomeBeneficios from '../components/HomeBeneficios.vue';
-import HomePlanes from '../components/HomePlanes.vue';
+import HomeBenefits from '../components/HomeBenefits.vue';
+import HomePlans from '../components/HomePlans.vue';
 </script>
 
 <template>
   <main>
     <HomeBanner />
-    <HomeBeneficios />
-    <HomePlanes />
+    <HomeBenefits />
+    <HomePlans />
   </main>
 </template>
 

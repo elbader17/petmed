@@ -1,10 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import AboutUsView from '../views/AboutUsView.vue';
-import AffiliationsView from '../views/AffiliationsView.vue';
-import LetterProvidersView from '../views/LetterProvidersView.vue';
-import ContactView from '../views/ContactView.vue';
-import PlanView from '../views/PlanView.vue';
 
 
 const router = createRouter({

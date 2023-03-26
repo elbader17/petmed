@@ -1,6 +1,6 @@
 <script setup>
 import SeparadorContenido from './icons/SeparadorContenido.vue';
-import HomePlanesItems from './HomePlanesItems.vue';
+import HomePlansItems from './HomePlansItems.vue';
 import image1 from '@/assets/img/c1.jpg';
 import image2 from '@/assets/img/c2.jpg';
 import image3 from '@/assets/img/c3.jpg';
@@ -35,7 +35,7 @@ const planes = [
       <SeparadorContenido class="separador-intermedio" />
     </div>
     <ul class="plans-list">
-      <HomePlanesItems 
+      <HomePlansItems 
         v-for="plan in planes" :key="plan.id"
         :plan="plan"
       />

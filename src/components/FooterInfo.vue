@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useCheckScreen } from '@/composables/checkScreen';
-import FooterTerminosYCondicones from './FooterTerminosYCondicones.vue';
+import FooterTermsAndConditions from './FooterTermsAndConditions.vue';
 
 const { mobile } = useCheckScreen();
 const modal = ref(false);
@@ -17,7 +17,7 @@ const abrirModal = () => {
       <h2 v-show="!mobile">PETMED</h2>
       <button @click="modal = true">Términos y Condiciones</button>
     </div>
-    <FooterTerminosYCondicones v-show="modal" @abrirModal="abrirModal" />
+    <FooterTermsAndConditions v-show="modal" @abrirModal="abrirModal" />
   </div>
 </template>
 
