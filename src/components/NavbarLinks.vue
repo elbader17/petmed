@@ -20,9 +20,7 @@ import { RouterLink } from 'vue-router';
       <RouterLink :to="{ name: 'contacto' }" class="nav-link">Contacto</RouterLink>
     </li>
     <li class="nav-button">
-      <RouterLink :to="{ name: 'planes' }">
-        <button class="button-link">Ver planes</button>
-      </RouterLink>
+      <RouterLink :to="{ name: 'planes' }" class="button-link">Ver planes</RouterLink>
     </li>
   </ul>
 </template>
@@ -78,18 +76,18 @@ import { RouterLink } from 'vue-router';
   background: #000;
 }
 
-.nav-button {
+.button-link {
   text-decoration: none;
   white-space: nowrap;
   text-overflow: ellipsis;
   margin-top: 0.25rem;
-}
-
-.button-link {
   color: #FFFFFF;
   letter-spacing: 0.1rem;
   font-weight: 300;
   text-transform: uppercase;
+}
+
+.nav-button {
   border: none;
   background-color: #9E63C4;
   cursor: pointer;
@@ -97,7 +95,7 @@ import { RouterLink } from 'vue-router';
   transition: all 0.3s ease-out 0s;
 }
 
-.button-link:hover {
+.nav-button:hover {
   background-color: #393d3f;
   transform: scale(1.2);
   transition: all 0.5s cubic-bezier(0.5, 2.5, 0.5, 0) 0s;

@@ -15,7 +15,7 @@ const abrirModal = () => {
   <div class="footer-info">
     <div class="footer-info-container">
       <h2 v-show="!mobile">PETMED</h2>
-      <button @click="modal = true">Términos y Condiciones</button>
+      <h2 class="footer-modal" @click="modal = true">Términos y Condiciones</h2>
     </div>
     <FooterTermsAndConditions v-show="modal" @abrirModal="abrirModal" />
   </div>
@@ -39,19 +39,14 @@ const abrirModal = () => {
   padding: 0.5rem 1.25rem;
 }
 
-button {
-  border: none;
-  background: none;
-  color: #fff;
-  font-size: 17px;
-  font-weight: 300;
-  cursor: pointer;
-}
-
 h2 {
   color: #fff;
   font-size: 17px;
   font-weight: 300;
+}
+
+.footer-modal {
+  cursor: pointer;
 }
 
 @media all and (max-width: 768px) {

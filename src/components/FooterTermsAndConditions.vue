@@ -1,5 +1,5 @@
 <script setup>
-import SeparadorContenido from './icons/SeparadorContenido.vue';
+import ContentSeparator from './icons/ContentSeparator.vue';
 
 const emit = defineEmits(['abrirModal'])
 </script>
@@ -110,7 +110,7 @@ const emit = defineEmits(['abrirModal'])
           justificados. En caso de controversias las partes se someten al Juzgado de Primera Instancia en lo Civil y
           Comercial N°1 de la ciudad de Rio Cuarto, Provincia de Córdoba, renunciando desde ya a cualquier otro Fuero y/o
           Jurisdicción que pudiere corresponder, inclusive el Federal.</p>
-        <SeparadorContenido class="separador-final" />
+        <ContentSeparator class="separador-final" />
       </div>
     </div>
   </div>
@@ -175,7 +175,7 @@ p {
 .separador-final {
   transform: rotate(180deg) translateY(-2rem) rotateY(180deg);
   fill: #3CBEB4;
-  width: 107%;
+  width: 105%;
   height: 3.875rem;
 }
 </style>

@@ -1,16 +1,14 @@
 <script setup>
-import { RouterLink } from 'vue-router';
-import ContentSeparator from './icons/ContentSeparator.vue';
+import ContentSeparator from '../components/icons/ContentSeparator.vue';
+
+defineProps (['banner', 'title'])
 </script>
 
 <template>
   <div class="hero">
-    <video class="hero-video" autoplay loop muted plays-inline>
-      <source src="../assets/img/pet.mp4" type="video/mp4">
-    </video>
+    <img class="hero-image" :src="banner" alt="Imagen banner">
     <div class="hero-content">
-      <img class="content-image" src="../assets/img/img_ban.png" alt="Somos el mimo que se merece">
-      <RouterLink to="/planes"><button class="hero-button">Consultar planes</button></RouterLink>
+      <img class="content-image" :src="title" alt="Imagen titulo">
     </div>
     <ContentSeparator class="separador-superior" />
   </div>
@@ -18,7 +16,7 @@ import ContentSeparator from './icons/ContentSeparator.vue';
 
 <style scoped>
 .hero {
-  min-height: 30rem;
+  min-height: 25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,7 +40,7 @@ import ContentSeparator from './icons/ContentSeparator.vue';
   margin: auto;
 }
 
-.hero-video {
+.hero-image {
   height: 100%;
   width: 100%;
   top: 0;
@@ -54,8 +52,8 @@ import ContentSeparator from './icons/ContentSeparator.vue';
 }
 
 .content-image {
-  width: 18.5rem;
-  margin-bottom: 2rem;
+  width: 20rem;
+  margin-top: 15rem;
 }
 
 .hero-button {
@@ -69,11 +67,5 @@ import ContentSeparator from './icons/ContentSeparator.vue';
   background-color: #3CBEB4;
   border-radius: 1rem;
   padding: 0.5rem 1.25rem;
-}
-
-.hero-button:hover {
-  color: #ffffff;
-  background-color: #FF6438;
-  border-color: #E9E9E9;
 }
 </style>

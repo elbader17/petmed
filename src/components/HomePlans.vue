@@ -1,5 +1,5 @@
 <script setup>
-import SeparadorContenido from './icons/SeparadorContenido.vue';
+import ContentSeparator from './icons/ContentSeparator.vue';
 import HomePlansItems from './HomePlansItems.vue';
 import image1 from '@/assets/img/c1.jpg';
 import image2 from '@/assets/img/c2.jpg';
@@ -32,7 +32,7 @@ const planes = [
     <div class="plans-header">
       <h1 class="plans-title">Nuestros Planes</h1>
       <h2 class="plans-subtitle">A La Medida De Tu Mascota</h2>
-      <SeparadorContenido class="separador-intermedio" />
+      <ContentSeparator class="separador-intermedio" />
     </div>
     <ul class="plans-list">
       <HomePlansItems 
