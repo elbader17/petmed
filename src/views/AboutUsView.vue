@@ -49,7 +49,7 @@ import imageTitle from '@/assets/img/Nosotros.png';
   background-image: url(../assets/img/col3.png);
   background-position: bottom right;
   background-repeat: no-repeat;
-  background-size: 20rem auto;
+  background-size: 23rem auto;
 }
 
 .about-us-content {
@@ -90,7 +90,7 @@ import imageTitle from '@/assets/img/Nosotros.png';
 }
 
 .item-title {
-  width: 100%;
+  width: 90%;
 }
 
 .item-text {
