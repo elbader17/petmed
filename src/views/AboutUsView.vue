@@ -71,7 +71,7 @@ import imageTitle from '@/assets/img/Nosotros.png';
 
 .content-text p {
   margin-bottom: 1.5rem;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1.25rem;
 }
 

@@ -1,26 +1,27 @@
 <script setup>
 import ContentSeparator from './icons/ContentSeparator.vue';
 import HomePlansItems from './HomePlansItems.vue';
-import image1 from '@/assets/img/c1.jpg';
-import image2 from '@/assets/img/c2.jpg';
-import image3 from '@/assets/img/c3.jpg';
+
+import plan1005 from '@/assets/img/c1.jpg';
+import plan2010 from '@/assets/img/c2.jpg';
+import plan3015 from '@/assets/img/c3.jpg';
 
 const planes = [
   {
     id: 1,
-    image: image1,
+    image: plan1005,
     name: "Plan 1005",
     link: "/planes"
   },
   {
     id: 2,
-    image: image2,
+    image: plan2010,
     name: "Plan 2010",
     link: "/planes"
   },
   {
     id: 3,
-    image: image3,
+    image: plan3015,
     name: "Plan 3015",
     link: "/planes"
   }

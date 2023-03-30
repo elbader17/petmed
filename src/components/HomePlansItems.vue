@@ -9,9 +9,7 @@ defineProps (['plan'])
     <img class="item-img" :src="plan.image" :alt="plan.name">
     <div class="item-info">
       <h1 class="info-title">{{ plan.name }}</h1>
-      <RouterLink :to="plan.link">
-        <p class="info-link">Ver mas beneficios</p>
-      </RouterLink>
+      <RouterLink :to="plan.link" class="info-link">Ver mas beneficios</RouterLink>
     </div>
   </div>
 </template>
