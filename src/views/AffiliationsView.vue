@@ -91,12 +91,12 @@ const planesPromos = [
         />
       </ul>
     </div>
-    <ContentSeparator class="separador-final" />
+    <ContentSeparator class="separator-bottom" />
   </div>
 </template>
 
 <style scoped>
-.separador-final {
+.separator-bottom {
   transform: rotate(180deg) translateY(-0.45rem) rotateY(180deg);
   fill: #3CBEB4;
   width: 100%;

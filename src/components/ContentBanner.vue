@@ -10,7 +10,7 @@ defineProps (['banner', 'title'])
     <div class="hero-content">
       <img class="content-image" :src="title" alt="Imagen titulo">
     </div>
-    <ContentSeparator class="separador-superior" />
+    <ContentSeparator class="separator-top" />
   </div>
 </template>
 
@@ -24,7 +24,7 @@ defineProps (['banner', 'title'])
   position: relative;
 }
 
-.separador-superior {
+.separator-top {
   transform: rotate(180deg) translateY(-0.5rem);
   fill: #fff;
   width: 100%;
@@ -53,7 +53,7 @@ defineProps (['banner', 'title'])
 
 .content-image {
   width: 20rem;
-  margin-top: 15rem;
+  margin-top: 10rem;
 }
 
 .hero-button {

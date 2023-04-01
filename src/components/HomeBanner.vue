@@ -12,7 +12,7 @@ import ContentSeparator from './icons/ContentSeparator.vue';
       <img class="content-image" src="../assets/img/img_ban.png" alt="Somos el mimo que se merece">
       <RouterLink to="/planes"><button class="hero-button">Consultar planes</button></RouterLink>
     </div>
-    <ContentSeparator class="separador-superior" />
+    <ContentSeparator class="separator-top" />
   </div>
 </template>
 
@@ -26,7 +26,7 @@ import ContentSeparator from './icons/ContentSeparator.vue';
   position: relative;
 }
 
-.separador-superior {
+.separator-top {
   transform: rotate(180deg) translateY(-0.5rem);
   fill: #fff;
   width: 100%;

@@ -7,7 +7,7 @@ const emit = defineEmits(['abrirModal'])
 <template>
   <div class="modal-tyc">
     <div class="modal-inner">
-      <button @click="emit('abrirModal')">
+      <button class="button-close" @click="emit('abrirModal')">
         <font-awesome-icon icon="fa-solid fa-x" size="lg" />
       </button>
       <div class="modal-content">
@@ -110,7 +110,7 @@ const emit = defineEmits(['abrirModal'])
           justificados. En caso de controversias las partes se someten al Juzgado de Primera Instancia en lo Civil y
           Comercial N°1 de la ciudad de Rio Cuarto, Provincia de Córdoba, renunciando desde ya a cualquier otro Fuero y/o
           Jurisdicción que pudiere corresponder, inclusive el Federal.</p>
-        <ContentSeparator class="separador-final" />
+        <ContentSeparator class="separator-bottom" />
       </div>
     </div>
   </div>
@@ -133,8 +133,8 @@ const emit = defineEmits(['abrirModal'])
 .modal-inner {
   background: #FFF;
   padding: 2rem;
-  width: 70%;
-  height: 70%;
+  width: 75%;
+  height: 75%;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -143,7 +143,7 @@ const emit = defineEmits(['abrirModal'])
     url('@/assets/img/trama.jpg') center center fixed;
 }
 
-button {
+.button-close {
   justify-content: flex-end;
   border: none;
   color: #FFFFFF;
@@ -164,6 +164,7 @@ button {
   font-weight: 700;
   font-size: 1.5rem;
   padding-bottom: 1rem;
+  text-align: center;
 }
 
 p {
@@ -172,7 +173,7 @@ p {
   padding-top: 0.5rem;
 }
 
-.separador-final {
+.separator-bottom {
   transform: rotate(180deg) translateY(-2rem) rotateY(180deg);
   fill: #3CBEB4;
   width: 105%;

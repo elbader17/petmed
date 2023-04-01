@@ -33,7 +33,7 @@ const planes = [
     <div class="plans-header">
       <h1 class="plans-title">Nuestros Planes</h1>
       <h2 class="plans-subtitle">A La Medida De Tu Mascota</h2>
-      <ContentSeparator class="separador-intermedio" />
+      <ContentSeparator class="separator-intermediate" />
     </div>
     <ul class="plans-list">
       <HomePlansItems 
@@ -76,7 +76,7 @@ const planes = [
   text-transform: capitalize;
 }
 
-.separador-intermedio {
+.separator-intermediate {
   transform: rotate(180deg) translateY(-0.25rem) rotateY(180deg);
   fill: #3CBEB4;
   width: 100%;

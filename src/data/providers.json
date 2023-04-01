@@ -1,0 +1,250 @@
+[
+  {
+    "id": 1,
+    "name": "Veterinaria Vanesa Grünig",
+    "address": "Buenos Aires 772",
+    "phone": "0358-154244774",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 2,
+    "name": "Nadia Hernández Veterinaria",
+    "address": "Vélez Sarsfield 803",
+    "phone": "0226-154362065",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General / Med. Felina"
+  },
+  {
+    "id": 3,
+    "name": "Veterinaria Morales",
+    "address": "Av. Int. Mugnaini 676",
+    "phone": "0358-4648556",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 4,
+    "name": "Clínica Veterinaria Dr. Mazzanti",
+    "address": "J M Estrada 1305",
+    "phone": "0358-156002225",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General / Traumatología / Radiología"
+  },
+  {
+    "id": 5,
+    "name": "Veterinaria Shulkan",
+    "address": "Córdoba 895",
+    "phone": "0358-154298373",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General / Radiología"
+  },
+  {
+    "id": 6,
+    "name": "CIVET",
+    "address": "Rivadavia 566",
+    "phone": "0358-156019261",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 7,
+    "name": "Agroveterinaria Vasquetto",
+    "address": "Alvear 1700",
+    "phone": "0358 463-6444",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 8,
+    "name": "Lula Morena",
+    "address": "Suipacha 958",
+    "phone": "0358-4700917",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General/ Acupuntura / Kinesiología y Fisioterapia"
+  },
+  {
+    "id": 9,
+    "name": "Mascotas & Co.",
+    "address": "San Martin 1634",
+    "phone": "0358-4631433",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 10,
+    "name": "Agroveterinaria Liniers",
+    "address": "Liniers 337",
+    "phone": "0358-4665443",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 11,
+    "name": "Agroveterinaria Las Higueras",
+    "address": "Crel. Moldes 35",
+    "phone": "0358-154171968",
+    "location": "Las Higueras",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 12,
+    "name": "Clínica Veterinaria Dr. Gomila",
+    "address": "Av. Pte. Perón C 322",
+    "phone": "0358-154128234",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 13,
+    "name": "Veterinaria Vida Animal",
+    "address": "Dr. Carlos Gaudard 961",
+    "phone": "0358-155489274",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 14,
+    "name": "Veterinaria Mena Mascotas y Exóticos",
+    "address": "Lavalle 1706",
+    "phone": "0358-155093478",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 15,
+    "name": "Ecovet",
+    "address": "Lamadrid 1058",
+    "phone": "0358-155073118",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General / Med. Felina"
+  },
+  {
+    "id": 16,
+    "name": "Veterinaria Mozart",
+    "address": "Amadeo Mozart 304",
+    "phone": "0358-155025064",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 17,
+    "name": "Med+Vet",
+    "address": "Buenos Aires 875",
+    "phone": "0358-154288598",
+    "location": "Holmberg",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 18,
+    "name": "Clínica y Visión Veterinaria",
+    "address": "Dr. Francisco Muñiz 1813",
+    "phone": "0358-154246150",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General / Oftalmología / Cardiología"
+  },
+  {
+    "id": 19,
+    "name": "Agroveterinaria Las Gurisas",
+    "address": "Laprida 1042",
+    "phone": "0358-4648929",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 20,
+    "name": "Clínica Veterinaria El Señor de la Casa",
+    "address": "Alberdi 1483",
+    "phone": "0358-155066154",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General / Radiología / Electrocardiograma / Ecografía"
+  },
+  {
+    "id": 21,
+    "name": "Teckel Clínica Veterinaria",
+    "address": "Newbery 85",
+    "phone": "0358-154189870",
+    "location": "Las Higueras",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 22,
+    "name": "Veterinaria Sobremonte",
+    "address": "Sobremonte 613",
+    "phone": "0358-156002225",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 23,
+    "name": "Veterinaria MEDVET",
+    "address": "Marcelo T de Alvear 1401",
+    "phone": "0358-154010898",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General / Ecografía"
+  },
+  {
+    "id": 24,
+    "name": "Veterinaria Reino Mascotas",
+    "address": "Fray Quirico Porreca 957",
+    "phone": "0358-155060690",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 25,
+    "name": "Veterinaria Club de Mascotas",
+    "address": "Rivadavia 1071",
+    "phone": "0358-155624595",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  },
+  {
+    "id": 26,
+    "name": "SEDIVET",
+    "address": "Marcelo T de Alvear 1912 PA",
+    "phone": "0358-155075896",
+    "location": "Rio Cuarto",
+    "specialty": "Laboratorio"
+  },
+  {
+    "id": 27,
+    "name": "Viassolo, Nicolás",
+    "address": "–",
+    "phone": "0358-154186712",
+    "location": "Rio Cuarto",
+    "specialty": "Radiología a Domicilio"
+  },
+  {
+    "id": 28,
+    "name": "Scheurer, Facundo",
+    "address": "–",
+    "phone": "0358-154300069",
+    "location": "Rio Cuarto",
+    "specialty": "Electrocardiograma y Ecografía a Domicilio"
+  },
+  {
+    "id": 29,
+    "name": "Hoffmann, Federico",
+    "address": "–",
+    "phone": "0358-154288490",
+    "location": "Rio Cuarto",
+    "specialty": "Electrocardiograma y Ecografía a Domicilio"
+  },
+  {
+    "id": 30,
+    "name": "Centro de Fisioterapia Veterinaria",
+    "address": "Luis Reinaudi 2197",
+    "phone": "0358-154305327",
+    "location": "Rio Cuarto",
+    "specialty": "Kinesiología y Fisioterapia"
+  },
+  {
+    "id": 31,
+    "name": "Veterinaria Mi Vet",
+    "address": "Sadi Carnot 598",
+    "phone": "0358-156008629",
+    "location": "Rio Cuarto",
+    "specialty": "Clínica en General"
+  }
+]
