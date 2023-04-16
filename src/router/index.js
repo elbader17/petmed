@@ -1,5 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useUserStore } from '@/stores/user';
 
+const requireAuth = async(to, from, next) => {
+  const userStore = useUserStore();
+  userStore.loadingSessions = true;
+  const user = await userStore.currentUser();
+  if(user) {
+    next();
+    userStore.loadingSessions = false;
+    return;
+  }
+  next({name: 'account'});
+  userStore.loadingSessions = false;
+  return;
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,19 +49,15 @@ const router = createRouter({
       component: () => import('../views/PlanView.vue')
     },
     {
-      path: '/admin',
-      name: 'admin',
-      component: () => import('../views/AdminView.vue')
+      path: '/account',
+      name: 'account',
+      component: () => import('../views/AccountView.vue')
     },
     {
-      path: '/cliente',
-      name: 'cliente',
-      component: () => import('../views/ClientView.vue')
-    },
-    {
-      path: '/veterinario',
-      name: 'veterinario',
-      component: () => import('../views/VeterinarianView.vue')
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import('../views/DashboardView.vue'),
+      beforeEnter: requireAuth
     }
   ]
 })

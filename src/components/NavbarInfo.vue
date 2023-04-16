@@ -5,7 +5,7 @@ const { mobile } = useCheckScreen();
 </script>
 
 <template>
-  <div class="navbar-info">
+  <section class="navbar-info">
     <div class="navbar-info-container">
       <ul v-show="!mobile" class="contact-list">
         <li class="contact-item">
@@ -19,7 +19,7 @@ const { mobile } = useCheckScreen();
       </ul>
       <ul class="follow-list">
         <li class="follow-item">
-          <a href="http://www.instagram.com/petmed.ar" class="item-link">
+          <a href="https://www.instagram.com/petmed.ar" class="item-link">
             <font-awesome-icon icon="fa-brands fa-instagram" size="xl" class="item-icon" />
           </a>
         </li>
@@ -30,7 +30,7 @@ const { mobile } = useCheckScreen();
         </li>
       </ul>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
@@ -42,8 +42,8 @@ const { mobile } = useCheckScreen();
 }
 
 .navbar-info-container {
-  width: 90%;
   max-width: 1240px;
+  width: 100%;
   margin: 0 auto;
   color: #fff;
   display: flex;

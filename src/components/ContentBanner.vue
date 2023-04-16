@@ -5,13 +5,13 @@ defineProps (['banner', 'title'])
 </script>
 
 <template>
-  <div class="hero">
+  <section class="hero">
     <img class="hero-image" :src="banner" alt="Imagen banner">
     <div class="hero-content">
       <img class="content-image" :src="title" alt="Imagen titulo">
     </div>
     <ContentSeparator class="separator-top" />
-  </div>
+  </section>
 </template>
 
 <style scoped>
@@ -53,7 +53,8 @@ defineProps (['banner', 'title'])
 
 .content-image {
   width: 20rem;
-  margin-top: 10rem;
+  position: absolute;
+  bottom: 20%;
 }
 
 .hero-button {

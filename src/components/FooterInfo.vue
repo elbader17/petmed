@@ -12,13 +12,13 @@ const abrirModal = () => {
 </script>
 
 <template>
-  <div class="footer-info">
+  <section class="footer-info">
     <div class="footer-info-container">
       <h2 v-show="!mobile">PETMED</h2>
       <h2 class="footer-modal" @click="modal = true">Términos y Condiciones</h2>
+      <FooterTermsAndConditions v-show="modal" @abrirModal="abrirModal" />
     </div>
-    <FooterTermsAndConditions v-show="modal" @abrirModal="abrirModal" />
-  </div>
+  </section>
 </template>
 
 <style scoped>
@@ -27,8 +27,8 @@ const abrirModal = () => {
 }
 
 .footer-info-container {
-  width: 90%;
   max-width: 1240px;
+  width: 100%;
   margin: 0 auto;
   color: #fff;
   display: flex;

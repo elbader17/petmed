@@ -8,7 +8,7 @@ import imageTitle from '@/assets/img/Nosotros.png';
 <template>
   <div class="about-us">
     <ContentBanner :banner="imageBanner" :title="imageTitle" />
-    <div class="about-us-content">
+    <section class="about-us-content">
       <div class="content-text">
         <p>Hasta hace tiempo, de acuerdo a testimonios veterinarios un amplio porcentaje de casos se vieron condicionados
           por
@@ -39,14 +39,14 @@ import imageTitle from '@/assets/img/Nosotros.png';
           <p class="item-text">Confianza, Seguridad, Empatía, Felicidad</p>
         </li>
       </ul>
-    </div>
+    </section>
     <ContentSeparator class="separator-bottom" />
   </div>
 </template>
 
 <style scoped>
 .about-us {
-  background-image: url(../assets/img/col3.png);
+  background-image: url(@/assets/img/col3.png);
   background-position: bottom right;
   background-repeat: no-repeat;
   background-size: 23rem auto;
@@ -56,6 +56,7 @@ import imageTitle from '@/assets/img/Nosotros.png';
   display: flex;
   flex-direction: column;
   max-width: 1240px;
+  width: 100%;
   margin: 0 auto;
   margin-top: 2rem;
   align-items: center;
@@ -66,13 +67,13 @@ import imageTitle from '@/assets/img/Nosotros.png';
 .content-text {
   display: flex;
   flex-direction: column;
-  max-width: 70%;
+  max-width: 75%;
 }
 
 .content-text p {
   margin-bottom: 1.5rem;
   font-weight: 400;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
 }
 
 .content-list {
@@ -110,12 +111,16 @@ import imageTitle from '@/assets/img/Nosotros.png';
     background-size: 15rem auto;
   }
 
+  .about-us-content {
+    padding: 3.125rem 0rem;
+  }
+
   .content-list {
     flex-direction: column;
   }
 
   .item-title {
-    width: 50%;
+    width: 18rem;
   }
 }
 </style>

@@ -3,7 +3,7 @@ defineProps (['data'])
 </script>
 
 <template>
-  <div class="providers-content">
+  <section class="providers-content">
     <table class="providers-table">
       <thead class="table-head">
         <th class="head-provider">Prestadores</th>
@@ -20,7 +20,7 @@ defineProps (['data'])
         <td class="body-item">{{ item.specialty }}</td>
       </tbody>
     </table>
-  </div>
+  </section>
 </template>
 
 <style scoped>

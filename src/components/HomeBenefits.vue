@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="benefits">
+  <section class="benefits">
     <h1 class="benefits-title">¿Por qué afiliar tu mascota a PetMed?</h1>
     <ul class="benefits-list">
       <li class="benefits-item">
@@ -29,13 +29,13 @@
         <h2 class="item-text">Afiliación 100% online</h2>
       </li>
     </ul>
-  </div>
+  </section>
 </template>
 
 <style scoped>
 .benefits {
-  width: 90%;
   max-width: 1240px;
+  width: 100%;
   margin: 0 auto;
   text-align: center;
   padding: 3.125rem;

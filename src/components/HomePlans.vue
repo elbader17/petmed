@@ -29,7 +29,7 @@ const planes = [
 </script>
 
 <template>
-  <div class="plans">
+  <section class="plans">
     <div class="plans-header">
       <h1 class="plans-title">Nuestros Planes</h1>
       <h2 class="plans-subtitle">A La Medida De Tu Mascota</h2>
@@ -41,7 +41,7 @@ const planes = [
         :plan="plan"
       />
     </ul>
-  </div>
+  </section>
 </template>
 
 <style scoped>

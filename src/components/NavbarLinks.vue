@@ -11,6 +11,9 @@ import { RouterLink } from 'vue-router';
       <RouterLink :to="{ name: 'nosotros' }" class="nav-link">Nosotros</RouterLink>
     </li>
     <li class="nav-item">
+      <RouterLink :to="{ name: 'planes' }" class="nav-link">Planes</RouterLink>
+    </li>
+    <li class="nav-item">
       <RouterLink :to="{ name: 'afiliaciones' }" class="nav-link">Afiliaciones</RouterLink>
     </li>
     <li class="nav-item">
@@ -19,9 +22,9 @@ import { RouterLink } from 'vue-router';
     <li class="nav-item">
       <RouterLink :to="{ name: 'contacto' }" class="nav-link">Contacto</RouterLink>
     </li>
-    <li class="nav-button">
+    <!-- <li class="nav-button">
       <RouterLink :to="{ name: 'planes' }" class="button-link">Ver planes</RouterLink>
-    </li>
+    </li> -->
   </ul>
 </template>
 
@@ -37,7 +40,7 @@ import { RouterLink } from 'vue-router';
   list-style: none;
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 .nav-link {
@@ -62,7 +65,6 @@ import { RouterLink } from 'vue-router';
   font-weight: 300;
   font-size: 0.9rem;
   text-transform: uppercase;
-  overflow: hidden;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -75,7 +77,7 @@ import { RouterLink } from 'vue-router';
 .router-link-active::after {
   background: #000;
 }
-
+/* 
 .button-link {
   text-decoration: none;
   white-space: nowrap;
@@ -99,5 +101,5 @@ import { RouterLink } from 'vue-router';
   background-color: #393d3f;
   transform: scale(1.2);
   transition: all 0.5s cubic-bezier(0.5, 2.5, 0.5, 0) 0s;
-}
+} */
 </style>

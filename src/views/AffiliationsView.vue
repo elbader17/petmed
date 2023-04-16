@@ -69,7 +69,7 @@ const planesPromos = [
 <template>
   <div class="affiliations">
     <ContentBanner :banner="imageBanner" :title="imageTitle" />
-    <div class="affiliations-single">
+    <section class="affiliations-single">
       <h1 class="single-title">Afiliación PETMED</h1>
       <h2 class="single-subtitle">Seleccione el plan deseado</h2>
       <ul class="single-list">
@@ -79,8 +79,8 @@ const planesPromos = [
           :plan="plan"
         />
       </ul>
-    </div>
-    <div class="affiliations-promo">
+    </section>
+    <section class="affiliations-promo">
       <h1 class="promo-subtitle">Promos</h1>
       <h1 class="promo-title">GRUPO FAMILIAR</h1>
       <ul class="promo-list">
@@ -90,7 +90,7 @@ const planesPromos = [
           :plan="plan"
         />
       </ul>
-    </div>
+    </section>
     <ContentSeparator class="separator-bottom" />
   </div>
 </template>

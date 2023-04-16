@@ -5,7 +5,7 @@ defineProps (['plan'])
 </script>
 
 <template>
-  <div class="affiliations-item">
+  <section class="affiliations-item">
     <img class="affiliations-img" :src="plan.image" :alt="plan.name">
     <div class="affiliations-info">
       <h3 class="info-subtitle">Valor Mensual</h3>
@@ -19,7 +19,7 @@ defineProps (['plan'])
         Quiero este plan
       </RouterLink>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>

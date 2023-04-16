@@ -5,7 +5,7 @@ const emit = defineEmits(['abrirModal'])
 </script>
 
 <template>
-  <div class="modal-tyc">
+  <section class="modal-tyc">
     <div class="modal-inner">
       <button class="button-close" @click="emit('abrirModal')">
         <font-awesome-icon icon="fa-solid fa-x" size="lg" />
@@ -113,7 +113,7 @@ const emit = defineEmits(['abrirModal'])
         <ContentSeparator class="separator-bottom" />
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
@@ -128,6 +128,7 @@ const emit = defineEmits(['abrirModal'])
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .modal-inner {
@@ -171,12 +172,13 @@ p {
   font-weight: 300;
   font-size: 1.125rem;
   padding-top: 0.5rem;
+  color: #000;
 }
 
 .separator-bottom {
   transform: rotate(180deg) translateY(-2rem) rotateY(180deg);
   fill: #3CBEB4;
-  width: 105%;
+  width: 104%;
   height: 3.875rem;
 }
 </style>

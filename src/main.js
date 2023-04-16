@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia'
 import App from './App.vue';
 import router from './router';
 
@@ -16,7 +17,9 @@ import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-sv
 library.add(faBars ,faLocationDot, faEnvelope, faPhoneFlip, faPaw, faPlus, faMinus, faAngleRight, faAngleDown, faX, faFacebook, faInstagram, faWhatsapp);
 
 const app = createApp(App);
+const pinia = createPinia();
 
 app.use(router);
+app.use(pinia);
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.mount('#app');

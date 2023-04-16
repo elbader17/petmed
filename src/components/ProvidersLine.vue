@@ -19,7 +19,7 @@ function isOpen(index) {
 </script>
 
 <template>
-  <div class="providers-content">
+  <section class="providers-content">
     <div class="providers-line" v-for="item, index in data" :key="item.id">
       <div class="line-header" @click="toggle(index)">
         <font-awesome-icon :icon="isOpen(index) ? 'fa-solid fa-minus' : 'fa-solid fa-plus'" size="lg" />
@@ -35,7 +35,7 @@ function isOpen(index) {
         </div>
       </transition>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
@@ -50,6 +50,7 @@ function isOpen(index) {
 
 .providers-line {
   max-width: 1236px;
+  width: 100%;
   padding: 1rem 2rem;
 }
 
@@ -77,7 +78,7 @@ function isOpen(index) {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: all 0.5s ease;
 }
 
 .fade-enter-from,
@@ -87,7 +88,7 @@ function isOpen(index) {
 
 .line-content {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   padding: 1rem;
   background: #F9F9F9;
@@ -97,6 +98,6 @@ function isOpen(index) {
 .content-item {
   background: #ECECEC;
   border: 1px solid #FCFCFC;
-  padding: 0.75rem;
+  padding: 0.5rem;
 }
 </style>

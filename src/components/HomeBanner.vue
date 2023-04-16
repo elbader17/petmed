@@ -4,7 +4,7 @@ import ContentSeparator from './icons/ContentSeparator.vue';
 </script>
 
 <template>
-  <div class="hero">
+  <section class="hero">
     <video class="hero-video" autoplay loop muted plays-inline>
       <source src="../assets/img/pet.mp4" type="video/mp4">
     </video>
@@ -13,7 +13,7 @@ import ContentSeparator from './icons/ContentSeparator.vue';
       <RouterLink to="/planes"><button class="hero-button">Consultar planes</button></RouterLink>
     </div>
     <ContentSeparator class="separator-top" />
-  </div>
+  </section>
 </template>
 
 <style scoped>

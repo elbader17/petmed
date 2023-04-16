@@ -5,13 +5,13 @@ defineProps (['plan'])
 </script>
 
 <template>
-  <div class="plans-item">
+  <section class="plans-item">
     <img class="item-img" :src="plan.image" :alt="plan.name">
     <div class="item-info">
       <h1 class="info-title">{{ plan.name }}</h1>
       <RouterLink :to="plan.link" class="info-link">Ver mas beneficios</RouterLink>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
@@ -54,8 +54,9 @@ defineProps (['plan'])
 }
 
 .info-title {
-  color: #FFFF;
-  font-weight: 400;
+  color: #fff;
+  font-weight: 500;
+  font-size: 2rem;
   position: absolute;
   top: 55%;
 }
@@ -65,7 +66,7 @@ a {
 }
 
 .info-link {
-  color: #FFFF;
+  color: #fff;
   font-weight: 300;
   opacity: 0;
   transition: 0.3s ease;
