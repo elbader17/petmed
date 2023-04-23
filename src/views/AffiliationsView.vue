@@ -113,7 +113,7 @@ const planesPromos = [
 
 .single-title,
 .promo-title {
-  color: #f4643c;
+  color: #F4643C;
   font-weight: 700;
   font-size: 1.5rem;
   margin-bottom: 2rem;

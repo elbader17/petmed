@@ -5,7 +5,7 @@ defineProps(['data']);
 
 const openIndexes = ref([]);
 
-function toggle(index) {
+const toggleLine = (index) => {
   const i = openIndexes.value.indexOf(index)
   if (i === -1) {
     openIndexes.value.push(index)
@@ -13,7 +13,8 @@ function toggle(index) {
     openIndexes.value.splice(i, 1)
   }
 }
-function isOpen(index) {
+
+const isOpen = (index) => {
   return openIndexes.value.includes(index)
 }
 </script>
@@ -21,7 +22,7 @@ function isOpen(index) {
 <template>
   <section class="providers-content">
     <div class="providers-line" v-for="item, index in data" :key="item.id">
-      <div class="line-header" @click="toggle(index)">
+      <div class="line-header" @click="toggleLine(index)">
         <font-awesome-icon :icon="isOpen(index) ? 'fa-solid fa-minus' : 'fa-solid fa-plus'" size="lg" />
         <h1 class="line-title">{{ item.name }}</h1>
         <font-awesome-icon icon="fa-solid fa-angle-right" :class="{ 'icon-rotate': isOpen(index), 'icon-rotate-back': !isOpen(index) }" size="lg" />
@@ -59,7 +60,7 @@ function isOpen(index) {
   justify-content: space-between;
   align-items: center;
   color: #fff;
-  background: #9E63C4;
+  background: --pm-violet;
   padding: 0.75rem 1.25rem;
 }
 

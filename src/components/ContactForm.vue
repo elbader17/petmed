@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="contact-form">
+  <section class="contact-form">
     <h2 class="consult-title">Formulario de consultas</h2>
     <form class="consult-form" action="https://formsubmit.co/6b81ecdb38e750ad367e0538f78be924" method="POST">
       <input class="form-item" type="text" name="Nombre" placeholder="Nombre y Apellido" required>
@@ -13,7 +13,7 @@
       <input type="hidden" name="_next" value="http://localhost:5173/contacto">
       <button class="form-submit" type="submit">Enviar</button>
     </form>
-  </div>
+  </section>
 </template>
 
 <style scoped>

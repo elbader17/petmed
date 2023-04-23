@@ -57,7 +57,34 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: () => import('../views/DashboardView.vue'),
-      beforeEnter: requireAuth
+      beforeEnter: requireAuth,
+      children: [
+        {
+          path: '',
+          name: 'dashboard-home',
+          component: () => import('../views/DashboardHomeView.vue'),
+        },
+        {
+          path: '/dashboard/clients',
+          name: 'dashboard-clients',
+          component: () => import('../views/DashboardClientsView.vue'),
+        },
+        {
+          path: '/dashboard/vets',
+          name: 'dashboard-vets',
+          component: () => import('../views/DashboardVetsView.vue'),
+        },
+        {
+          path: '/dashboard/plans',
+          name: 'dashboard-plans',
+          component: () => import('../views/DashboardPlansView.vue'),
+        },
+        {
+          path: '/dashboard/providers',
+          name: 'dashboard-providers',
+          component: () => import('../views/DashboardProvidersView.vue'),
+        },
+      ]
     }
   ]
 })

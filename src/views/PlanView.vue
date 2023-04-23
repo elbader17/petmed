@@ -62,20 +62,20 @@ const planes = [
 <template>
   <div class="plans">
     <ContentBanner :banner="imageBanner" :title="imageTitle" />
-    <div class="plans-header">
+    <section class="plans-header">
       <img class="plan-img" :src="title1005" @click="showPlan(0)" />
       <img class="plan-img" :src="title2010" @click="showPlan(1)" />
       <img class="plan-img" :src="title3015" @click="showPlan(2)" />
-    </div>
-    <div v-show="!mobile" v-for="(tableData, index) in data" :key="index">
+    </section>
+    <section v-show="!mobile" v-for="(tableData, index) in data" :key="index">
       <PlansTable v-if="currentPlan === index" :data="tableData.services" :currentPlan="currentPlan" />
-    </div>
-    <div class="plans-mobile" v-show="mobile">
+    </section>
+    <section class="plans-mobile" v-show="mobile">
       <img class="mobile-img" v-if="currentPlan === 0" :src="planes[currentPlan].image" />
       <img class="mobile-img" v-if="currentPlan === 1" :src="planes[currentPlan].image" />
       <img class="mobile-img" v-if="currentPlan === 2" :src="planes[currentPlan].image" />
-    </div>
-    <div class="plans-info">
+    </section>
+    <section class="plans-info">
       <div class="info-button">
         <RouterLink :to="planes[currentPlan].link" :style="{ backgroundColor: planColor }" class="info-link">
           <font-awesome-icon icon="fa-solid fa-paw" />
@@ -93,7 +93,7 @@ const planes = [
         <p><strong>Tiempo Carencia</strong> = Tiempo de permanencia en la Obra Social</p>
         <p><strong>CT</strong>= Con Tope.</p>
       </div>
-    </div>
+    </section>
     <ContentSeparator class="separator-bottom" />
   </div>
 </template>

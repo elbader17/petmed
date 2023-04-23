@@ -1,6 +1,8 @@
 <script setup>
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/firebaseConfig';
+import DashboardSidebar from '../components/DashboardSidebar.vue';
+import DashboardContent from '../components/DashboardContent.vue';
 
 onAuthStateChanged(auth, user => {
   console.log(user);
@@ -8,9 +10,14 @@ onAuthStateChanged(auth, user => {
 </script>
 
 <template>
-  <div>
-    <h1>Dashboard</h1>
-  </div>
+  <section class="dashboard">
+    <DashboardSidebar />
+    <DashboardContent />
+  </section>
 </template>
 
-<style></style>
+<style scoped>
+.dashboard {
+  display: flex;
+}
+</style>

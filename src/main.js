@@ -10,11 +10,45 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 /* import specific icons */
-import { faLocationDot, faEnvelope, faPaw, faPhoneFlip, faBars, faX, faPlus, faMinus, faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars, faLocationDot,
+  faEnvelope,
+  faPhoneFlip,
+  faPaw,
+  faX,
+  faPlus,
+  faMinus,
+  faAngleRight,
+  faAnglesRight,
+  faHouse,
+  faUser,
+  faUserDoctor,
+  faMoneyCheckDollar,
+  faFileMedical
+} from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 /* add icons to the library */
-library.add(faBars ,faLocationDot, faEnvelope, faPhoneFlip, faPaw, faPlus, faMinus, faAngleRight, faAngleDown, faX, faFacebook, faInstagram, faWhatsapp);
+library.add(
+  faBars,
+  faLocationDot,
+  faEnvelope,
+  faPhoneFlip,
+  faPaw,
+  faX,
+  faPlus,
+  faMinus,
+  faAngleRight,
+  faAnglesRight,
+  faHouse,
+  faUser,
+  faUserDoctor,
+  faFileMedical,
+  faMoneyCheckDollar,
+  faFacebook,
+  faInstagram,
+  faWhatsapp
+);
 
 const app = createApp(App);
 const pinia = createPinia();

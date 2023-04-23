@@ -16,14 +16,14 @@ const handleSubmit = async() => {
 </script>
 
 <template>
-  <div>
+  <section>
     <h1>Login</h1>
     <form @submit.prevent="handleSubmit">
       <input type="email" v-model.trim="email" placeholder="Ingrese Email">
       <input type="password" v-model.trim="password" placeholder="Ingrese Password">
       <button type="submit" :disabled="userStore.loadingUser">Acceder</button>
     </form>
-  </div>
+  </section>
 </template>
 
 <style scoped></style>

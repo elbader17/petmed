@@ -86,13 +86,13 @@ const userStore = useUserStore();
   height: 35%;
   top: 9rem;
   left: 0;
-  z-index: 1;
+  z-index: 5;
 }
 
 .mobile-nav-enter-active,
 .mobile-nav-leave-active {
   transition: all 0.3s ease;
-  z-index: 10;
+  z-index: 5;
 }
 
 .mobile-nav-enter-from,
