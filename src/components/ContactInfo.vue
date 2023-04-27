@@ -21,13 +21,13 @@
     <h2 class="social-title">Redes Sociales</h2>
     <ul class="social-list">
       <li class="social-icon">
-        <a href="https://www.facebook.com/petmed.ar">
-          <font-awesome-icon icon="fa-brands fa-facebook" size="2x" class="icon-link" />
+        <a href="https://www.instagram.com/petmed.ar">
+          <font-awesome-icon icon="fa-brands fa-instagram" size="2x" class="icon-link" />
         </a>
       </li>
       <li class="social-icon">
-        <a href="https://www.instagram.com/petmed.ar">
-          <font-awesome-icon icon="fa-brands fa-instagram" size="2x" class="icon-link" />
+        <a href="https://www.facebook.com/petmed.ar">
+          <font-awesome-icon icon="fa-brands fa-facebook" size="2x" class="icon-link" />
         </a>
       </li>
     </ul>

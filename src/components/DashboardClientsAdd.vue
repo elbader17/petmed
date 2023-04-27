@@ -4,8 +4,6 @@ import { ref } from 'vue';
 
 const databaseStore = useDatabaseStore();
 
-databaseStore.getClients();
-
 const client = ref({
   name: '',
   surname: '',
@@ -17,22 +15,13 @@ const client = ref({
 })
 
 const handleSubmit = () => {
-  databaseStore.addClient(client.value);
+  databaseStore.addClient(client.value.name, client.value.surname, client.value.dni, client.value.birthdate, client.value.phone, client.value.address, client.value.city);
   client.value.name = ''; client.value.surname = ''; client.value.dni = ''; client.value.birthdate = ''; client.value.phone = ''; client.value.address = ''; client.value.city = '';
 }
 </script>
 
 <template>
-  <section class="dashboard-clients">
-    <h1>Clientes</h1>
-    <p v-if="databaseStore.loadingDoc">Cargando clientes...</p>
-    <ul v-else>
-      <li v-for="item of databaseStore.clients" :key="item.id">
-        {{ item.name }} {{ item.surname }}
-        <br>
-        <button @click="databaseStore.deleteClient(item.id)">Eliminar</button>
-      </li>
-    </ul>
+  <section>
     <form @submit.prevent="handleSubmit">
       <input type="text" placeholder="Ingrese el nombre" v-model="client.name">
       <input type="text" placeholder="Ingrese el apellido" v-model="client.surname">
@@ -41,7 +30,7 @@ const handleSubmit = () => {
       <input type="text" placeholder="Ingrese el teléfono" v-model="client.phone">
       <input type="text" placeholder="Ingrese la dirección" v-model="client.address">
       <input type="text" placeholder="Ingrese la ciudad" v-model="client.city">
-      <button type="submit">Agregar cliente</button>
+      <button type="submit">Agregar</button>
     </form>
   </section>
 </template>
