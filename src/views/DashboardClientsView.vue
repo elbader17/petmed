@@ -31,6 +31,7 @@ const handleSubmit = () => {
         {{ item.name }} {{ item.surname }}
         <br>
         <button @click="databaseStore.deleteClient(item.id)">Eliminar</button>
+        <button @click="databaseStore.test()">test</button>
       </li>
     </ul>
     <form @submit.prevent="handleSubmit">
