@@ -19,68 +19,65 @@ export const useDatabaseStore = defineStore('databaseStore', {
   }),
   actions: {
     async test() {
+      const data = await fetch('../../info.csv')
+        .then((response) => response.text())
+        .then((csv) => {
+          // csv is now a string, you can use the split method
+          const rows = csv.split('\n')
+          const data = rows.map((row) => row.split(','))
+          // console.log(data[0]);
+          return data
+        })
 
-     const data = await fetch("../../info.csv")
-      .then(response => response.text())
-      .then(csv => {
-        // csv is now a string, you can use the split method
-        const rows = csv.split('\n');
-        const data = rows.map(row => row.split(','));
-        // console.log(data[0]);
-        return data
-      });
-
-      console.log(data[1])
 
       const emails = []
-      const user = query(collection(db, 'users'), where('email', '==', "cristalracca18@gmail.com"));
+      const user = query(collection(db, 'users'))
       const querySnapshot = await getDocs(user)
-      console.log("🚀 ~ file: database.js:38 ~ test ~ querySnapshot:", querySnapshot)
+      querySnapshot._docs.forEach((doc) => {
+        // console.log(doc.id, doc.data())
+        emails.push(doc.data().email)
+      })
 
-      for(const row of data){
-        // solo agregar si el email no esta en el array
-        // if( !emails.includes(row[10])){
-        //   const docObj = {
-        //     email: row[10] || "",
-        //     name: row[2] || "",
-        //     cuit: row[3] || "",
-        //     birthdate: row[4] || "",
-        //     phone: row[5] || "",
-        //     address: row[6] || "",
-        //   }
-    
-        //   const docRef = await addDoc(collection(db, 'users'), docObj)
-        //   console.log(docRef.id)
-        //   emails.push(row[10])
-        // }
+      const uniqueEmails = [...new Set(emails)]
 
-        // obtener desde firebase el id del usuario con el email
+      // generar una array de objetos en donde cada objeto tenga un email y el id del usuario
 
-        // const user = query(collection(db, 'users'), where('email', '==', row[10]));
-        // const querySnapshot = await getDocs(user)
-        // console.log("🚀 ~ file: database.js:58 ~ test ~ querySnapshot:", querySnapshot)
+      const users = []
+      uniqueEmails.forEach((email) => {
+        const user = {
+          email: email,
+          id: ''
+        }
+        users.push(user)
+      })
 
-        // const docObjPet = {
-        //   registration_date: row[1] || "",
-        //   name: row[7] || "",
-        //   sex: row[8] || "",
-        //   breed: row[11] || "",
-        //   color: row[12] || "",
-        //   birthdate: row[13] || "",
-        //   plan: row[14] || "",
-        //   observation: row[15] || "",
-        //   status: row[16] || "",
-        //   nro_afiliate: row[0] || "",
-        //   id_user: user,
-        // }
-        
+      const usersWithId = []
+      users.forEach((user) => {
+        const userWithId = {
+          email: user.email,
+          id: querySnapshot._docs.find((doc) => doc.data().email === user.email).id
+        }
+        usersWithId.push(userWithId)
+      })
 
-      }
-      
+      console.log(usersWithId)
+
+
+      const pets = query(collection(db, 'pets'))
+      const querySnapshotPets = await getDocs(pets)
+      querySnapshotPets._docs.forEach(async (petDoc) => {
+        const pet = {
+          id: petDoc.id,
+          ...petDoc.data()
+        }
+        console.log(pet)
+        const user = usersWithId.find((user) => user.email === pet.client)
+
+        const petRef = doc(db, 'pets', pet.id)
+        const res = await updateDoc(petRef, { client: user.id })
+        console.log(res)
+      })
     },
-
-
-
 
     async getClients() {
       if (this.clients.length !== 0) {
