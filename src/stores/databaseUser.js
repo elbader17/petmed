@@ -104,7 +104,7 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
       } catch (error) {
         console.log(error);
       }/*  finally {
-
+        
       } */
     }
   }
