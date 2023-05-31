@@ -22,7 +22,7 @@
         <ul class="direction-list">
           <li class="direction-item">
             <font-awesome-icon icon="fa-solid fa-location-dot" size="lg" class="item-icon" />
-            <a href="https://goo.gl/maps/Y7kbXBjigwZuRJFX9" class="item-link">
+            <a href="https://goo.gl/maps/Y7kbXBjigwZuRJFX9" target="_blank" class="item-link">
               <h3 class="item-text">Ituzaingó 1348, Río Cuarto, Cba</h3>
             </a>
           </li>
@@ -32,12 +32,12 @@
         <h2 class="follow-title">Seguinos en</h2>
         <ul class="follow-list">
           <li class="follow-item">
-            <a href="https://www.instagram.com/petmed.ar" class="item-link">
+            <a href="https://www.instagram.com/petmed.ar" target="_blank" class="item-link">
               <font-awesome-icon icon="fa-brands fa-instagram" size="2x" class="item-icon" />
             </a>
           </li>
           <li class="follow-item">
-            <a href="https://www.facebook.com/petmed.ar" class="item-link">
+            <a href="https://www.facebook.com/petmed.ar" target="_blank" class="item-link">
               <font-awesome-icon icon="fa-brands fa-facebook" size="2x" class="item-icon" />
             </a>
           </li>

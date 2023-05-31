@@ -2,10 +2,10 @@ import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc }
 import { db, auth } from '@/firebaseConfig';
 import { defineStore } from 'pinia';
 
-export const useDatabaseStore = defineStore('databaseStore', {
+export const useDatabaseUserStore = defineStore('databaseUserStore', {
   state: () => ({
     loadingDoc: false,
-    clients: [],
+    clients: []
   }),
   actions: {
     async getClients() {
@@ -14,10 +14,9 @@ export const useDatabaseStore = defineStore('databaseStore', {
       }
       this.loadingDoc = true;
       try {
-        const q = query(collection(db, 'clients'));
-        const querySnapshot = await getDocs(q);
+        const queryRef = query(collection(db, 'users'));
+        const querySnapshot = await getDocs(queryRef);
         querySnapshot.forEach((doc) => {
-          console.log(doc.id, doc.data());
           this.clients.push({
             id: doc.id,
             ...doc.data()
@@ -32,21 +31,22 @@ export const useDatabaseStore = defineStore('databaseStore', {
     async addClient(client) {
       this.loadingDoc = true;
       try {
-        const docObj = {
+        const clientObj = {
+          email: client.email,
           name: client.name,
           surname: client.surname,
-          dni: client.dni,
+          cuit: client.cuit,
           birthdate: client.birthdate,
           phone: client.phone,
           address: client.address,
           city: client.city,
-          user: auth.currentUser.uid
+          type: client.type,
+          account: auth.currentUser.uid
         }
-        const docRef = await addDoc(collection(db, 'clients'), docObj);
-        console.log(docRef.id);
+        const clientRef = await addDoc(collection(db, 'users'), clientObj);
         this.clients.push({
-          id: docRef.id,
-          ...docObj
+          id: clientRef.id,
+          ...clientObj
         })
       } catch (error) {
         console.log(error);
@@ -57,21 +57,13 @@ export const useDatabaseStore = defineStore('databaseStore', {
     async readClient(id) {
       this.loadingDoc = true;
       try {
-        const docRef = doc(db, 'clients', id);
-        const docSnap = await getDoc(docRef);
-        if (!docSnap.exists()) {
-          throw new Error("No existe el cliente");
+        const clientRef = doc(db, 'users', id);
+        const clientSnapshot = await getDoc(clientRef);
+        if (!clientSnapshot.exists()) {
+          throw new Error("No existe el usuario");
         }
-        if (docSnap.data().user === auth.currentUser.uid) {
-          return {
-            name: docSnap.data().name,
-            surname: docSnap.data().surname,
-            dni: docSnap.data().dni,
-            birthdate: docSnap.data().birthdate,
-            phone: docSnap.data().phone,
-            address: docSnap.data().address,
-            city: docSnap.data().city
-          };
+        if (clientSnapshot.data().user === auth.currentUser.uid) {
+          return clientSnapshot.data();
         } else {
           throw new Error("No tienes permiso");
         }
@@ -84,25 +76,19 @@ export const useDatabaseStore = defineStore('databaseStore', {
     async updateClient(id, client) {
       this.loadingDoc = true;
       try {
-        const docRef = doc(db, 'clients', id);
-        await updateDoc(docRef, {
-          name: client.name,
-          surname: client.surname,
-          dni: client.dni,
-          birthdate: client.birthdate,
-          phone: client.phone,
-          address: client.address,
-          city: client.city
-        });
+        const clientRef = doc(db, 'users', id);
+        await updateDoc(clientRef, client);
         this.clients = this.clients.map(item => item.id === id ? ({
           ...item,
+          email: client.email,
           name: client.name,
           surname: client.surname,
           dni: client.dni,
           birthdate: client.birthdate,
           phone: client.phone,
           address: client.address,
-          city: client.city
+          city: client.city,
+          type: client.type,
         }) : item)
       } catch (error) {
         console.log(error);
@@ -112,8 +98,8 @@ export const useDatabaseStore = defineStore('databaseStore', {
     },
     async deleteClient(id) {
       try {
-        const docRef = doc(db, 'clients', id);
-        await deleteDoc(docRef);
+        const clientRef = doc(db, 'users', id);
+        await deleteDoc(clientRef);
         this.clients = this.clients.filter(item => item.id !== id)
       } catch (error) {
         console.log(error);

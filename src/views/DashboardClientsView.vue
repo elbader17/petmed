@@ -1,48 +1,56 @@
 <script setup>
-import { useDatabaseStore } from '@/stores/database';
-import { ref } from 'vue';
+import { useDatabaseUserStore } from '@/stores/databaseUser';
+import { ref, onBeforeMount } from 'vue';
+import ModalReusable from '../components/ModalReusable.vue';
+import DashboardClientsAdd from '../components/DashboardClientsAdd.vue';
+import DashboardClientsEdit from '../components/DashboardClientsEdit.vue';
 
-const databaseStore = useDatabaseStore();
+const databaseUserStore = useDatabaseUserStore();
 
-databaseStore.getClients();
+onBeforeMount(async () => {
+  databaseUserStore.getClients();
+});
 
-const client = ref({
-  name: '',
-  surname: '',
-  dni: '',
-  birthdate: '',
-  phone: '',
-  address: '',
-  city: ''
-})
+const openModal = ref(false);
+const openModalIndexed = ref([]);
 
-const handleSubmit = () => {
-  databaseStore.addClient(client.value);
-  client.value.name = ''; client.value.surname = ''; client.value.dni = ''; client.value.birthdate = ''; client.value.phone = ''; client.value.address = ''; client.value.city = '';
+const toggleModal = () => {
+  openModal.value = !openModal.value;
+}
+
+const toggleModalIndexed = (index) => {
+  const i = openModalIndexed.value.indexOf(index);
+  if (i === -1) {
+    openModalIndexed.value.push(index);
+  } else {
+    openModalIndexed.value.splice(i, 1);
+  }
+}
+
+const modalActiveIndexed = (index) => {
+  return openModalIndexed.value.includes(index);
 }
 </script>
 
 <template>
   <section class="dashboard-clients">
     <h1>Clientes</h1>
-    <p v-if="databaseStore.loadingDoc">Cargando clientes...</p>
+    <button @click="toggleModal">Agregar</button>
+    <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
+      <DashboardClientsAdd />
+    </ModalReusable>
+    <p v-if="databaseUserStore.loadingDoc">Cargando clientes...</p>
     <ul v-else>
-      <li v-for="item of databaseStore.clients" :key="item.id">
+      <li v-for="(item, index) of databaseUserStore.clients" :key="item.id">
         {{ item.name }} {{ item.surname }}
         <br>
-        <button @click="databaseStore.deleteClient(item.id)">Eliminar</button>
+        <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
+          <DashboardClientsEdit :item="item" />
+        </ModalReusable>
+        <button @click="toggleModalIndexed(index)">Editar</button>
+        <button @click="databaseUserStore.deleteClient(item.id)">Eliminar</button>
       </li>
     </ul>
-    <form @submit.prevent="handleSubmit">
-      <input type="text" placeholder="Ingrese el nombre" v-model="client.name">
-      <input type="text" placeholder="Ingrese el apellido" v-model="client.surname">
-      <input type="text" placeholder="Ingrese el DNI" v-model="client.dni">
-      <input type="text" placeholder="Ingrese la fecha de nacimiento" v-model="client.birthdate">
-      <input type="text" placeholder="Ingrese el teléfono" v-model="client.phone">
-      <input type="text" placeholder="Ingrese la dirección" v-model="client.address">
-      <input type="text" placeholder="Ingrese la ciudad" v-model="client.city">
-      <button type="submit">Agregar cliente</button>
-    </form>
   </section>
 </template>
 

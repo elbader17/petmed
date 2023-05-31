@@ -19,12 +19,12 @@ const { mobile } = useCheckScreen();
       </ul>
       <ul class="follow-list">
         <li class="follow-item">
-          <a href="https://www.instagram.com/petmed.ar" class="item-link">
+          <a href="https://www.instagram.com/petmed.ar" target="_blank" class="item-link">
             <font-awesome-icon icon="fa-brands fa-instagram" size="xl" class="item-icon" />
           </a>
         </li>
         <li class="follow-item">
-          <a href="https://www.facebook.com/petmed.ar" class="item-link">
+          <a href="https://www.facebook.com/petmed.ar" target="_blank" class="item-link">
             <font-awesome-icon icon="fa-brands fa-facebook" size="xl" class="item-icon" />
           </a>
         </li>
@@ -52,7 +52,7 @@ const { mobile } = useCheckScreen();
   justify-content: space-between;
   align-items: center;
   padding: 0.2rem 1.25rem;
-  
+
 }
 
 .contact-list {

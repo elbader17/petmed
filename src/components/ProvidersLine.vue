@@ -8,24 +8,25 @@ const openIndexes = ref([]);
 const toggleLine = (index) => {
   const i = openIndexes.value.indexOf(index)
   if (i === -1) {
-    openIndexes.value.push(index)
+    openIndexes.value.push(index);
   } else {
-    openIndexes.value.splice(i, 1)
+    openIndexes.value.splice(i, 1);
   }
 }
 
 const isOpen = (index) => {
-  return openIndexes.value.includes(index)
+  return openIndexes.value.includes(index);
 }
 </script>
 
 <template>
   <section class="providers-content">
-    <div class="providers-line" v-for="item, index in data" :key="item.id">
+    <div class="providers-line" v-for="(item, index) in data" :key="item.id">
       <div class="line-header" @click="toggleLine(index)">
         <font-awesome-icon :icon="isOpen(index) ? 'fa-solid fa-minus' : 'fa-solid fa-plus'" size="lg" />
         <h1 class="line-title">{{ item.name }}</h1>
-        <font-awesome-icon icon="fa-solid fa-angle-right" :class="{ 'icon-rotate': isOpen(index), 'icon-rotate-back': !isOpen(index) }" size="lg" />
+        <font-awesome-icon icon="fa-solid fa-angle-right"
+          :class="{ 'icon-rotate': isOpen(index), 'icon-rotate-back': !isOpen(index) }" size="lg" />
       </div>
       <transition name="fade">
         <div class="line-content" v-if="isOpen(index)">
@@ -60,7 +61,7 @@ const isOpen = (index) => {
   justify-content: space-between;
   align-items: center;
   color: #fff;
-  background: --pm-violet;
+  background: #9E63C4;
   padding: 0.75rem 1.25rem;
 }
 

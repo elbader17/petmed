@@ -8,7 +8,7 @@ const emit = defineEmits(['abrirModal'])
   <section class="modal-tyc">
     <div class="modal-inner">
       <button class="button-close" @click="emit('abrirModal')">
-        <font-awesome-icon icon="fa-solid fa-x" size="lg" />
+        <font-awesome-icon icon="fa-solid fa-circle-xmark" size="3x" />
       </button>
       <div class="modal-content">
         <h1 class="content-title">Condiciones generales para el afiliado</h1>
@@ -147,9 +147,8 @@ const emit = defineEmits(['abrirModal'])
 .button-close {
   justify-content: flex-end;
   border: none;
-  color: #FFFFFF;
-  background-color: #9E63C4;
-  padding: 0.35rem 0.75rem;
+  color: #9E63C4;
+  background: none;
   cursor: pointer;
 }
 
