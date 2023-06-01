@@ -1,11 +1,20 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { ref } from 'vue';
 import { useCheckScreen } from '@/composables/checkScreen';
 import { useUserStore } from '@/stores/user';
 import NavbarLinks from './NavbarLinks.vue';
+import ModalReusable from '../components/ModalReusable.vue';
+import AccountLogin from '../components/AccountLogin.vue';
 
 const { mobileL, mobileNav, toggleMobileNav } = useCheckScreen();
 const userStore = useUserStore();
+
+const openModal = ref(false);
+
+const toggleModal = () => {
+  openModal.value = !openModal.value;
+}
 </script>
 
 <template>
@@ -26,12 +35,15 @@ const userStore = useUserStore();
         <font-awesome-icon icon="fa-solid fa-bars" />
       </div>
       <div v-if="!userStore.loadingSession">
-        <div class="nav-button" v-if="!userStore.userData">
-          <RouterLink :to="{ name: 'account' }" class="button-link">Acceder</RouterLink>
+        <div v-if="!userStore.userData">
+          <button class="nav-button" @click="toggleModal">Acceder</button>
         </div>
-        <div class="nav-button" v-if="userStore.userData">
-          <RouterLink :to="{ name: 'account' }" class="button-link" @click="userStore.logoutUser">Salir</RouterLink>
+        <div v-if="userStore.userData">
+          <button :to="{ name: 'home' }" class="nav-button" @click="userStore.logoutUser">Salir</button>
         </div>
+        <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
+          <AccountLogin @closeModal="toggleModal" />
+        </ModalReusable>
       </div>
       <div v-else class="nav-button">
         Cargando usuario...
@@ -106,6 +118,15 @@ const userStore = useUserStore();
   cursor: pointer;
   padding: 0.5rem 1.5rem;
   transition: all 0.3s ease-out 0s;
+
+  text-decoration: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-top: 0.25rem;
+  color: #FFFFFF;
+  letter-spacing: 0.1rem;
+  font-weight: 300;
+  text-transform: uppercase;
 }
 
 .nav-button:hover {

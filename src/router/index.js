@@ -1,16 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 
-const requireAuth = async(to, from, next) => {
+const requireAuth = async (to, from, next) => {
   const userStore = useUserStore();
   userStore.loadingSessions = true;
   const user = await userStore.currentUser();
-  if(user) {
+  if (user) {
     next();
     userStore.loadingSessions = false;
     return;
   }
-  next({name: 'account'});
+  next({ name: 'account' });
   userStore.loadingSessions = false;
   return;
 }
@@ -47,11 +47,6 @@ const router = createRouter({
       path: '/planes',
       name: 'planes',
       component: () => import('../views/PlanView.vue')
-    },
-    {
-      path: '/account',
-      name: 'account',
-      component: () => import('../views/AccountView.vue')
     },
     {
       path: '/dashboard',
