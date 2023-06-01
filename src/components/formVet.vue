@@ -181,6 +181,7 @@ textarea {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  resize: vertical;
 }
 
 input[type='checkbox'] {
@@ -206,6 +207,7 @@ input[type='submit']:hover {
 textarea {
   height: 100px;
 }
+
 .checkbox-group {
   display: flex;
   align-items: center;

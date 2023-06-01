@@ -2,7 +2,7 @@ import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc }
 import { db, auth } from '@/firebaseConfig';
 import { defineStore } from 'pinia';
 
-export const useDatabasePlansStore = defineStore('databaseStore', {
+export const useDatabasePlansStore = defineStore('databasePlansStore', {
   state: () => ({
     loadingDoc: false,
     plans: []

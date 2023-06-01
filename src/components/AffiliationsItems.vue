@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 
-defineProps (['plan'])
+defineProps(['plan'])
 </script>
 
 <template>
@@ -11,8 +11,10 @@ defineProps (['plan'])
       <h3 class="info-subtitle">Valor Mensual</h3>
       <h1 class="info-title">{{ plan.name }}</h1>
       <div class="info-price">
-        <h2 class="info-discount" v-if="!(plan.discount == 0)">${{ plan.price }}</h2>
-        <h2 class="info-total">${{ plan.price - (plan.price * (plan.discount / 100)) }}</h2>
+        <h2 class="info-discount" v-if="!(plan.discount == 0)">${{ new Intl.NumberFormat('es-ar').format(plan.price) }}
+        </h2>
+        <h2 class="info-total">${{ new Intl.NumberFormat('es-ar').format(plan.price - (plan.price * (plan.discount /
+          100))) }}</h2>
       </div>
       <RouterLink :to="plan.link" class="info-link">
         <font-awesome-icon icon="fa-solid fa-paw" />
@@ -30,6 +32,7 @@ defineProps (['plan'])
   height: auto;
   max-width: 100%;
 }
+
 .affiliations-img {
   width: 17rem;
   height: auto;

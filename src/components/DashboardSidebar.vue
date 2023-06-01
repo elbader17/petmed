@@ -35,7 +35,7 @@ const toggleMenu = () => {
       </router-link>
       <router-link class="button" :to="{ name: 'dashboard-providers' }">
         <font-awesome-icon icon="fa-solid fa-file-medical" class="icon" size="xl" />
-        <h4 class="text" v-if="isExpanded">Cartilla</h4>
+        <h4 class="text" v-if="isExpanded">Prestadores</h4>
       </router-link>
     </div>
   </aside>
