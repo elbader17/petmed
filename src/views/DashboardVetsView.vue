@@ -1,8 +1,11 @@
-<script setup></script>
+<script setup>
+import formVet from '../components/formVet.vue';
+</script>
 
 <template>
   <section class="dashboard-clients">
-    Veterinarios
+    <h1>Veterinarios</h1>
+    <formVet />
   </section>
 </template>
 
