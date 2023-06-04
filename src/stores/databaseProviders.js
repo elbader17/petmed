@@ -1,14 +1,97 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc } from 'firebase/firestore/lite';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, orderBy, limit, limitToLast, startAfter, endBefore } from 'firebase/firestore/lite';
 import { db, auth } from '@/firebaseConfig';
 import { defineStore } from 'pinia';
 
 export const useDatabaseProvidersStore = defineStore('databaseProvidersStore', {
   state: () => ({
     loadingDoc: false,
-    providers: []
+    providers: [],
+    page: 1,
+    perPage: 10,
+    pages: 0,
+    total: 0,
+    firstVisible: null,
+    lastVisible: null,
   }),
   actions: {
+    async getSize() {
+      this.loadingDoc = true;
+      try {
+        const qRef = query(collection(db, 'providers'));
+        const qSnapshot = await getDocs(qRef);
+        this.total = qSnapshot.size;
+        this.pages = Math.ceil((this.total / this.perPage));
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
     async getProviders() {
+      if (this.providers.length !== 0) {
+        return
+      }
+      this.loadingDoc = true;
+      try {
+        const queryRef = query(collection(db, 'providers'), orderBy("name", "asc"), limit(this.perPage));
+        const querySnapshot = await getDocs(queryRef);
+        this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        this.firstVisible = querySnapshot.docs[0];
+        querySnapshot.forEach((doc) => {
+          this.providers.push({
+            id: doc.id,
+            ...doc.data()
+          })
+        })
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async nextPage() {
+      this.loadingDoc = true;
+      try {
+        const queryRef = query(collection(db, 'providers'), orderBy("name", "asc"), startAfter(this.lastVisible), limit(this.perPage));
+        const querySnapshot = await getDocs(queryRef);
+        this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        this.firstVisible = querySnapshot.docs[0];
+        this.page++;
+        this.providers = [];
+        querySnapshot.forEach((doc) => {
+          this.providers.push({
+            id: doc.id,
+            ...doc.data()
+          })
+        })
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async previousPage() {
+      this.loadingDoc = true;
+      try {
+        const queryRef = query(collection(db, 'providers'), orderBy("name", "asc"), endBefore(this.firstVisible), limitToLast(this.perPage));
+        const querySnapshot = await getDocs(queryRef);
+        this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        this.firstVisible = querySnapshot.docs[0];
+        this.page--;
+        this.providers = [];
+        querySnapshot.forEach((doc) => {
+          this.providers.push({
+            id: doc.id,
+            ...doc.data()
+          })
+        })
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async getAllProviders() {
       if (this.providers.length !== 0) {
         return
       }
