@@ -28,6 +28,9 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
         this.loadingDoc = false;
       }
     },
+
+
+
     async addClient(client) {
       this.loadingDoc = true;
       try {
