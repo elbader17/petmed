@@ -11,7 +11,7 @@
   min-height: 100vh;
   flex: 1 1 0;
   padding: 2rem;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.1);
   border-style: solid;
   border-width: 0.5rem 0rem;
   border-color: #3CBEB4;

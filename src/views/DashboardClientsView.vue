@@ -4,10 +4,12 @@ import { ref, onBeforeMount } from 'vue';
 import ModalReusable from '../components/ModalReusable.vue';
 import DashboardClientsAdd from '../components/DashboardClientsAdd.vue';
 import DashboardClientsEdit from '../components/DashboardClientsEdit.vue';
+import LoadingAnimation from '../components/LoadingAnimation.vue';
 
 const databaseUserStore = useDatabaseUserStore();
 
 onBeforeMount(async () => {
+  databaseUserStore.getSize();
   databaseUserStore.getClients();
 });
 
@@ -30,36 +32,64 @@ const toggleModalIndexed = (index) => {
 const modalActiveIndexed = (index) => {
   return openModalIndexed.value.includes(index);
 }
+
+const nextPage = async () => {
+  if (databaseUserStore.page > 0) {
+    await databaseUserStore.nextPage();
+  }
+};
+
+const previousPage = async () => {
+  if (databaseUserStore.page < databaseUserStore.total) {
+    await databaseUserStore.previousPage();
+  }
+};
 </script>
 
 <template>
   <section class="dashboard-clients">
     <h1 class="clients-title">Clientes</h1>
-    <button class="button-add" @click="toggleModal">Agregar</button>
+    <div>
+      <button class="button-add" @click="toggleModal">Agregar</button>
+    </div>
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
       <DashboardClientsAdd />
     </ModalReusable>
-    <p v-if="databaseUserStore.loadingDoc">Cargando clientes...</p>
+    <p v-if="databaseUserStore.loadingDoc">
+      <LoadingAnimation />
+    </p>
     <table v-else class="table">
       <thead class="table-head">
         <th class="head-item">Nombre</th>
+        <th class="head-item">Acciones</th>
       </thead>
       <tbody class="table-body" v-for="(item, index) of databaseUserStore.clients" :key="item.id">
         <td class="body-item">{{ item.name }} {{ item.surname }}</td>
-        <td class="body-item"><button class="button-edit" @click="toggleModalIndexed(index)">Editar</button></td>
-        <td class="body-item"><button class="button-delete"
-            @click="databaseUserStore.deleteClient(item.id)">Eliminar</button></td>
+        <td class="body-buttons">
+          <button class="button-edit" @click="toggleModalIndexed(index)">Editar</button>
+          <button class="button-delete" @click="databaseUserStore.deleteClient(item.id)">Eliminar</button>
+        </td>
         <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
           <DashboardClientsEdit :item="item" />
         </ModalReusable>
       </tbody>
     </table>
+    <div class="pagination">
+      <button class="pagination-button" :disabled="databaseUserStore.page === 1" @click="previousPage">
+        Anterior
+      </button>
+      <button class="pagination-button" :disabled="databaseUserStore.page === databaseUserStore.pages" @click="nextPage">
+        Siguiente
+      </button>
+    </div>
   </section>
 </template>
 
 <style scoped>
 .dashboard-clients {
-  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  max-width: 860px;
   margin: 0 auto;
 }
 
@@ -89,22 +119,39 @@ const modalActiveIndexed = (index) => {
   border-top: 1px solid #cacaca;
 }
 
+.pagination {
+  display: flex;
+  margin: 0 auto;
+}
+
+.body-buttons {
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem;
+  border-top: 1px solid #cacaca;
+}
+
 .button-add,
 .button-edit,
-.button-delete {
+.button-delete,
+.pagination-button {
   padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
   border: none;
   border-radius: 1.25rem;
   font-size: 1rem;
   color: #fff;
+  box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
   cursor: pointer;
 }
 
-.button-add {
+.button-add,
+.pagination-button {
   background-color: #8D57B0;
 }
 
-.button-add:hover {
+.button-add:hover,
+.pagination-button:hover {
   background-color: #794899;
 }
 
