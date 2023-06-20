@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-const isExpanded = ref(false);
+const isExpanded = ref(true);
 
 const toggleMenu = () => {
   isExpanded.value = !isExpanded.value;
@@ -24,6 +24,10 @@ const toggleMenu = () => {
       <router-link class="button" :to="{ name: 'dashboard-clients' }">
         <font-awesome-icon icon="fa-solid fa-user" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Clientes</h4>
+      </router-link>
+      <router-link class="button" :to="{ name: 'dashboard-pets' }">
+        <font-awesome-icon icon="fa-solid fa-cat" class="icon" size="xl" />
+        <h4 class="text" v-if="isExpanded">Mascotas</h4>
       </router-link>
       <router-link class="button" :to="{ name: 'dashboard-vets' }">
         <font-awesome-icon icon="fa-solid fa-user-doctor" class="icon" size="xl" />

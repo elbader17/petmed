@@ -80,6 +80,9 @@ const previousPage = async () => {
       <button class="pagination-button" :disabled="databaseProvidersStore.page === 1" @click="previousPage">
         Anterior
       </button>
+      <div class="pagination-pages">
+        {{ databaseProvidersStore.page }} / {{ databaseProvidersStore.pages }}
+      </div>
       <button class="pagination-button" :disabled="databaseProvidersStore.page === databaseProvidersStore.pages"
         @click="nextPage">
         Siguiente
@@ -134,6 +137,7 @@ const previousPage = async () => {
 
 .body-buttons {
   display: flex;
+  justify-content: flex-end;
   padding: 0.75rem;
   border-top: 1px solid #cacaca;
 }
@@ -150,6 +154,17 @@ const previousPage = async () => {
   color: #fff;
   box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
   cursor: pointer;
+}
+
+.pagination-pages {
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  border: none;
+  border-radius: 1.25rem;
+  font-size: 1rem;
+  color: #fff;
+  box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+  background-color: #8D57B0;
 }
 
 .button-add,

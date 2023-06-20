@@ -1,10 +1,11 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, orderBy, limit, limitToLast, startAfter, endBefore } from 'firebase/firestore/lite';
-import { db, auth } from '@/firebaseConfig';
+import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, orderBy, limit, limitToLast, startAfter, endBefore, where } from 'firebase/firestore/lite';
+import { db } from '@/firebaseConfig';
 import { defineStore } from 'pinia';
 
 export const useDatabaseUserStore = defineStore('databaseUserStore', {
   state: () => ({
     loadingDoc: false,
+    client: [],
     clients: [],
     page: 1,
     perPage: 10,
@@ -15,6 +16,9 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
   }),
   actions: {
     async getSize() {
+      if (this.clients.total !== 0) {
+        return
+      }
       this.loadingDoc = true;
       try {
         const qRef = query(collection(db, 'users'));
@@ -91,26 +95,6 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
         this.loadingDoc = false;
       }
     },
-    /* async getClients() {
-      if (this.clients.length !== 0) {
-        return
-      }
-      this.loadingDoc = true;
-      try {
-        const queryRef = query(collection(db, 'users'), orderBy("name", "asc"));
-        const querySnapshot = await getDocs(queryRef);
-        querySnapshot.forEach((doc) => {
-          this.clients.push({
-            id: doc.id,
-            ...doc.data()
-          })
-        })
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.loadingDoc = false;
-      }
-    }, */
     async addClient(client) {
       this.loadingDoc = true;
       try {
@@ -124,7 +108,7 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
           address: client.address,
           city: client.city,
           type: client.type,
-          account: auth.currentUser.uid
+          account: client.account
         }
         const clientRef = await addDoc(collection(db, 'users'), clientObj);
         this.clients.push({
@@ -140,16 +124,14 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
     async readClient(id) {
       this.loadingDoc = true;
       try {
-        const clientRef = doc(db, 'users', id);
-        const clientSnapshot = await getDoc(clientRef);
-        if (!clientSnapshot.exists()) {
-          throw new Error("No existe el usuario");
-        }
-        if (clientSnapshot.data().user === auth.currentUser.uid) {
-          return clientSnapshot.data();
-        } else {
-          throw new Error("No tienes permiso");
-        }
+        const clientRef = query(collection(db, 'users'), where('account', '==', id));
+        const clientSnapshot = await getDocs(clientRef);
+        clientSnapshot.forEach((doc) => {
+          this.client.push({
+            id: doc.id,
+            ...doc.data()
+          })
+        })
       } catch (error) {
         console.log(error.message);
       } finally {
@@ -170,8 +152,7 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
           birthdate: client.birthdate,
           phone: client.phone,
           address: client.address,
-          city: client.city,
-          type: client.type,
+          city: client.city
         }) : item)
       } catch (error) {
         console.log(error);

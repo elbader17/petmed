@@ -1,10 +1,13 @@
 <script setup>
 import { useDatabaseUserStore } from '@/stores/databaseUser';
+import { useUserStore } from '@/stores/user';
 import { ref } from 'vue';
 
 const databaseUserStore = useDatabaseUserStore();
+const userStore = useUserStore();
 
 const client = ref({
+  account: '',
   email: '',
   name: '',
   surname: '',
@@ -17,7 +20,21 @@ const client = ref({
 })
 
 const handleSubmit = () => {
-  databaseUserStore.addClient(client.value);
+  try {
+    userStore.registerUser(client.value.email, client.value.cuit);
+  } catch (error) {
+    console.log(error);
+  }
+
+  client.value.account = userStore.newUser.uid;
+
+  try {
+    databaseUserStore.addClient(client.value);
+  } catch (error) {
+    console.log(error);
+  }
+
+  client.value.account = '';
   client.value.email = '';
   client.value.name = '';
   client.value.surname = '';
@@ -26,7 +43,6 @@ const handleSubmit = () => {
   client.value.phone = '';
   client.value.address = '';
   client.value.city = '';
-  client.value.type = '';
 }
 </script>
 
@@ -56,9 +72,6 @@ const handleSubmit = () => {
 
       <label for="city">Ciudad:</label>
       <input type="text" id="city" name="city" v-model="client.city">
-
-      <label for="type">Tipo de usuario:</label>
-      <input type="text" id="type" name="type" v-model="client.type">
 
       <button type="submit">Agregar</button>
     </form>

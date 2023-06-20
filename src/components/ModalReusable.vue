@@ -36,7 +36,7 @@ const emit = defineEmits(['closeModal'])
 
 .modal-inner {
   position: relative;
-  max-width: 640px;
+  max-width: 480px;
   width: 80%;
   background-color: #fff;
   box-shadow: 0 1rem 1.75rem rgba(0, 0, 0, 0.5);

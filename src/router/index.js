@@ -65,6 +65,11 @@ const router = createRouter({
           component: () => import('../views/DashboardClientsView.vue'),
         },
         {
+          path: '/dashboard/pets',
+          name: 'dashboard-pets',
+          component: () => import('../views/DashboardPetsView.vue'),
+        },
+        {
           path: '/dashboard/vets',
           name: 'dashboard-vets',
           component: () => import('../views/DashboardVetsView.vue'),

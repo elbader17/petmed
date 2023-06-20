@@ -1,17 +1,22 @@
 <script setup>
 import { useDatabaseUserStore } from '@/stores/databaseUser';
+import { useDatabasePetStore } from '@/stores/databasePet';
 import { ref, onBeforeMount } from 'vue';
 import ModalReusable from '../components/ModalReusable.vue';
-import DashboardClientsAdd from '../components/DashboardClientsAdd.vue';
-import DashboardClientsEdit from '../components/DashboardClientsEdit.vue';
+import DashboardPetsAdd from '../components/DashboardPetsAdd.vue';
+import DashboardPetsEdit from '../components/DashboardPetsEdit.vue';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
 
 const databaseUserStore = useDatabaseUserStore();
+const databasePetStore = useDatabasePetStore();
 
 onBeforeMount(async () => {
-  databaseUserStore.getSize();
-  databaseUserStore.getClients();
-});
+  try {
+    databasePetStore.getClients(databaseUserStore.client[0].id);
+  } catch (error) {
+    console.log(error);
+  }
+})
 
 const openModal = ref(false);
 const openModalIndexed = ref([]);
@@ -32,30 +37,18 @@ const toggleModalIndexed = (index) => {
 const modalActiveIndexed = (index) => {
   return openModalIndexed.value.includes(index);
 }
-
-const nextPage = async () => {
-  if (databaseUserStore.page > 0) {
-    await databaseUserStore.nextPage();
-  }
-};
-
-const previousPage = async () => {
-  if (databaseUserStore.page < databaseUserStore.total) {
-    await databaseUserStore.previousPage();
-  }
-};
 </script>
 
 <template>
-  <section class="dashboard-clients">
-    <h1 class="clients-title">Clientes</h1>
+  <section class="dashboard-pets">
+    <h1 class="pets-title">Mascotas</h1>
     <div>
       <button class="button-add" @click="toggleModal">Agregar</button>
     </div>
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
-      <DashboardClientsAdd />
+      <DashboardPetsAdd />
     </ModalReusable>
-    <p v-if="databaseUserStore.loadingDoc">
+    <p v-if="databasePetStore.loadingDoc">
       <LoadingAnimation />
     </p>
     <table v-else class="table">
@@ -63,40 +56,29 @@ const previousPage = async () => {
         <th class="head-item">Nombre</th>
         <th class="head-item">Acciones</th>
       </thead>
-      <tbody class="table-body" v-for="(item, index) of databaseUserStore.clients" :key="item.id">
-        <td class="body-item">{{ item.name }} {{ item.surname }}</td>
+      <tbody class="table-body" v-for="(item, index) of databasePetStore.pets" :key="item.id">
+        <td class="body-item">{{ item.name }}</td>
         <td class="body-buttons">
           <button class="button-edit" @click="toggleModalIndexed(index)">Editar</button>
-          <button class="button-delete" @click="databaseUserStore.deleteClient(item.id)">Eliminar</button>
+          <button class="button-delete" @click="databasePetStore.deletePet(item.id)">Eliminar</button>
         </td>
         <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
-          <DashboardClientsEdit :item="item" />
+          <DashboardPetsEdit :item="item" />
         </ModalReusable>
       </tbody>
     </table>
-    <div class="pagination">
-      <button class="pagination-button" :disabled="databaseUserStore.page === 1" @click="previousPage">
-        Anterior
-      </button>
-      <div class="pagination-pages">
-        {{ databaseUserStore.page }} / {{ databaseUserStore.pages }}
-      </div>
-      <button class="pagination-button" :disabled="databaseUserStore.page === databaseUserStore.pages" @click="nextPage">
-        Siguiente
-      </button>
-    </div>
   </section>
 </template>
 
 <style scoped>
-.dashboard-clients {
+.dashboard-pets {
   display: flex;
   flex-direction: column;
   max-width: 860px;
   margin: 0 auto;
 }
 
-.clients-title {
+.pets-title {
   padding: 0.5rem;
   font-weight: 700;
   font-size: 1.75rem;
@@ -146,17 +128,6 @@ const previousPage = async () => {
   color: #fff;
   box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
   cursor: pointer;
-}
-
-.pagination-pages {
-  padding: 0.5rem 1rem;
-  margin: 0 0.25rem;
-  border: none;
-  border-radius: 1.25rem;
-  font-size: 1rem;
-  color: #fff;
-  box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
-  background-color: #8D57B0;
 }
 
 .button-add,

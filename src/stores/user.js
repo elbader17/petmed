@@ -7,6 +7,7 @@ import router from '@/router/index';
 export const useUserStore = defineStore('userStore', {
   state: () => ({
     userData: null,
+    newUser: null,
     loadingUser: false,
     loadingSession: false
   }),
@@ -15,8 +16,7 @@ export const useUserStore = defineStore('userStore', {
       this.loadingUser = true;
       try {
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
-        this.userData = { email: user.email, uid: user.uid };
-        router.push({ name: 'dashboard-home' });
+        this.newUser = { email: user.email, uid: user.uid };
       } catch (error) {
         console.log(error);
       } finally {
