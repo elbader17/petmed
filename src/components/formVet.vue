@@ -1,20 +1,28 @@
 <script setup>
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/user'
 const validate = ref({
   send: false,
   style: 'disabled',
-  textButton: 'Verificar'
+  textButton: 'Verificar',
+  code: '000000'
 })
 
-const ok = () => {
-  validate.value.send = true
-  validate.value.style = 'enabled'
+const databaseUserStore = useUserStore()
+
+const ok = async () => {
   validate.value.textButton = 'Verificando...'
-  setTimeout(() => {
-    validate.value.send = false
+  const validationResponse = await databaseUserStore.validateCode(parseInt(validate.value.code))
+
+  validate.value.textButton = 'Verificar'
+
+  if (validationResponse) {
+    validate.value.textButton = 'Verificado'
+    validate.value.style = 'enabled'
+  } else {
+    validate.value.textButton = 'Código Incorrecto'
     validate.value.style = 'disabled'
-    validate.value.textButton = 'Verificar'
-  }, 3000)
+  }
 }
 </script>
 
@@ -104,7 +112,7 @@ const ok = () => {
     <section>
       <h2>Verificación</h2>
       <label for="codigo">Código de Verificación del Socio:</label>
-      <input type="text" id="codigo" name="codigo" />
+      <input type="text" id="codigo" name="codigo" v-model="validate.code" />
 
       <button @click="ok()" class="buttonVerificar" type="button">{{ validate.textButton }}</button>
     </section>
