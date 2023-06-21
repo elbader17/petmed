@@ -15,8 +15,7 @@ const client = ref({
   birthdate: '',
   phone: '',
   address: '',
-  city: '',
-  type: 'client',
+  city: ''
 })
 
 const handleSubmit = () => {

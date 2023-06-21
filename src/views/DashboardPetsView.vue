@@ -12,7 +12,7 @@ const databasePetStore = useDatabasePetStore();
 
 onBeforeMount(async () => {
   try {
-    databasePetStore.getClients(databaseUserStore.client[0].id);
+    databasePetStore.getPets(databaseUserStore.client[0].id);
   } catch (error) {
     console.log(error);
   }

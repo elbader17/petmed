@@ -15,6 +15,9 @@ export const useDatabaseProvidersStore = defineStore('databaseProvidersStore', {
   }),
   actions: {
     async getSize() {
+      if (this.total !== 0) {
+        return
+      }
       this.loadingDoc = true;
       try {
         const qRef = query(collection(db, 'providers'));
@@ -119,8 +122,7 @@ export const useDatabaseProvidersStore = defineStore('databaseProvidersStore', {
           address: provider.address,
           phone: provider.phone,
           city: provider.city,
-          specialty: provider.specialty,
-          user: auth.currentUser.uid
+          specialty: provider.specialty
         }
         const providerRef = await addDoc(collection(db, 'providers'), providerObj);
         this.providers.push({

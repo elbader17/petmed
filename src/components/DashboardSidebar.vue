@@ -33,6 +33,10 @@ const toggleMenu = () => {
         <font-awesome-icon icon="fa-solid fa-user-doctor" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Veterinarios</h4>
       </router-link>
+      <router-link class="button" :to="{ name: 'dashboard-form-vet' }">
+        <font-awesome-icon icon="fa-solid fa-clipboard" class="icon" size="xl" />
+        <h4 class="text" v-if="isExpanded">Formulario</h4>
+      </router-link>
       <router-link class="button" :to="{ name: 'dashboard-plans' }">
         <font-awesome-icon icon="fa-solid fa-money-check-dollar" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Planes</h4>

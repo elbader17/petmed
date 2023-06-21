@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth } from '@/firebaseConfig';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore/lite';
+import { db, auth } from '@/firebaseConfig';
 import { useDatabaseUserStore } from './databaseUser';
 import router from '@/router/index';
 

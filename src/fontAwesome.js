@@ -18,6 +18,7 @@ import {
   faUserDoctor,
   faMoneyCheckDollar,
   faFileMedical,
+  faClipboard,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -39,6 +40,7 @@ library.add(
   faUser,
   faUserDoctor,
   faFileMedical,
+  faClipboard,
   faMoneyCheckDollar,
   faFacebook,
   faInstagram,

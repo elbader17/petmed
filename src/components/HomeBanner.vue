@@ -68,6 +68,7 @@ import ContentSeparator from './icons/ContentSeparator.vue';
   color: #ffffff;
   background-color: #3CBEB4;
   border-radius: 1rem;
+  cursor: pointer;
   padding: 0.5rem 1.25rem;
 }
 

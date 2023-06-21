@@ -1,12 +1,13 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, orderBy, limit, limitToLast, startAfter, endBefore, where } from 'firebase/firestore/lite';
+import { collection, deleteDoc, doc, getDocs, query, updateDoc, orderBy, limit, limitToLast, startAfter, endBefore, getDoc, setDoc } from 'firebase/firestore/lite';
 import { db } from '@/firebaseConfig';
 import { defineStore } from 'pinia';
 
-export const useDatabaseUserStore = defineStore('databaseUserStore', {
+export const useDatabaseVetStore = defineStore('databaseVetStore', {
   state: () => ({
     loadingDoc: false,
-    client: [],
-    clients: [],
+    vet: null,
+    /* vet: [], */
+    vets: [],
     page: 1,
     perPage: 10,
     pages: 0,
@@ -21,7 +22,7 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
       }
       this.loadingDoc = true;
       try {
-        const qRef = query(collection(db, 'users'));
+        const qRef = query(collection(db, 'vets'));
         const qSnapshot = await getDocs(qRef);
         this.total = qSnapshot.size;
         this.pages = Math.ceil((this.total / this.perPage));
@@ -31,18 +32,30 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
         this.loadingDoc = false;
       }
     },
-    async getClients() {
-      if (this.clients.length !== 0) {
+    async getVet(id) {
+      this.loadingDoc = true;
+      try {
+        const vetRef = doc(db, 'vets', id);
+        const vetSnapshot = await getDoc(vetRef);
+        this.vet = vetSnapshot.data();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async getVets() {
+      if (this.vets.length !== 0) {
         return
       }
       this.loadingDoc = true;
       try {
-        const queryRef = query(collection(db, 'users'), orderBy('name', 'asc'), limit(this.perPage));
+        const queryRef = query(collection(db, 'vets'), orderBy('name', 'asc'), limit(this.perPage));
         const querySnapshot = await getDocs(queryRef);
         this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         this.firstVisible = querySnapshot.docs[0];
         querySnapshot.forEach((doc) => {
-          this.clients.push({
+          this.vets.push({
             id: doc.id,
             ...doc.data()
           })
@@ -56,14 +69,14 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
     async nextPage() {
       this.loadingDoc = true;
       try {
-        const queryRef = query(collection(db, 'users'), orderBy('name', 'asc'), startAfter(this.lastVisible), limit(this.perPage));
+        const queryRef = query(collection(db, 'vets'), orderBy('name', 'asc'), startAfter(this.lastVisible), limit(this.perPage));
         const querySnapshot = await getDocs(queryRef);
         this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         this.firstVisible = querySnapshot.docs[0];
         this.page++;
-        this.clients = [];
+        this.vets = [];
         querySnapshot.forEach((doc) => {
-          this.clients.push({
+          this.vets.push({
             id: doc.id,
             ...doc.data()
           })
@@ -77,14 +90,14 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
     async previousPage() {
       this.loadingDoc = true;
       try {
-        const queryRef = query(collection(db, 'users'), orderBy('name', 'asc'), endBefore(this.firstVisible), limitToLast(this.perPage));
+        const queryRef = query(collection(db, 'vets'), orderBy('name', 'asc'), endBefore(this.firstVisible), limitToLast(this.perPage));
         const querySnapshot = await getDocs(queryRef);
         this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         this.firstVisible = querySnapshot.docs[0];
         this.page--;
-        this.clients = [];
+        this.vets = [];
         querySnapshot.forEach((doc) => {
-          this.clients.push({
+          this.vets.push({
             id: doc.id,
             ...doc.data()
           })
@@ -95,25 +108,24 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
         this.loadingDoc = false;
       }
     },
-    async addClient(client) {
+    async addVet(vet, uid) {
       this.loadingDoc = true;
       try {
-        const clientObj = {
-          email: client.email,
-          name: client.name,
-          surname: client.surname,
-          cuit: client.cuit,
-          birthdate: client.birthdate,
-          phone: client.phone,
-          address: client.address,
-          city: client.city,
-          type: 'client',
-          account: client.account
+        const vetObj = {
+          email: vet.email,
+          name: vet.name,
+          surname: vet.surname,
+          cuit: vet.cuit,
+          birthdate: vet.birthdate,
+          phone: vet.phone,
+          address: vet.address,
+          city: vet.city,
+          type: 'veterinary'
         }
-        const clientRef = await addDoc(collection(db, 'users'), clientObj);
-        this.clients.push({
-          id: clientRef.id,
-          ...clientObj
+        const vetRef = await setDoc(collection(db, 'vets', uid), vetObj);
+        this.vets.push({
+          id: vetRef.id,
+          ...vetObj
         })
       } catch (error) {
         console.log(error);
@@ -121,41 +133,41 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
         this.loadingDoc = false;
       }
     },
-    async readClient(id) {
-      if (this.client.length !== 0 && this.client[0].account == id) {
+    /* async readVet(id) {
+      if (this.vet.length !== 0 && this.vet[0].account == id) {
         return
       }
       this.loadingDoc = true;
       try {
-        const clientRef = query(collection(db, 'users'), where('account', '==', id));
-        const clientSnapshot = await getDocs(clientRef);
-        clientSnapshot.forEach((doc) => {
-          this.client.push({
+        const vetRef = query(collection(db, 'vets'), where('account', '==', id));
+        const vetSnapshot = await getDocs(vetRef);
+        vetSnapshot.forEach((doc) => {
+          this.vet.push({
             id: doc.id,
             ...doc.data()
           })
         })
       } catch (error) {
-        console.log(error.message);
+        console.log(error);
       } finally {
         this.loadingDoc = false;
       }
-    },
-    async updateClient(id, client) {
+    }, */
+    async updateVet(id, vet) {
       this.loadingDoc = true;
       try {
-        const clientRef = doc(db, 'users', id);
-        await updateDoc(clientRef, client);
-        this.clients = this.clients.map(item => item.id === id ? ({
+        const vetRef = doc(db, 'vets', id);
+        await updateDoc(vetRef, vet);
+        this.vets = this.vets.map(item => item.id === id ? ({
           ...item,
-          email: client.email,
-          name: client.name,
-          surname: client.surname,
-          dni: client.dni,
-          birthdate: client.birthdate,
-          phone: client.phone,
-          address: client.address,
-          city: client.city
+          email: vet.email,
+          name: vet.name,
+          surname: vet.surname,
+          dni: vet.dni,
+          birthdate: vet.birthdate,
+          phone: vet.phone,
+          address: vet.address,
+          city: vet.city
         }) : item)
       } catch (error) {
         console.log(error);
@@ -163,11 +175,11 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
         this.loadingDoc = false;
       }
     },
-    async deleteClient(id) {
+    async deleteVet(id) {
       try {
-        const clientRef = doc(db, 'users', id);
-        await deleteDoc(clientRef);
-        this.clients = this.clients.filter(item => item.id !== id)
+        const vetRef = doc(db, 'vets', id);
+        await deleteDoc(vetRef);
+        this.vets = this.vets.filter(item => item.id !== id)
       } catch (error) {
         console.log(error);
       }/*  finally {

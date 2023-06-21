@@ -11,7 +11,7 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
     total: 0,
   }),
   actions: {
-    async getClients(id) {
+    async getPets(id) {
       if (this.pets.length !== 0) {
         return
       }
@@ -31,25 +31,24 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
         this.loadingDoc = false;
       }
     },
-    async addClient(client) {
+    async addPet(pet) {
       this.loadingDoc = true;
       try {
-        const clientObj = {
-          email: client.email,
-          name: client.name,
-          surname: client.surname,
-          cuit: client.cuit,
-          birthdate: client.birthdate,
-          phone: client.phone,
-          address: client.address,
-          city: client.city,
-          type: client.type,
-          account: client.account
+        const petObj = {
+          name: pet.name,
+          birthdate: pet.birthdate,
+          animal: pet.animal,
+          breed: pet.breed,
+          sex: pet.sex,
+          color: pet.color,
+          plan: pet.plan,
+          numAffiliate: pet.numAffiliate,
+          client: pet.client
         }
-        const clientRef = await addDoc(collection(db, 'pets'), clientObj);
-        this.clients.push({
-          id: clientRef.id,
-          ...clientObj
+        const petRef = await addDoc(collection(db, 'pets'), petObj);
+        this.pets.push({
+          id: petRef.id,
+          ...petObj
         })
       } catch (error) {
         console.log(error);
@@ -57,16 +56,16 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
         this.loadingDoc = false;
       }
     },
-    async readClient(id) {
+    async readPet(id) {
       this.loadingDoc = true;
       try {
-        const clientRef = doc(db, 'pets', id);
-        const clientSnapshot = await getDoc(clientRef);
-        if (!clientSnapshot.exists()) {
-          throw new Error("No existe el usuario");
+        const petRef = doc(db, 'pets', id);
+        const petSnapshot = await getDoc(petRef);
+        if (!petSnapshot.exists()) {
+          throw new Error("No existe la mascota");
         }
-        if (clientSnapshot.data().user === auth.currentUser.uid) {
-          return clientSnapshot.data();
+        if (petSnapshot.data().user === auth.currentUser.uid) {
+          return petSnapshot.data();
         } else {
           throw new Error("No tienes permiso");
         }
@@ -76,21 +75,20 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
         this.loadingDoc = false;
       }
     },
-    async updateClient(id, client) {
+    async updatePet(id, pet) {
       this.loadingDoc = true;
       try {
-        const clientRef = doc(db, 'pets', id);
-        await updateDoc(clientRef, client);
-        this.clients = this.clients.map(item => item.id === id ? ({
+        const petRef = doc(db, 'pets', id);
+        await updateDoc(petRef, pet);
+        this.pets = this.pets.map(item => item.id === id ? ({
           ...item,
-          email: client.email,
-          name: client.name,
-          surname: client.surname,
-          dni: client.dni,
-          birthdate: client.birthdate,
-          phone: client.phone,
-          address: client.address,
-          city: client.city
+          name: pet.name,
+          birthdate: pet.birthdate,
+          animal: pet.animal,
+          breed: pet.breed,
+          sex: pet.sex,
+          color: pet.color,
+          plan: pet.plan
         }) : item)
       } catch (error) {
         console.log(error);
@@ -98,11 +96,11 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
         this.loadingDoc = false;
       }
     },
-    async deleteClient(id) {
+    async deletePet(id) {
       try {
-        const clientRef = doc(db, 'pets', id);
-        await deleteDoc(clientRef);
-        this.clients = this.clients.filter(item => item.id !== id)
+        const petRef = doc(db, 'pets', id);
+        await deleteDoc(petRef);
+        this.pets = this.pets.filter(item => item.id !== id)
       } catch (error) {
         console.log(error);
       }/*  finally {

@@ -1,13 +1,12 @@
 <script setup>
-import { useDatabaseUserStore } from '@/stores/databaseUser';
+import { useDatabaseVetStore } from '@/stores/databaseVets';
 import { onMounted, ref } from 'vue';
 
 const props = defineProps(['item']);
 
-const databaseUserStore = useDatabaseUserStore();
+const databaseVetStore = useDatabaseVetStore();
 
-const client = ref({
-  email: '',
+const vet = ref({
   name: '',
   surname: '',
   cuit: '',
@@ -18,11 +17,11 @@ const client = ref({
 });
 
 const handleSubmit = () => {
-  databaseUserStore.updateClient(props.item.id, client.value);
+  databaseVetStore.updateVet(props.item.id, vet.value);
 }
 
 onMounted(async () => {
-  client.value = props.item;
+  vet.value = props.item;
 })
 </script>
 
@@ -30,28 +29,28 @@ onMounted(async () => {
   <section>
     <form @submit.prevent="handleSubmit">
       <label for="email">Correo electrónico:</label>
-      <input type="text" id="email" name="email" v-model="client.email">
+      <input type="text" id="email" name="email" v-model="vet.email">
 
       <label for="name">Nombre:</label>
-      <input type="text" id="name" name="name" v-model="client.name">
+      <input type="text" id="name" name="name" v-model="vet.name">
 
       <label for="surname">Apellido:</label>
-      <input type="text" id="surname" name="surname" v-model="client.surname">
+      <input type="text" id="surname" name="surname" v-model="vet.surname">
 
       <label for="cuit">C.U.I.T.:</label>
-      <input type="text" id="cuit" name="cuit" v-model="client.cuit">
+      <input type="text" id="cuit" name="cuit" v-model="vet.cuit">
 
       <label for="birthdate">Fecha de nacimiento:</label>
-      <input type="date" id="birthdate" name="birthdate" v-model="client.birthdate">
+      <input type="date" id="birthdate" name="birthdate" v-model="vet.birthdate">
 
       <label for="phone">Teléfono:</label>
-      <input type="text" id="phone" name="phone" v-model="client.phone">
+      <input type="text" id="phone" name="phone" v-model="vet.phone">
 
       <label for="address">Dirección:</label>
-      <input type="text" id="address" name="address" v-model="client.address">
+      <input type="text" id="address" name="address" v-model="vet.address">
 
       <label for="city">Ciudad:</label>
-      <input type="text" id="city" name="city" v-model="client.city">
+      <input type="text" id="city" name="city" v-model="vet.city">
 
       <button type="submit">Editar</button>
     </form>
