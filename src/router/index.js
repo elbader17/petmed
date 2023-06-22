@@ -89,6 +89,11 @@ const router = createRouter({
           name: 'dashboard-providers',
           component: () => import('../views/DashboardProvidersView.vue'),
         },
+        {
+          path: '/dashboard/authorization',
+          name: 'dashboard-authorization',
+          component: () => import('../views/DashboardAuthorization.vue'),
+        },
       ]
     }
   ]
