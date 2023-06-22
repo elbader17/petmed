@@ -80,8 +80,8 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
       const practices = data.practices
       delete data.practices
       const dataParse = {...data, ...practices}
+      dataParse.date = new Date()
       const res = await addDoc(collection(db, 'forms'), dataParse);
-      console.log("🚀 ~ file: databaseVets.js:79 ~ sendForm ~ res:", res)
         
     },
     async nextPage() {
