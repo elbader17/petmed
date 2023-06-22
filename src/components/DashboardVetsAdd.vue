@@ -19,25 +19,10 @@ const vet = ref({
 
 const handleSubmit = () => {
   try {
-    userStore.registerUser(vet.value.email, vet.value.cuit);
+    databaseVetStore.addVet(vet.value).then(userStore.logoutUser());
   } catch (error) {
     console.log(error);
   }
-
-  try {
-    databaseVetStore.addVet(vet.value, userStore.newUser.uid);
-  } catch (error) {
-    console.log(error);
-  }
-
-  vet.value.email = '';
-  vet.value.name = '';
-  vet.value.surname = '';
-  vet.value.cuit = '';
-  vet.value.birthdate = '';
-  vet.value.phone = '';
-  vet.value.address = '';
-  vet.value.city = '';
 }
 </script>
 
