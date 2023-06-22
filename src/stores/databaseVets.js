@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDocs, query, updateDoc, orderBy, limit, limitToLast, startAfter, endBefore, getDoc, setDoc, where } from 'firebase/firestore/lite';
+import { collection, deleteDoc, doc, getDocs, query, updateDoc, orderBy, limit, limitToLast, startAfter, endBefore, getDoc, setDoc, where, addDoc } from 'firebase/firestore/lite';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db, auth } from '@/firebaseConfig';
 import { defineStore } from 'pinia';
@@ -15,6 +15,7 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
     total: 0,
     firstVisible: null,
     lastVisible: null,
+    practices: [],
   }),
   actions: {
     async getSize() {
@@ -66,6 +67,22 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
       } finally {
         this.loadingDoc = false;
       }
+    },
+
+    async getPractices() {
+      const queryRef = query(collection(db, 'configs'), where('__name__', '==', 'practices'));
+      const querySnapshot = await getDocs(queryRef);
+      this.practices = querySnapshot.docs[0].data().list
+    },
+
+    async sendForm(data){
+      console.log(data)
+      const practices = data.practices
+      delete data.practices
+      const dataParse = {...data, ...practices}
+      dataParse.date = new Date()
+      const res = await addDoc(collection(db, 'forms'), dataParse);
+        
     },
     async nextPage() {
       this.loadingDoc = true;
