@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc } from 'firebase/firestore/lite';
+import { addDoc, collection, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore/lite';
 import { db, auth } from '@/firebaseConfig';
 import { defineStore } from 'pinia';
 
@@ -14,14 +14,13 @@ export const useDatabasePlansStore = defineStore('databasePlansStore', {
       }
       this.loadingDoc = true;
       try {
-        const queryRef = query(collection(db, 'plans'));
-        const querySnapshot = await getDocs(queryRef);
-        querySnapshot.forEach((doc) => {
-          this.plans.push({
-            id: doc.id,
-            ...doc.data()
-          })
-        })
+        const docRef = doc(db, "configs", "plans");
+        const docSnapshot = await getDoc(docRef);
+        const docData = docSnapshot.data();
+        for (const key in docData) {
+          this.plans.push(docData[key]);
+        }
+        console.log(this.plans);
       } catch (error) {
         console.log(error);
       } finally {

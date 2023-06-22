@@ -25,7 +25,6 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
         const qRef = query(collection(db, 'users'), where('type', '==', 'client'));
         const qSnapshot = await getDocs(qRef);
         this.total = qSnapshot.size;
-        console.log(this.total);
         this.pages = Math.ceil((this.total / this.perPage));
       } catch (error) {
         console.log(error);

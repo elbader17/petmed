@@ -70,6 +70,11 @@ const router = createRouter({
           component: () => import('../views/DashboardPetsView.vue'),
         },
         {
+          path: '/dashboard/code',
+          name: 'dashboard-code',
+          component: () => import('../views/DashboardClientCodeView.vue'),
+        },
+        {
           path: '/dashboard/vets',
           name: 'dashboard-vets',
           component: () => import('../views/DashboardVetsView.vue'),

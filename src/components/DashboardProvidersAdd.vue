@@ -20,45 +20,62 @@ const handleSubmit = () => {
 
 <template>
   <section>
-    <form @submit.prevent="handleSubmit">
-      <label for="name">Nombre:</label>
-      <input type="text" id="name" name="name" v-model="provider.name">
+    <form class="form" @submit.prevent="handleSubmit">
+      <label class="form-title" for="add-name">Nombre:</label>
+      <input class="form-input" type="text" id="add-name" name="add-name" v-model="provider.name">
 
-      <label for="phone">Teléfono:</label>
-      <input type="text" id="phone" name="phone" v-model="provider.phone">
+      <label class="form-title" for="add-phone">Teléfono:</label>
+      <input class="form-input" type="text" id="add-phone" name="add-phone" v-model="provider.phone">
 
-      <label for="address">Dirección:</label>
-      <input type="text" id="address" name="address" v-model="provider.address">
+      <label class="form-title" for="add-address">Dirección:</label>
+      <input class="form-input" type="text" id="add-address" name="add-address" v-model="provider.address">
 
-      <label for="city">Ciudad:</label>
-      <input type="text" id="city" name="city" v-model="provider.city">
+      <label class="form-title" for="add-city">Ciudad:</label>
+      <input class="form-input" type="text" id="add-city" name="add-city" v-model="provider.city">
 
-      <label for="specialty">Especialidad:</label>
-      <input type="text" id="specialty" name="specialty" v-model="provider.specialty">
+      <label class="form-title" for="add-specialty">Especialidad:</label>
+      <input class="form-input" type="text" id="add-specialty" name="add-specialty" v-model="provider.specialty">
 
-      <button type="submit">Agregar</button>
+      <button class="form-button" type="submit">Agregar</button>
     </form>
   </section>
 </template>
 
 <style scoped>
-form {
+.form {
   display: flex;
   flex-direction: column;
 }
 
-label {
+.form-title {
+  font-size: 1.15rem;
+  line-height: 1.75rem;
+  font-weight: 400;
   margin-top: 0.5rem;
 }
 
-button {
-  padding: 0.65rem 1.25rem;
+.form-input {
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #333333;
+}
+
+.form-button {
+  padding: 0.5rem 1rem;
   margin: 1.25rem;
   border: none;
   border-radius: 1.25rem;
   font-size: 1rem;
   color: #fff;
   background-color: #8D57B0;
+  box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
   cursor: pointer;
+}
+
+.form-button:hover {
+  background-color: #794899;
 }
 </style>

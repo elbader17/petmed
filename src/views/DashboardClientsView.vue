@@ -107,7 +107,7 @@ const previousPage = async () => {
   margin: 1rem 0.25rem;
   border: none;
   border-radius: 1.25rem;
-  background-color: #ECECEC;
+  background-color: #fafafa;
   box-shadow: 0 1rem 1.75rem rgba(0, 0, 0, 0.25);
 }
 
@@ -157,6 +157,11 @@ const previousPage = async () => {
   color: #fff;
   box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
   background-color: #8D57B0;
+}
+
+.pagination-button:disabled {
+  cursor: auto;
+  background-color: #794899;
 }
 
 .button-add,

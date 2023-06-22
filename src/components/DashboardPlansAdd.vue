@@ -1,10 +1,10 @@
 <script setup>
-import { useDatabasePetStore } from '@/stores/databasePet';
+import { useDatabasePlansStore } from '@/stores/databasePlans';
 import { ref } from 'vue';
 
-const databasePetStore = useDatabasePetStore();
+const databasePlansStore = useDatabasePlansStore();
 
-const pet = ref({
+const plan = ref({
   name: '',
   birthdate: '',
   animal: '',
@@ -16,15 +16,15 @@ const pet = ref({
 })
 
 const handleSubmit = () => {
-  databasePetStore.addPet(pet.value);
-  pet.value.name = '';
-  pet.value.birthdate = '';
-  pet.value.animal = '';
-  pet.value.breed = '';
-  pet.value.sex = '';
-  pet.value.color = '';
-  pet.value.plan = '';
-  pet.value.numAffiliate = '';
+  databasePlansStore.addPlan(plan.value);
+  plan.value.name = '';
+  plan.value.birthdate = '';
+  plan.value.animal = '';
+  plan.value.breed = '';
+  plan.value.sex = '';
+  plan.value.color = '';
+  plan.value.plan = '';
+  plan.value.numAffiliate = '';
 }
 </script>
 
@@ -32,16 +32,16 @@ const handleSubmit = () => {
   <section>
     <form class="form" @submit.prevent="handleSubmit">
       <label class="form-title" for="add-name">Nombre:</label>
-      <input class="form-input" type="text" id="add-name" name="add-name" v-model="pet.name">
+      <input class="form-input" type="text" id="add-name" name="add-name" v-model="plan.name">
 
       <label class="form-title" for="add-birthday">Fecha de nacimiento:</label>
-      <input class="form-input" type="date" id="add-birthday" name="add-birthday" v-model="pet.birthdate">
+      <input class="form-input" type="date" id="add-birthday" name="add-birthday" v-model="plan.birthdate">
 
       <label class="form-title" for="add-animal">Tipo:</label>
-      <input class="form-input" type="text" id="add-animal" name="add-animal" v-model="pet.animal">
+      <input class="form-input" type="text" id="add-animal" name="add-animal" v-model="plan.animal">
 
       <label class="form-title" for="add-breed">Raza:</label>
-      <input class="form-input" type="text" id="add-breed" name="add-breed" v-model="pet.breed">
+      <input class="form-input" type="text" id="add-breed" name="add-breed" v-model="plan.breed">
 
       <label class="form-title" for="add-sex">Sexo:</label>
       <select class="form-input" id="add-sex" name="add-sex">
@@ -50,7 +50,7 @@ const handleSubmit = () => {
       </select>
 
       <label class="form-title" for="add-color">Color:</label>
-      <input class="form-input" type="text" id="add-color" name="add-color" v-model="pet.color">
+      <input class="form-input" type="text" id="add-color" name="add-color" v-model="plan.color">
 
       <label class="form-title" for="add-plan">Plan:</label>
       <select class="form-input" id="add-plan" name="add-plan">
@@ -60,7 +60,7 @@ const handleSubmit = () => {
       </select>
 
       <label class="form-title" for="add-numAffiliate">Número de afiliado:</label>
-      <input class="form-input" type="text" id="add-numAffiliate" name="add-numAffiliate" v-model="pet.numAffiliate">
+      <input class="form-input" type="text" id="add-numAffiliate" name="add-numAffiliate" v-model="plan.numAffiliate">
 
       <button class="form-button" type="submit">Agregar</button>
     </form>

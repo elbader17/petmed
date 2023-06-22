@@ -1,12 +1,12 @@
 <script setup>
-import { useDatabasePetStore } from '@/stores/databasePet';
+import { useDatabasePlansStore } from '@/stores/databasePlans';
 import { onMounted, ref } from 'vue';
 
 const props = defineProps(['item']);
 
-const databasePetStore = useDatabasePetStore();
+const databasePlansStore = useDatabasePlansStore();
 
-const pet = ref({
+const plan = ref({
   name: '',
   birthdate: '',
   animal: '',
@@ -18,11 +18,11 @@ const pet = ref({
 });
 
 const handleSubmit = () => {
-  databasePetStore.updatePet(props.item.id, pet.value);
+  databasePlansStore.updatePlan(props.item.id, plan.value);
 }
 
 onMounted(async () => {
-  pet.value = props.item;
+  plan.value = props.item;
 })
 </script>
 
@@ -30,16 +30,16 @@ onMounted(async () => {
   <section>
     <form class="form" @submit.prevent="handleSubmit">
       <label class="form-title" for="adit-name">Nombre:</label>
-      <input class="form-input" type="text" id="adit-name" name="adit-name" v-model="pet.name">
+      <input class="form-input" type="text" id="adit-name" name="adit-name" v-model="plan.name">
 
       <label class="form-title" for="adit-birthday">Fecha de nacimiento:</label>
-      <input class="form-input" type="date" id="adit-birthday" name="adit-birthday" v-model="pet.birthdate">
+      <input class="form-input" type="date" id="adit-birthday" name="adit-birthday" v-model="plan.birthdate">
 
       <label class="form-title" for="adit-animal">Tipo:</label>
-      <input class="form-input" type="text" id="adit-animal" name="adit-animal" v-model="pet.animal">
+      <input class="form-input" type="text" id="adit-animal" name="adit-animal" v-model="plan.animal">
 
       <label class="form-title" for="adit-breed">Raza:</label>
-      <input class="form-input" type="text" id="adit-breed" name="adit-breed" v-model="pet.breed">
+      <input class="form-input" type="text" id="adit-breed" name="adit-breed" v-model="plan.breed">
 
       <label class="form-title" for="adit-sex">Sexo:</label>
       <select class="form-input" id="adit-sex" name="adit-sex">
@@ -48,7 +48,7 @@ onMounted(async () => {
       </select>
 
       <label class="form-title" for="adit-color">Color:</label>
-      <input class="form-input" type="text" id="adit-color" name="adit-color" v-model="pet.color">
+      <input class="form-input" type="text" id="adit-color" name="adit-color" v-model="plan.color">
 
       <label class="form-title" for="adit-plan">Plan:</label>
       <select class="form-input" id="adit-plan" name="adit-plan">
@@ -58,7 +58,7 @@ onMounted(async () => {
       </select>
 
       <label class="form-title" for="adit-numAffiliate">Número de afiliado:</label>
-      <input class="form-input" type="text" id="adit-numAffiliate" name="adit-numAffiliate" v-model="pet.numAffiliate">
+      <input class="form-input" type="text" id="adit-numAffiliate" name="adit-numAffiliate" v-model="plan.numAffiliate">
 
       <button class="form-button" type="submit">Editar</button>
     </form>

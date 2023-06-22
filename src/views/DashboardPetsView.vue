@@ -89,7 +89,7 @@ const modalActiveIndexed = (index) => {
   margin: 1rem 0.25rem;
   border: none;
   border-radius: 1.25rem;
-  background-color: #ECECEC;
+  background-color: #fafafa;
   box-shadow: 0 1rem 1.75rem rgba(0, 0, 0, 0.25);
 }
 

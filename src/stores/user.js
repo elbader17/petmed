@@ -10,6 +10,7 @@ import router from '@/router/index';
 export const useUserStore = defineStore('userStore', {
   state: () => ({
     userData: null,
+    userCode: [],
     loadingUser: false,
     loadingSession: false
   }),
@@ -41,6 +42,7 @@ export const useUserStore = defineStore('userStore', {
       const code = Math.floor(100000 + Math.random() * 900000)
       const expiration = new Date()
       expiration.setMinutes(expiration.getMinutes() + 5)
+      this.userCode = code;
 
       const queryUser = query(collection(db, 'users'), where('account', '==', auth.currentUser.uid))
       const queryUserSnap = await getDocs(queryUser)
