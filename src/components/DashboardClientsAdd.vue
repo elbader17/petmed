@@ -7,7 +7,6 @@ const databaseUserStore = useDatabaseUserStore();
 const userStore = useUserStore();
 
 const client = ref({
-  account: '',
   email: '',
   name: '',
   surname: '',
@@ -20,57 +19,39 @@ const client = ref({
 
 const handleSubmit = () => {
   try {
-    userStore.registerUser(client.value.email, client.value.cuit);
+    databaseUserStore.addClient(client.value).then(userStore.logoutUser());
   } catch (error) {
     console.log(error);
   }
-
-  client.value.account = userStore.newUser.uid;
-
-  try {
-    databaseUserStore.addClient(client.value);
-  } catch (error) {
-    console.log(error);
-  }
-
-  client.value.account = '';
-  client.value.email = '';
-  client.value.name = '';
-  client.value.surname = '';
-  client.value.cuit = '';
-  client.value.birthdate = '';
-  client.value.phone = '';
-  client.value.address = '';
-  client.value.city = '';
 }
 </script>
 
 <template>
   <section>
     <form @submit.prevent="handleSubmit">
-      <label for="email">Correo electrónico:</label>
-      <input type="text" id="email" name="email" v-model="client.email">
+      <label for="client-email">Correo electrónico:</label>
+      <input type="text" id="client-email" name="client-email" v-model="client.email">
 
-      <label for="name">Nombre:</label>
-      <input type="text" id="name" name="name" v-model="client.name">
+      <label for="client-name">Nombre:</label>
+      <input type="text" id="client-name" name="client-name" v-model="client.name">
 
-      <label for="surname">Apellido:</label>
-      <input type="text" id="surname" name="surname" v-model="client.surname">
+      <label for="client-surname">Apellido:</label>
+      <input type="text" id="client-surname" name="client-surname" v-model="client.surname">
 
-      <label for="cuit">C.U.I.T.:</label>
-      <input type="text" id="cuit" name="cuit" v-model="client.cuit">
+      <label for="client-cuit">C.U.I.T.:</label>
+      <input type="text" id="client-cuit" name="client-cuit" v-model="client.cuit">
 
-      <label for="birthdate">Fecha de nacimiento:</label>
-      <input type="date" id="birthdate" name="birthdate" v-model="client.birthdate">
+      <label for="client-birthdate">Fecha de nacimiento:</label>
+      <input type="date" id="client-birthdate" name="client-birthdate" v-model="client.birthdate">
 
-      <label for="phone">Teléfono:</label>
-      <input type="text" id="phone" name="phone" v-model="client.phone">
+      <label for="client-phone">Teléfono:</label>
+      <input type="text" id="client-phone" name="client-phone" v-model="client.phone">
 
-      <label for="address">Dirección:</label>
-      <input type="text" id="address" name="address" v-model="client.address">
+      <label for="client-address">Dirección:</label>
+      <input type="text" id="client-address" name="client-address" v-model="client.address">
 
-      <label for="city">Ciudad:</label>
-      <input type="text" id="city" name="city" v-model="client.city">
+      <label for="client-city">Ciudad:</label>
+      <input type="text" id="client-city" name="client-city" v-model="client.city">
 
       <button type="submit">Agregar</button>
     </form>

@@ -1,5 +1,6 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, orderBy, limit, limitToLast, startAfter, endBefore, where } from 'firebase/firestore/lite';
-import { db } from '@/firebaseConfig';
+import { setDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, orderBy, limit, limitToLast, startAfter, endBefore, where } from 'firebase/firestore/lite';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { db, auth } from '@/firebaseConfig';
 import { defineStore } from 'pinia';
 
 export const useDatabaseUserStore = defineStore('databaseUserStore', {
@@ -21,9 +22,10 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
       }
       this.loadingDoc = true;
       try {
-        const qRef = query(collection(db, 'users'));
+        const qRef = query(collection(db, 'users'), where('type', '==', 'client'));
         const qSnapshot = await getDocs(qRef);
         this.total = qSnapshot.size;
+        console.log(this.total);
         this.pages = Math.ceil((this.total / this.perPage));
       } catch (error) {
         console.log(error);
@@ -37,7 +39,7 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
       }
       this.loadingDoc = true;
       try {
-        const queryRef = query(collection(db, 'users'), orderBy('name', 'asc'), limit(this.perPage));
+        const queryRef = query(collection(db, 'users'), where('type', '==', 'client'), orderBy('name', 'asc'), limit(this.perPage));
         const querySnapshot = await getDocs(queryRef);
         this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         this.firstVisible = querySnapshot.docs[0];
@@ -56,7 +58,7 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
     async nextPage() {
       this.loadingDoc = true;
       try {
-        const queryRef = query(collection(db, 'users'), orderBy('name', 'asc'), startAfter(this.lastVisible), limit(this.perPage));
+        const queryRef = query(collection(db, 'users'), where('type', '==', 'client'), orderBy('name', 'asc'), startAfter(this.lastVisible), limit(this.perPage));
         const querySnapshot = await getDocs(queryRef);
         this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         this.firstVisible = querySnapshot.docs[0];
@@ -77,7 +79,7 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
     async previousPage() {
       this.loadingDoc = true;
       try {
-        const queryRef = query(collection(db, 'users'), orderBy('name', 'asc'), endBefore(this.firstVisible), limitToLast(this.perPage));
+        const queryRef = query(collection(db, 'users'), where('type', '==', 'client'), orderBy('name', 'asc'), endBefore(this.firstVisible), limitToLast(this.perPage));
         const querySnapshot = await getDocs(queryRef);
         this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         this.firstVisible = querySnapshot.docs[0];
@@ -98,6 +100,7 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
     async addClient(client) {
       this.loadingDoc = true;
       try {
+        const { user } = await createUserWithEmailAndPassword(auth, client.email, client.cuit);
         const clientObj = {
           email: client.email,
           name: client.name,
@@ -108,13 +111,9 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
           address: client.address,
           city: client.city,
           type: 'client',
-          account: client.account
+          account: user.uid
         }
-        const clientRef = await addDoc(collection(db, 'users'), clientObj);
-        this.clients.push({
-          id: clientRef.id,
-          ...clientObj
-        })
+        await setDoc(doc(db, 'users', user.uid), clientObj);
       } catch (error) {
         console.log(error);
       } finally {

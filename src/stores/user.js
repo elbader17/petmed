@@ -1,29 +1,19 @@
 import { defineStore } from 'pinia';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore/lite';
 import { db, auth } from '@/firebaseConfig';
 import { useDatabaseUserStore } from './databaseUser';
+import { useDatabaseVetStore } from './databaseVets';
+import { useDatabasePetStore } from './databasePet';
 import router from '@/router/index';
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
     userData: null,
-    newUser: null,
     loadingUser: false,
     loadingSession: false
   }),
   actions: {
-    async registerUser(email, password) {
-      this.loadingUser = true
-      try {
-        const { user } = await createUserWithEmailAndPassword(auth, email, password);
-        this.newUser = { email: user.email, uid: user.uid };
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.loadingUser = false
-      }
-    },
     async loginUser(email, password) {
       this.loadingUser = true
       try {
@@ -104,8 +94,12 @@ export const useUserStore = defineStore('userStore', {
               this.userData = { email: user.email, uid: user.uid }
             } else {
               this.userData = null
-              const databaseUserStore = useDatabaseUserStore()
-              databaseUserStore.$reset()
+              const databaseUserStore = useDatabaseUserStore();
+              const databaseVetStore = useDatabaseVetStore();
+              const databasePetStore = useDatabasePetStore();
+              databaseUserStore.$reset();
+              databaseVetStore.$reset();
+              databasePetStore.$reset();
             }
             resolve(user)
           },
