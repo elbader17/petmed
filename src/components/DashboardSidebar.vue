@@ -1,10 +1,15 @@
 <script setup>
-import { ref } from 'vue';
-
-const isExpanded = ref(true);
-
+import { ref } from 'vue'
+import { useUserStore } from '@/stores/user'
+const isExpanded = ref(true)
+const databaseUserStore = useUserStore()
 const toggleMenu = () => {
-  isExpanded.value = !isExpanded.value;
+  isExpanded.value = !isExpanded.value
+}
+
+const renderByType = (type) => {
+  if (type === databaseUserStore.typeUser) return true
+  return false
 }
 </script>
 
@@ -21,27 +26,31 @@ const toggleMenu = () => {
         <font-awesome-icon icon="fa-solid fa-house" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Home</h4>
       </router-link>
-      <router-link class="button" :to="{ name: 'dashboard-clients' }">
+      <router-link class="button" v-if="renderByType('admin')" :to="{ name: 'dashboard-clients' }">
         <font-awesome-icon icon="fa-solid fa-user" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Clientes</h4>
       </router-link>
-      <router-link class="button" :to="{ name: 'dashboard-pets' }">
+      <router-link class="button" v-if="renderByType('client')" :to="{ name: 'dashboard-pets' }">
         <font-awesome-icon icon="fa-solid fa-cat" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Mascotas</h4>
       </router-link>
-      <router-link class="button" :to="{ name: 'dashboard-vets' }">
+      <router-link class="button" v-if="renderByType('admin')" :to="{ name: 'dashboard-vets' }">
         <font-awesome-icon icon="fa-solid fa-user-doctor" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Veterinarios</h4>
       </router-link>
-      <router-link class="button" :to="{ name: 'dashboard-form-vet' }">
+      <router-link class="button" v-if="renderByType('vet')" :to="{ name: 'dashboard-form-vet' }">
         <font-awesome-icon icon="fa-solid fa-clipboard" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Formulario</h4>
       </router-link>
-      <router-link class="button" :to="{ name: 'dashboard-plans' }">
+      <router-link class="button" v-if="renderByType('admin')" :to="{ name: 'dashboard-plans' }">
         <font-awesome-icon icon="fa-solid fa-money-check-dollar" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Planes</h4>
       </router-link>
-      <router-link class="button" :to="{ name: 'dashboard-providers' }">
+      <router-link
+        class="button"
+        v-if="renderByType('admin')"
+        :to="{ name: 'dashboard-providers' }"
+      >
         <font-awesome-icon icon="fa-solid fa-file-medical" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Prestadores</h4>
       </router-link>
@@ -57,7 +66,7 @@ const toggleMenu = () => {
   min-height: 100vh;
   overflow: hidden;
   padding: 1rem;
-  background-color: #8D57B0;
+  background-color: #8d57b0;
   color: #fff;
   transition: 0.2s ease-out;
 }
@@ -96,12 +105,12 @@ const toggleMenu = () => {
 }
 
 .is-expanded .menu-toggle:hover {
-  transform: rotate(-180deg)translateX(0.5rem);
+  transform: rotate(-180deg) translateX(0.5rem);
 }
 
 .menu-toggle .icon:hover,
 .is-expanded .menu-toggle .icon:hover {
-  color: #FF6438;
+  color: #ff6438;
 }
 
 .icon {
@@ -112,7 +121,7 @@ const toggleMenu = () => {
 }
 
 .menu-title {
-  color: #FF6438;
+  color: #ff6438;
   font-size: 1.25rem;
   text-transform: uppercase;
   transition: 0.2s ease-out;
@@ -133,7 +142,7 @@ const toggleMenu = () => {
 
 .button:hover .icon,
 .button:hover .text {
-  color: #FF6438;
+  color: #ff6438;
 }
 
 .is-expanded .button {

@@ -12,7 +12,8 @@ export const useUserStore = defineStore('userStore', {
   state: () => ({
     userData: null,
     loadingUser: false,
-    loadingSession: false
+    loadingSession: false,
+    typeUser: 'client',
   }),
   actions: {
     async registerUser(email, password) {
@@ -31,6 +32,9 @@ export const useUserStore = defineStore('userStore', {
       try {
         const { user } = await signInWithEmailAndPassword(auth, email, password)
         this.userData = { email: user.email, uid: user.uid }
+        const queryUser = query(collection(db, 'users'), where('account', '==', auth.currentUser.uid ))
+        const queryUserSnap = await getDocs(queryUser)
+        this.typeUser = queryUserSnap.docs[0].data().type
         router.push({ name: 'dashboard-home' })
       } catch (error) {
         console.log(error)
