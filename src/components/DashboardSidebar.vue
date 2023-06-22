@@ -1,10 +1,17 @@
 <script setup>
 import { ref } from 'vue';
+import { useUserStore } from '@/stores/user';
 
 const isExpanded = ref(true);
+const databaseUserStore = useUserStore();
 
 const toggleMenu = () => {
   isExpanded.value = !isExpanded.value;
+}
+
+const renderByType = (type) => {
+  if (type === databaseUserStore.typeUser) return true;
+  return false;
 }
 </script>
 
@@ -29,7 +36,11 @@ const toggleMenu = () => {
         <font-awesome-icon icon="fa-solid fa-cat" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Mascotas</h4>
       </router-link>
-      <router-link class="button" :to="{ name: 'dashboard-vets' }">
+      <router-link class="button" v-if="renderByType('client')" :to="{ name: 'dashboard-code' }">
+        <font-awesome-icon icon="fa-solid fa-barcode" class="icon" size="xl" />
+        <h4 class="text" v-if="isExpanded">Código</h4>
+      </router-link>
+      <router-link class="button" v-if="renderByType('admin')" :to="{ name: 'dashboard-vets' }">
         <font-awesome-icon icon="fa-solid fa-user-doctor" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Veterinarios</h4>
       </router-link>

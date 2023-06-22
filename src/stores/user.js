@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { addDoc, collection, getDocs, query, where, updateDoc} from 'firebase/firestore/lite'
+import { addDoc, collection, getDocs, query, where, updateDoc } from 'firebase/firestore/lite'
 import { db, auth } from '@/firebaseConfig';
 import { useDatabaseUserStore } from './databaseUser';
 import { useDatabaseVetStore } from './databaseVets';
@@ -17,23 +17,12 @@ export const useUserStore = defineStore('userStore', {
     typeUser: 'client',
   }),
   actions: {
-    async registerUser(email, password) {
-      this.loadingUser = true
-      try {
-        const { user } = await createUserWithEmailAndPassword(auth, email, password)
-        this.newUser = { email: user.email, uid: user.uid }
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.loadingUser = false
-      }
-    },
     async loginUser(email, password) {
       this.loadingUser = true
       try {
         const { user } = await signInWithEmailAndPassword(auth, email, password)
         this.userData = { email: user.email, uid: user.uid }
-        const queryUser = query(collection(db, 'users'), where('account', '==', auth.currentUser.uid ))
+        const queryUser = query(collection(db, 'users'), where('account', '==', auth.currentUser.uid))
         const queryUserSnap = await getDocs(queryUser)
         this.typeUser = queryUserSnap.docs[0].data().type
         router.push({ name: 'dashboard-home' })
@@ -131,7 +120,7 @@ export const useUserStore = defineStore('userStore', {
       return [true, account, petData]
     },
 
-    async expirationCode(code){
+    async expirationCode(code) {
       console.log("🚀 ~ file: user.js:132 ~ expirationCode ~ code:", code)
       // esta funcion tiene que buscar el code en la db y cambiarle el expiration a este mismo momento
       const queryCode = query(collection(db, 'codes'), where('code', '==', parseInt(code)))
@@ -139,9 +128,9 @@ export const useUserStore = defineStore('userStore', {
       console.log("🚀 ~ file: user.js:136 ~ expirationCode ~ querySnapshot:", querySnapshot)
       const codeDoc = querySnapshot.docs[0]
       const expiration = new Date()
-      await updateDoc(codeDoc.ref, {expiration})
-    
-      
+      await updateDoc(codeDoc.ref, { expiration })
+
+
 
     },
 
