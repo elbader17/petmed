@@ -4,63 +4,289 @@ import { ref } from 'vue';
 
 const databasePlansStore = useDatabasePlansStore();
 
+const planName = ref('');
 const plan = ref({
-  name: '',
-  birthdate: '',
-  animal: '',
-  breed: '',
-  sex: '',
-  color: '',
-  plan: '',
-  numAffiliate: '',
+  0: { amount: null, coverage: null, gracetime: null },
+  1: { amount: null, coverage: null, gracetime: null },
+  2: { amount: null, coverage: null, gracetime: null },
+  3: { amount: null, coverage: null, gracetime: null },
+  4: { amount: null, coverage: null, gracetime: null },
+  5: { amount: null, coverage: null, gracetime: null },
+  6: { amount: null, coverage: null, gracetime: null },
+  7: { amount: null, coverage: null, gracetime: null },
+  8: { amount: null, coverage: null, gracetime: null },
+  9: { amount: null, coverage: null, gracetime: null },
+  10: { amount: null, coverage: null, gracetime: null },
+  11: { amount: null, coverage: null, gracetime: null },
+  12: { amount: null, coverage: null, gracetime: null },
+  13: { amount: null, coverage: null, gracetime: null },
+  14: { amount: null, coverage: null, gracetime: null },
+  15: { amount: null, coverage: null, gracetime: null },
+  16: { amount: null, coverage: null, gracetime: null },
+  17: { amount: null, coverage: null, gracetime: null },
+  18: { amount: null, coverage: null, gracetime: null },
 })
 
 const handleSubmit = () => {
-  databasePlansStore.addPlan(plan.value);
-  plan.value.name = '';
-  plan.value.birthdate = '';
-  plan.value.animal = '';
-  plan.value.breed = '';
-  plan.value.sex = '';
-  plan.value.color = '';
-  plan.value.plan = '';
-  plan.value.numAffiliate = '';
+  databasePlansStore.addPlan(planName.value, plan.value);
+  planName.value = "";
+  plan.value = {
+    0: { amount: null, coverage: null, gracetime: null },
+    1: { amount: null, coverage: null, gracetime: null },
+    2: { amount: null, coverage: null, gracetime: null },
+    3: { amount: null, coverage: null, gracetime: null },
+    4: { amount: null, coverage: null, gracetime: null },
+    5: { amount: null, coverage: null, gracetime: null },
+    6: { amount: null, coverage: null, gracetime: null },
+    7: { amount: null, coverage: null, gracetime: null },
+    8: { amount: null, coverage: null, gracetime: null },
+    9: { amount: null, coverage: null, gracetime: null },
+    10: { amount: null, coverage: null, gracetime: null },
+    11: { amount: null, coverage: null, gracetime: null },
+    12: { amount: null, coverage: null, gracetime: null },
+    13: { amount: null, coverage: null, gracetime: null },
+    14: { amount: null, coverage: null, gracetime: null },
+    15: { amount: null, coverage: null, gracetime: null },
+    16: { amount: null, coverage: null, gracetime: null },
+    17: { amount: null, coverage: null, gracetime: null },
+    18: { amount: null, coverage: null, gracetime: null },
+  };
 }
 </script>
 
 <template>
   <section>
     <form class="form" @submit.prevent="handleSubmit">
-      <label class="form-title" for="add-name">Nombre:</label>
-      <input class="form-input" type="text" id="add-name" name="add-name" v-model="plan.name">
+      <label class="form-name-title" for="add-name">Nombre plan:</label>
+      <input class="form-name-input" type="text" id="add-name" name="add-name" v-model="planName">
 
-      <label class="form-title" for="add-birthday">Fecha de nacimiento:</label>
-      <input class="form-input" type="date" id="add-birthday" name="add-birthday" v-model="plan.birthdate">
+      <h3 class="form-title">Consulta en Clínica:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-0">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-0" name="add-amount-0" v-model="plan[0].amount">
 
-      <label class="form-title" for="add-animal">Tipo:</label>
-      <input class="form-input" type="text" id="add-animal" name="add-animal" v-model="plan.animal">
+        <label class="form-subtitle" for="add-coverage-0">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-0" name="add-coverage-0" v-model="plan[0].coverage">
 
-      <label class="form-title" for="add-breed">Raza:</label>
-      <input class="form-input" type="text" id="add-breed" name="add-breed" v-model="plan.breed">
+        <label class="form-subtitle" for="add-gracetime-0">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-0" name="add-gracetime-0" v-model="plan[0].gracetime">
+      </div>
 
-      <label class="form-title" for="add-sex">Sexo:</label>
-      <select class="form-input" id="add-sex" name="add-sex">
-        <option value="Macho">Macho</option>
-        <option value="Hembra">Hembra</option>
-      </select>
+      <h3 class="form-title">Consulta en Domicilio:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-1">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-1" name="add-amount-1" v-model="plan[1].amount">
 
-      <label class="form-title" for="add-color">Color:</label>
-      <input class="form-input" type="text" id="add-color" name="add-color" v-model="plan.color">
+        <label class="form-subtitle" for="add-coverage-1">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-1" name="add-coverage-1" v-model="plan[1].coverage">
 
-      <label class="form-title" for="add-plan">Plan:</label>
-      <select class="form-input" id="add-plan" name="add-plan">
-        <option value="1005">1005</option>
-        <option value="2010">2010</option>
-        <option value="3015">3015</option>
-      </select>
+        <label class="form-subtitle" for="add-gracetime-1">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-1" name="add-gracetime-1" v-model="plan[1].gracetime">
+      </div>
 
-      <label class="form-title" for="add-numAffiliate">Número de afiliado:</label>
-      <input class="form-input" type="text" id="add-numAffiliate" name="add-numAffiliate" v-model="plan.numAffiliate">
+      <h3 class="form-title">Consulta de Urgencia:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-2">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-2" name="add-amount-2" v-model="plan[2].amount">
+
+        <label class="form-subtitle" for="add-coverage-2">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-2" name="add-coverage-2" v-model="plan[2].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-2">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-2" name="add-gracetime-2" v-model="plan[2].gracetime">
+      </div>
+
+      <h3 class="form-title">Farmacia Veterinaria:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-3">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-3" name="add-amount-3" v-model="plan[3].amount">
+
+        <label class="form-subtitle" for="add-coverage-3">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-3" name="add-coverage-3" v-model="plan[3].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-3">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-3" name="add-gracetime-3" v-model="plan[3].gracetime">
+      </div>
+
+      <h3 class="form-title">Vacunas:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-4">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-4" name="add-amount-4" v-model="plan[4].amount">
+
+        <label class="form-subtitle" for="add-coverage-4">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-4" name="add-coverage-4" v-model="plan[4].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-4">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-4" name="add-gracetime-4" v-model="plan[4].gracetime">
+      </div>
+
+      <h3 class="form-title">Aplicaciones (Inyectables):</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-5">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-5" name="add-amount-5" v-model="plan[5].amount">
+
+        <label class="form-subtitle" for="add-coverage-5">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-5" name="add-coverage-5" v-model="plan[5].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-5">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-5" name="add-gracetime-5" v-model="plan[5].gracetime">
+      </div>
+
+      <h3 class="form-title">Oftalmología y Cardiología:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-6">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-6" name="add-amount-6" v-model="plan[6].amount">
+
+        <label class="form-subtitle" for="add-coverage-6">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-6" name="add-coverage-6" v-model="plan[6].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-6">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-6" name="add-gracetime-6" v-model="plan[6].gracetime">
+      </div>
+
+      <h3 class="form-title">Kinesiología y Fisioterapia:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-7">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-7" name="add-amount-7" v-model="plan[7].amount">
+
+        <label class="form-subtitle" for="add-coverage-7">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-7" name="add-coverage-7" v-model="plan[7].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-7">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-7" name="add-gracetime-7" v-model="plan[7].gracetime">
+      </div>
+
+      <h3 class="form-title">Análisis clínicos no específicos:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-8">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-8" name="add-amount-8" v-model="plan[8].amount">
+
+        <label class="form-subtitle" for="add-coverage-8">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-8" name="add-coverage-8" v-model="plan[8].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-89">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-89" name="add-gracetime-89" v-model="plan[8].gracetime">
+      </div>
+
+      <h3 class="form-title">Radiografías:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-9">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-9" name="add-amount-9" v-model="plan[9].amount">
+
+        <label class="form-subtitle" for="add-coverage-9">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-9" name="add-coverage-9" v-model="plan[9].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-9">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-9" name="add-gracetime-9" v-model="plan[9].gracetime">
+      </div>
+
+      <h3 class="form-title">Ecografías:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-10">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-10" name="add-amount-10" v-model="plan[10].amount">
+
+        <label class="form-subtitle" for="add-coverage-10">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-10" name="add-coverage-10" v-model="plan[10].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-10">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-10" name="add-gracetime-10" v-model="plan[10].gracetime">
+      </div>
+
+      <h3 class="form-title">Electrocardiogramas:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-11">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-11" name="add-amount-11" v-model="plan[11].amount">
+
+        <label class="form-subtitle" for="add-coverage-11">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-11" name="add-coverage-11" v-model="plan[11].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-11">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-11" name="add-gracetime-11" v-model="plan[11].gracetime">
+      </div>
+
+      <h3 class="form-title">Enfermería en Clínica:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-12">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-12" name="add-amount-12" v-model="plan[12].amount">
+
+        <label class="form-subtitle" for="add-coverage-12">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-12" name="add-coverage-12" v-model="plan[12].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-12">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-12" name="add-gracetime-12" v-model="plan[12].gracetime">
+      </div>
+
+      <h3 class="form-title">Internaciones:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-13">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-13" name="add-amount-13" v-model="plan[13].amount">
+
+        <label class="form-subtitle" for="add-coverage-13">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-13" name="add-coverage-13" v-model="plan[13].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-13">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-13" name="add-gracetime-13" v-model="plan[13].gracetime">
+      </div>
+
+      <h3 class="form-title">Cirugías (Castraciones):</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-14">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-14" name="add-amount-14">
+
+        <label class="form-subtitle" for="add-coverage-14">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-14" name="add-coverage-14" v-model="plan[14].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-14">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-14" name="add-gracetime-14" v-model="plan[14].gracetime">
+      </div>
+
+      <h3 class="form-title">Análisis clínicos específico:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-15">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-15" name="add-amount-15" v-model="plan[15].amount">
+
+        <label class="form-subtitle" for="add-coverage-15">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-15" name="add-coverage-15" v-model="plan[15].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-15">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-15" name="add-gracetime-15" v-model="plan[15].gracetime">
+      </div>
+
+      <h3 class="form-title">Certificados de Salud:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-16">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-16" name="add-amount-16" v-model="plan[16].amount">
+
+        <label class="form-subtitle" for="add-coverage-16">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-16" name="add-coverage-16" v-model="plan[16].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-16">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-16" name="add-gracetime-16" v-model="plan[16].gracetime">
+      </div>
+
+      <h3 class="form-title">Odontología:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-17">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-17" name="add-amount-17" v-model="plan[17].amount">
+
+        <label class="form-subtitle" for="add-coverage-17">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-17" name="add-coverage-17" v-model="plan[17].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-17">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-17" name="add-gracetime-17" v-model="plan[17].gracetime">
+      </div>
+
+      <h3 class="form-title">Obs. Antir. en Cónsul. con Certif.:</h3>
+      <div class="form-categories">
+        <label class="form-subtitle" for="add-amount-18">Cantidad:</label>
+        <input class="form-input" type="text" id="add-amount-18" name="add-amount-18" v-model="plan[18].amount">
+
+        <label class="form-subtitle" for="add-coverage-18">Cobertura:</label>
+        <input class="form-input" type="text" id="add-coverage-18" name="add-coverage-18" v-model="plan[18].coverage">
+
+        <label class="form-subtitle" for="add-gracetime-18">Carencia:</label>
+        <input class="form-input" type="text" id="add-gracetime-18" name="add-gracetime-18" v-model="plan[18].gracetime">
+      </div>
 
       <button class="form-button" type="submit">Agregar</button>
     </form>
@@ -74,6 +300,21 @@ const handleSubmit = () => {
   padding: 0.25rem;
 }
 
+.form-name-title {
+  font-size: 1.15rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+.form-name-input {
+  padding: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  width: 10rem;
+  border-radius: 0.5rem;
+  border: 1px solid #333333;
+}
+
 .form-title {
   font-size: 1.15rem;
   line-height: 1.75rem;
@@ -81,11 +322,24 @@ const handleSubmit = () => {
   margin-top: 0.5rem;
 }
 
+.form-categories {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.form-subtitle {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 400;
+  margin-top: 0.5rem;
+}
+
 .form-input {
-  padding: 0.5rem;
+  padding: 0.25rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  width: 100%;
+  width: 2.5rem;
   border-radius: 0.5rem;
   border: 1px solid #333333;
 }

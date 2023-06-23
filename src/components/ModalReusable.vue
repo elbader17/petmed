@@ -38,10 +38,12 @@ const emit = defineEmits(['closeModal'])
   position: relative;
   max-width: 480px;
   width: 80%;
+  max-height: 85%;
   background-color: #fff;
   box-shadow: 0 1rem 1.75rem rgba(0, 0, 0, 0.5);
   padding: 1.5rem;
   border-radius: 1.25rem;
+  overflow: auto;
 }
 
 .modal-button {

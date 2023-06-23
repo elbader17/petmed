@@ -54,10 +54,10 @@ const modalActiveIndexed = (index) => {
         <td class="body-item">{{ index }}</td>
         <td class="body-buttons">
           <button class="button-edit" @click="toggleModalIndexed(index)">Editar</button>
-          <button class="button-delete" @click="databasePlansStore.deletePlan(item.id)">Eliminar</button>
+          <button class="button-delete" @click="databasePlansStore.deletePlan(index)">Eliminar</button>
         </td>
         <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
-          <DashboardPlansEdit :item="item" />
+          <DashboardPlansEdit :item="item" :index="index" />
         </ModalReusable>
       </tbody>
     </table>
