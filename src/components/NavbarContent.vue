@@ -6,14 +6,21 @@ import { useUserStore } from '@/stores/user';
 import NavbarLinks from './NavbarLinks.vue';
 import ModalReusable from '../components/ModalReusable.vue';
 import AccountLogin from '../components/AccountLogin.vue';
+import AccountForgot from '../components/AccountForgot.vue';
 
-const { mobileL, mobileNav, toggleMobileNav } = useCheckScreen();
+const { mobile, mobileL, mobileNav, toggleMobileNav } = useCheckScreen();
 const userStore = useUserStore();
 
 const openModal = ref(false);
 
 const toggleModal = () => {
   openModal.value = !openModal.value;
+}
+
+const showLogin = ref(true)
+
+const toggleShowLogin = () => {
+  showLogin.value = !showLogin.value
 }
 </script>
 
@@ -23,30 +30,31 @@ const toggleModal = () => {
       <RouterLink :to="{ name: 'home' }" class="logo">
         <img class="logo-img" src="../assets/img/l1.png" alt="PetMed logo" />
       </RouterLink>
-      <div v-show="!mobileL" class="navbar">
+      <div v-show="!mobileL || mobileNav" :class="mobileNav ? 'dropdown-navbar' : 'navbar'">
         <NavbarLinks />
       </div>
-      <transition name="mobile-nav">
-        <div v-show="mobileNav" class="dropdown-navbar">
-          <NavbarLinks />
-        </div>
-      </transition>
       <div @click="toggleMobileNav" v-show="mobileL" class="toggle-btn" :class="{ 'icon-active': mobileNav }">
-        <font-awesome-icon icon="fa-solid fa-bars" />
+        <font-awesome-icon icon="fa-solid fa-bars" size="xl" />
       </div>
       <div v-if="!userStore.loadingSession">
         <div v-if="!userStore.userData">
-          <button class="nav-button" @click="toggleModal">Acceder</button>
+          <div class="nav-button" @click="toggleModal">
+            <p v-show="!mobile">Acceder</p>
+            <font-awesome-icon v-show="mobile" icon="fa-solid fa-user" size="xl" />
+          </div>
         </div>
         <div v-if="userStore.userData">
-          <button :to="{ name: 'home' }" class="nav-button" @click="userStore.logoutUser">Salir</button>
+          <div :to="{ name: 'home' }" class="nav-button" @click="userStore.logoutUser">
+            <p v-show="!mobile">Salir</p>
+            <font-awesome-icon v-show="mobile" icon="fa-solid fa-right-from-bracket" size="xl" />
+          </div>
         </div>
         <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
-          <AccountLogin @closeModal="toggleModal" />
+          <transition name="fade" mode="out-in">
+            <AccountLogin v-if="showLogin" @toggle="toggleShowLogin" @closeModal="toggleModal" />
+            <AccountForgot v-else @toggle="toggleShowLogin" @closeModal="toggleModal" />
+          </transition>
         </ModalReusable>
-      </div>
-      <div v-else class="nav-button">
-        Cargando usuario...
       </div>
     </nav>
   </section>
@@ -101,17 +109,6 @@ const toggleModal = () => {
   z-index: 5;
 }
 
-.mobile-nav-enter-active,
-.mobile-nav-leave-active {
-  transition: all 0.3s ease;
-  z-index: 5;
-}
-
-.mobile-nav-enter-from,
-.mobile-nav-leave-to {
-  opacity: 0;
-}
-
 .nav-button {
   border: none;
   background-color: #9E63C4;
@@ -144,5 +141,22 @@ const toggleModal = () => {
   letter-spacing: 0.1rem;
   font-weight: 300;
   text-transform: uppercase;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@media all and (max-width: 767px) {
+  .nav-button {
+    padding: 1rem 1.25rem;
+    border-radius: 2.5rem;
+  }
 }
 </style>

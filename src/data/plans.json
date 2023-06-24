@@ -6,135 +6,135 @@
       {
         "id": 1,
         "benefits": "Consulta en Clínica",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "1 x mes",
         "quantity": 12
       },
       {
         "id": 2,
         "benefits": "Consulta en Domicilio",
-        "coverage": 1,
-        "waitingPeriod": "1 al año a los 120 días",
+        "coverage": "100%",
+        "waitingPeriod": "120 días",
         "quantity": 1
       },
       {
         "id": 3,
         "benefits": "Consulta de Urgencia",
-        "coverage": 1,
-        "waitingPeriod": "1 al año a los 180 días",
+        "coverage": "100%",
+        "waitingPeriod": "180 días",
         "quantity": 1
       },
       {
         "id": 4,
         "benefits": "Farmacia Veterinaria",
-        "coverage": 0.05,
+        "coverage": "5%",
         "waitingPeriod": "0 días",
         "quantity": "-"
       },
       {
         "id": 5,
         "benefits": "Vacunas",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "60 días",
         "quantity": 4
       },
       {
         "id": 6,
         "benefits": "Aplicaciones (Inyectables)",
-        "coverage": 0.2,
+        "coverage": "20%",
         "waitingPeriod": "0 días",
         "quantity": "-"
       },
       {
         "id": 7,
         "benefits": "Oftalmología y Cardiología (*)",
-        "coverage": 0.2,
+        "coverage": "20%",
         "waitingPeriod": "90 días",
         "quantity": "-"
       },
       {
         "id": 8,
+        "benefits": "Kinesiología y Fisioterapia",
+        "coverage": "20%",
+        "waitingPeriod": "90 días",
+        "quantity": "-"
+      },
+      {
+        "id": 9,
         "benefits": "Análisis clínicos no específicos",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "120 días",
         "quantity": 5
       },
       {
-        "id": 9,
+        "id": 10,
         "benefits": "Radiografías",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "120 días",
         "quantity": 1
       },
       {
-        "id": 10,
+        "id": 11,
         "benefits": "Ecografías",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "150 días",
         "quantity": 1
       },
       {
-        "id": 11,
+        "id": 12,
         "benefits": "Electrocardiogramas",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "180 días",
         "quantity": 1
       },
       {
-        "id": 12,
-        "benefits": "Enfermería en Clínica",
-        "coverage": 0.2,
-        "waitingPeriod": "180 días",
-        "quantity": "-"
-      },
-      {
         "id": 13,
-        "benefits": "Internaciones",
-        "coverage": 0.2,
+        "benefits": "Enfermería en Clínica",
+        "coverage": "20%",
         "waitingPeriod": "180 días",
         "quantity": "-"
       },
       {
         "id": 14,
+        "benefits": "Internaciones",
+        "coverage": "20%",
+        "waitingPeriod": "180 días",
+        "quantity": "-"
+      },
+      {
+        "id": 15,
         "benefits": "Cirugías (Castraciones)",
         "coverage": "CT",
         "waitingPeriod": "240 días",
         "quantity": 1
       },
       {
-        "id": 15,
+        "id": 16,
         "benefits": "Análisis clínicos específicos",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "240 días",
         "quantity": 2
       },
       {
-        "id": 16,
+        "id": 17,
         "benefits": "Certificados de Salud",
         "coverage": "-",
         "waitingPeriod": "-",
         "quantity": "-"
       },
       {
-        "id": 17,
+        "id": 18,
         "benefits": "Odontología",
         "coverage": "CT",
         "waitingPeriod": "330 días",
         "quantity": 1
       },
       {
-        "id": 18,
-        "benefits": "Obs. Antir en Cónsul con Certi",
-        "coverage": 1,
-        "waitingPeriod": "DESP AÑO 1 x año",
-        "quantity": 1
-      },
-      {
         "id": 19,
-        "benefits": "Kinesiología y Fisioterapia",
-        "coverage": 0.2,
-        "waitingPeriod": "90 días",
-        "quantity": "-"
+        "benefits": "Obs. Antir en Cónsul con Certi",
+        "coverage": "100%",
+        "waitingPeriod": "365 días",
+        "quantity": 1
       }
     ]
   },
@@ -145,135 +145,135 @@
       {
         "id": 1,
         "benefits": "Consulta en Clínica",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "2 x mes",
         "quantity": 24
       },
       {
         "id": 2,
         "benefits": "Consulta en Domicilio",
-        "coverage": 1,
-        "waitingPeriod": "2 x año a los 90 días",
+        "coverage": "100%",
+        "waitingPeriod": "90 días",
         "quantity": 2
       },
       {
         "id": 3,
         "benefits": "Consulta de Urgencia",
-        "coverage": 1,
-        "waitingPeriod": "2 x año a los 120 días",
+        "coverage": "100%",
+        "waitingPeriod": "120 días",
         "quantity": 2
       },
       {
         "id": 4,
         "benefits": "Farmacia Veterinaria",
-        "coverage": 10,
+        "coverage": "10%",
         "waitingPeriod": "0 días",
         "quantity": "-"
       },
       {
         "id": 5,
         "benefits": "Vacunas",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "60 días",
         "quantity": 4
       },
       {
         "id": 6,
         "benefits": "Aplicaciones (Inyectables)",
-        "coverage": 0.25,
+        "coverage": "25%",
         "waitingPeriod": "0 días",
         "quantity": "-"
       },
       {
         "id": 7,
         "benefits": "Oftalmología y Cardiología (*)",
-        "coverage": 0.25,
+        "coverage": "25%",
         "waitingPeriod": "60 días",
         "quantity": "-"
       },
       {
         "id": 8,
+        "benefits": "Kinesiología y Fisioterapia",
+        "coverage": "25%",
+        "waitingPeriod": "60 días",
+        "quantity": "-"
+      },
+      {
+        "id": 9,
         "benefits": "Análisis clínicos no específicos",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "90 días",
         "quantity": 7
       },
       {
-        "id": 9,
+        "id": 10,
         "benefits": "Radiografías",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "90 días",
         "quantity": 2
       },
       {
-        "id": 10,
+        "id": 11,
         "benefits": "Ecografías",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "120 días",
         "quantity": 2
       },
       {
-        "id": 11,
+        "id": 12,
         "benefits": "Electrocardiogramas",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "150 días",
         "quantity": 2
       },
       {
-        "id": 12,
-        "benefits": "Enfermería en Clínica",
-        "coverage": 0.25,
-        "waitingPeriod": "150 días",
-        "quantity": "-"
-      },
-      {
         "id": 13,
-        "benefits": "Internaciones",
-        "coverage": 0.25,
+        "benefits": "Enfermería en Clínica",
+        "coverage": "25%",
         "waitingPeriod": "150 días",
         "quantity": "-"
       },
       {
         "id": 14,
+        "benefits": "Internaciones",
+        "coverage": "25%",
+        "waitingPeriod": "150 días",
+        "quantity": "-"
+      },
+      {
+        "id": 15,
         "benefits": "Cirugías (Castraciones)",
         "coverage": "CT",
         "waitingPeriod": "180 días",
         "quantity": 1
       },
       {
-        "id": 15,
+        "id": 16,
         "benefits": "Análisis clínicos específicos",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "180 días",
         "quantity": 3
       },
       {
-        "id": 16,
+        "id": 17,
         "benefits": "Certificados de Salud",
         "coverage": "-",
         "waitingPeriod": "-",
         "quantity": "-"
       },
       {
-        "id": 17,
+        "id": 18,
         "benefits": "Odontología",
         "coverage": "CT",
         "waitingPeriod": "240 días",
         "quantity": 2
       },
       {
-        "id": 18,
+        "id": 16,
         "benefits": "Obs. Antir en Cónsul con Certi",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "330 días",
         "quantity": 1
-      },
-      {
-        "id": 19,
-        "benefits": "Kinesiología y Fisioterapia",
-        "coverage": 0.25,
-        "waitingPeriod": "60 días",
-        "quantity": "-"
       }
     ]
   },
@@ -284,142 +284,135 @@
       {
         "id": 1,
         "benefits": "Consulta en Clínica",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "3 x mes",
         "quantity": 36
       },
       {
         "id": 2,
         "benefits": "Consulta en Domicilio",
-        "coverage": 1,
-        "waitingPeriod": "3 x año a los 60 días",
+        "coverage": "100%",
+        "waitingPeriod": "60 días",
         "quantity": 3
       },
       {
         "id": 3,
         "benefits": "Consulta de Urgencia",
-        "coverage": 1,
-        "waitingPeriod": "3 x año a los 90 días",
+        "coverage": "100%",
+        "waitingPeriod": "90 días",
         "quantity": 3
       },
       {
         "id": 4,
         "benefits": "Farmacia Veterinaria",
-        "coverage": 0.15,
+        "coverage": "15%",
         "waitingPeriod": "0 días",
         "quantity": "-"
       },
       {
         "id": 5,
         "benefits": "Vacunas",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "30 días",
         "quantity": 4
       },
       {
         "id": 6,
         "benefits": "Aplicaciones (Inyectables)",
-        "coverage": 0.3,
+        "coverage": "30%",
         "waitingPeriod": "0 días",
         "quantity": "-"
       },
       {
         "id": 7,
         "benefits": "Oftalmología y Cardiología (*)",
-        "coverage": 0.3,
+        "coverage": "30%",
         "waitingPeriod": "30 días",
         "quantity": "-"
       },
       {
         "id": 8,
+        "benefits": "Kinesiología y Fisioterapia",
+        "coverage": "30%",
+        "waitingPeriod": "30 días",
+        "quantity": "-"
+      },
+      {
+        "id": 9,
         "benefits": "Análisis clínicos no específicos",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "60 días",
         "quantity": 9
       },
       {
-        "id": 9,
+        "id": 10,
         "benefits": "Radiografías",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "60 días",
         "quantity": 3
       },
       {
-        "id": 10,
+        "id": 11,
         "benefits": "Ecografías",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "90 días",
         "quantity": 3
       },
       {
-        "id": 11,
+        "id": 12,
         "benefits": "Electrocardiogramas",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "120 días",
         "quantity": 3
       },
       {
-        "id": 12,
-        "benefits": "Enfermería en Clínica",
-        "coverage": 0.3,
-        "waitingPeriod": "120 días",
-        "quantity": "-"
-      },
-      {
         "id": 13,
-        "benefits": "Internaciones",
-        "coverage": 0.3,
+        "benefits": "Enfermería en Clínica",
+        "coverage": "30%",
         "waitingPeriod": "120 días",
         "quantity": "-"
       },
       {
         "id": 14,
+        "benefits": "Internaciones",
+        "coverage": "30%",
+        "waitingPeriod": "120 días",
+        "quantity": "-"
+      },
+      {
+        "id": 15,
         "benefits": "Cirugías (Castraciones)",
         "coverage": "CT",
         "waitingPeriod": "150 días",
         "quantity": 1
       },
       {
-        "id": 15,
+        "id": 16,
         "benefits": "Análisis clínicos específicos",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "150 días",
         "quantity": 4
       },
       {
-        "id": 16,
+        "id": 17,
         "benefits": "Certificados de Salud",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "150 días",
         "quantity": 3
       },
       {
-        "id": 17,
+        "id": 18,
         "benefits": "Odontología",
         "coverage": "CT",
         "waitingPeriod": "180 días",
         "quantity": 3
       },
       {
-        "id": 18,
+        "id": 19,
         "benefits": "Obs. Antir en Cónsul con Certi",
-        "coverage": 1,
+        "coverage": "100%",
         "waitingPeriod": "330 días",
         "quantity": 1
-      },
-      {
-        "id": 19,
-        "benefits": "Ecocardiograma",
-        "coverage": 1,
-        "waitingPeriod": "-",
-        "quantity": "1 vez al año"
-      },
-      {
-        "id": 20,
-        "benefits": "Kinesiología y Fisioterapia",
-        "coverage": 0.3,
-        "waitingPeriod": "30 días",
-        "quantity": "-"
       }
     ]
   }

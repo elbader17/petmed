@@ -7,31 +7,25 @@ const userStore = useUserStore();
 const emit = defineEmits(['closeModal', 'toggle']);
 
 const email = ref('');
-const password = ref('');
-const errMsg = ref();
 
 const handleSubmit = async () => {
   if (!email.value) {
     return alert('Rellene el formulario');
   }
-  await userStore.loginUser(email.value, password.value);
-  errMsg.value = userStore.errorMessage;
-  if (!errMsg.value) {
-    emit('closeModal');
-  }
+  await userStore.resetUserPassword(email.value);
+  emit('toggle')
+  emit('closeModal');
 }
 </script>
 
 <template>
   <section>
     <form class="form" @submit.prevent="handleSubmit">
-      <p class="form-title">Ingrese a su cuenta</p>
+      <p class="form-title">Recuperar contraseña</p>
       <input class="form-input" type="email" v-model.trim="email" placeholder="Ingrese el correo">
-      <input class="form-input" type="password" v-model.trim="password" placeholder="Ingrese la contraseña">
-      <p class="form-error" v-if="errMsg">{{ errMsg }}</p>
-      <button class="form-button" type="submit" :disabled="userStore.loadingUser">Acceder</button>
-      <p class="password-question">Te has olvidado de la contraseña?</p>
-      <p class="password-link" @click="emit('toggle')">Recuperar la contraseña</p>
+      <button class="form-button" type="submit" :disabled="userStore.loadingUser">Enviar</button>
+      <p class="login-question">Necesitas iniciar sección?</p>
+      <p class="login-link" @click="emit('toggle')">Iniciar sección</p>
     </form>
   </section>
 </template>
@@ -72,10 +66,6 @@ const handleSubmit = async () => {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.form-error {
-  color: #F14313;
-}
-
 .form-button {
   display: block;
   padding: 0.75rem 1.25rem;
@@ -87,6 +77,19 @@ const handleSubmit = async () => {
   width: 100%;
   border-radius: 0.5rem;
   text-transform: uppercase;
+  cursor: pointer;
+}
+
+.login-question {
+  color: #6B7280;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-align: center;
+}
+
+.login-link {
+  color: #794899;
+  text-decoration: underline;
   cursor: pointer;
 }
 
@@ -107,8 +110,6 @@ const handleSubmit = async () => {
 }
 
 .password-link {
-  color: #794899;
   text-decoration: underline;
-  cursor: pointer;
 }
 </style>

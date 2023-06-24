@@ -1,18 +1,18 @@
 <script setup>
 import { computed } from 'vue';
 
-const props = defineProps (['data', 'currentPlan']);
+const props = defineProps(['data', 'currentPlan']);
 
 const planColor = computed(() => {
   switch (props.currentPlan) {
-        case 0:
-          return '#9E63C4'
-        case 1:
-          return '#FF6438'
-        case 2:
-          return '#3CBEB4'
-        default:
-          return '#000'
+    case 0:
+      return '#9E63C4'
+    case 1:
+      return '#FF6438'
+    case 2:
+      return '#3CBEB4'
+    default:
+      return '#000'
   }
 })
 </script>

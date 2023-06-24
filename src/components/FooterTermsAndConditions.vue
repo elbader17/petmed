@@ -136,7 +136,7 @@ const emit = defineEmits(['abrirModal'])
   padding: 2rem;
   width: 75%;
   height: 75%;
-  overflow: auto;
+
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -150,12 +150,14 @@ const emit = defineEmits(['abrirModal'])
   color: #9E63C4;
   background: none;
   cursor: pointer;
+  margin-bottom: 1rem;
 }
 
 .modal-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: auto;
 }
 
 .content-title {

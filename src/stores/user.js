@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
 import { addDoc, collection, getDocs, query, where, updateDoc } from 'firebase/firestore/lite'
 import { db, auth } from '@/firebaseConfig';
 import { useDatabaseUserStore } from './databaseUser';
@@ -15,6 +15,7 @@ export const useUserStore = defineStore('userStore', {
     loadingUser: false,
     loadingSession: false,
     typeUser: 'client',
+    errorMessage: null
   }),
   actions: {
     async loginUser(email, password) {
@@ -25,11 +26,25 @@ export const useUserStore = defineStore('userStore', {
         const queryUser = query(collection(db, 'users'), where('account', '==', auth.currentUser.uid))
         const queryUserSnap = await getDocs(queryUser)
         this.typeUser = queryUserSnap.docs[0].data().type
+        this.errorMessage = null;
         router.push({ name: 'dashboard-home' })
       } catch (error) {
-        console.log(error)
+        switch (error.code) {
+          case 'auth/invalid-email':
+            this.errorMessage = 'Email no válido';
+            break;
+          case 'auth/user-not-found':
+            this.errorMessage = 'La cuenta no existe';
+            break;
+          case 'auth/wrong-password':
+            this.errorMessage = 'Contraseña incorrecta';
+            break;
+          default:
+            this.errorMessage = 'Email o contraseña incorrecto';
+            break;
+        }
       } finally {
-        this.loadingUser = false
+        this.loadingUser = false;
       }
     },
     async logoutUser() {
@@ -43,6 +58,14 @@ export const useUserStore = defineStore('userStore', {
         console.log(error)
       }
     },
+    async resetUserPassword(email) {
+      try {
+        await sendPasswordResetEmail(auth, email);
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
     async createCode() {
       const code = Math.floor(100000 + Math.random() * 900000)
       const expiration = new Date()

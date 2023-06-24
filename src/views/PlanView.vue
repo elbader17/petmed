@@ -1,6 +1,6 @@
 <script setup>
 import { useCheckScreen } from '@/composables/checkScreen';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import ContentBanner from '../components/ContentBanner.vue';
 import ContentSeparator from '../components/icons/ContentSeparator.vue';
 import PlansTable from '../components/PlansTable.vue';
@@ -20,60 +20,66 @@ const data = plans;
 
 const currentPlan = ref(0);
 
-const showPlan = (planNumber) => {
-  currentPlan.value = planNumber;
-}
-
 const planColor = computed(() => {
   switch (currentPlan.value) {
-        case 0:
-          return '#9E63C4'
-        case 1:
-          return '#FF6438'
-        case 2:
-          return '#3CBEB4'
-        default:
-          return '#000'
+    case 0:
+      return '#9E63C4'
+    case 1:
+      return '#FF6438'
+    case 2:
+      return '#3CBEB4'
+    default:
+      return '#000'
   }
 })
 
 const planes = [
   {
     id: 1,
+    title: title1005,
     image: plan1005,
     name: "Plan 1005",
-    link: "/planes"
+    link: "/contacto"
   },
   {
     id: 2,
+    title: title2010,
     image: plan2010,
     name: "Plan 2010",
-    link: "/planes"
+    link: "/contacto"
   },
   {
     id: 3,
+    title: title3015,
     image: plan3015,
     name: "Plan 3015",
-    link: "/planes"
+    link: "/contacto"
   }
 ];
+
+const transitionName = ref('slide-right')
+
+watch(currentPlan, (val, old) => {
+  transitionName.value = val > old ? 'slide-left' : 'slide-right'
+})
 </script>
 
 <template>
   <div class="plans">
     <ContentBanner :banner="imageBanner" :title="imageTitle" />
-    <section class="plans-header">
-      <img class="plan-img" :src="title1005" @click="showPlan(0)" />
-      <img class="plan-img" :src="title2010" @click="showPlan(1)" />
-      <img class="plan-img" :src="title3015" @click="showPlan(2)" />
-    </section>
-    <section v-show="!mobile" v-for="(tableData, index) in data" :key="index">
-      <PlansTable v-if="currentPlan === index" :data="tableData.services" :currentPlan="currentPlan" />
+    <div class="plans-header">
+      <img class="plan-img" v-for="(plan, index) in planes" :key="plan.id" :src="plan.title"
+        @click="currentPlan = index" />
+    </div>
+    <section v-show="!mobile">
+      <Transition :name="transitionName" mode="out-in">
+        <PlansTable :key="currentPlan" :data="data[currentPlan].services" :currentPlan="currentPlan" />
+      </Transition>
     </section>
     <section class="plans-mobile" v-show="mobile">
-      <img class="mobile-img" v-if="currentPlan === 0" :src="planes[currentPlan].image" />
-      <img class="mobile-img" v-if="currentPlan === 1" :src="planes[currentPlan].image" />
-      <img class="mobile-img" v-if="currentPlan === 2" :src="planes[currentPlan].image" />
+      <Transition :name="transitionName" mode="out-in">
+        <img class="mobile-img" :key="currentPlan" :src="planes[currentPlan].image" />
+      </Transition>
     </section>
     <section class="plans-info">
       <div class="info-button">
@@ -120,6 +126,7 @@ const planes = [
 .plan-img {
   width: 16rem;
   margin: 0.5rem;
+  cursor: pointer;
 }
 
 .plans-mobile {
@@ -158,6 +165,32 @@ const planes = [
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.slide-right-enter-from,
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.slide-left-enter-from,
+.slide-right-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.slide-right-leave-from,
+.slide-right-enter-to,
+.slide-left-leave-from,
+.slide-left-enter-to {
+  opacity: 1;
+}
+
+.slide-right-leave-active,
+.slide-right-enter-active,
+.slide-left-leave-active,
+.slide-left-enter-active {
+  transition: all 0.2s;
 }
 
 @media all and (max-width: 768px) {

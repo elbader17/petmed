@@ -20,6 +20,7 @@ import {
   faFileMedical,
   faClipboard,
   faBarcode,
+  faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -44,6 +45,7 @@ library.add(
   faClipboard,
   faMoneyCheckDollar,
   faBarcode,
+  faRightFromBracket,
   faFacebook,
   faInstagram,
   faWhatsapp
