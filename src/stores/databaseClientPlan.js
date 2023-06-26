@@ -176,6 +176,55 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       } finally {
         this.loadingDoc = false;
       }
+    },
+    async updateAmountsDefault(docRef, plans, plan, planName, date) {
+      try {
+        const defaultDocRef = doc(db, 'configs', 'plans');
+        const defaultDocSnap = await getDoc(defaultDocRef);
+
+        if (defaultDocSnap.exists()) {
+          const defaultData = defaultDocSnap.data();
+          const practicesDefault = defaultData[planName];
+          const practices = plan.practices;
+
+          for (const key in practices) {
+            practices[key].amount = practicesDefault[key].amount;
+          }
+
+          date.setFullYear(date.getFullYear() + 1);
+          plan.date = date.toISOString().slice(0, 16);
+
+          await updateDoc(docRef, { plans: plans });
+        } else {
+          console.log('No existe el plan por default');
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async updateAmountsIfYearPassed(id) {
+      const docRef = doc(db, 'plans', id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const plans = data.plans;
+
+        for (let i = 0; i < plans.length; i++) {
+          const dateStr = plans[i].date;
+          const date = new Date(dateStr);
+          const currentDate = new Date();
+          const timeDiff = currentDate.getTime() - date.getTime();
+          const yearDiff = timeDiff / (1000 * 3600 * 24 * 365);
+
+          if (yearDiff >= 1) {
+            await this.updateAmountsDefault(docRef, plans, plans[i], plans[i].plan, date);
+          }
+        }
+      } else {
+        console.log('No existe el plan');
+      }
     }
   }
 })
