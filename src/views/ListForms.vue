@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useDatabaseAdminStore } from '@/stores/databaseAdmin'
+import ModalReusable from '../components/ModalReusable.vue'
 
 const databaseAdmin = useDatabaseAdminStore()
 
@@ -16,6 +17,15 @@ const search = async () => {
   data.value.paginatedItems = dataForList
 }
 
+const toggleModal = (info) => {
+  if (info) infoForShow.value = JSON.parse(JSON.stringify(info))
+
+  openModal.value = !openModal.value
+  console.log(infoForShow.value)
+}
+
+const openModal = ref(false)
+const infoForShow = ref({})
 const data = ref({
   paginatedItems: [],
   nameOfPet: '',
@@ -44,9 +54,32 @@ const data = ref({
         <button class="btn-search" @click="search">buscar</button>
       </div>
     </div>
+    <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
+      <p>Nombre: {{ infoForShow.name }}</p>
+      <p>Plan: {{ infoForShow.plan }}</p>
+      <p>Fecha: {{ infoForShow.date }}</p>
+      <p>abdomen: {{ infoForShow.abdomen}}</p>
+      <p>anamnesis: {{ infoForShow.anamnesis }}</p>
+      <p>Estudios complementarios {{ infoForShow.complementaryStudies }}</p>
+      <p>fc: {{ infoForShow.fc }}</p>
+      <p>fr: {{ infoForShow.fr }}</p>
+      <p>reflejos: {{ infoForShow.feflexes }}</p>
+      <p>miembros anteriores: {{ infoForShow.formerMembers }}</p>
+      <p>cabeza y cuello: {{ infoForShow.headNeck }}</p>
+      <p>miembros posteriores: {{ infoForShow.hindLimbs }}</p>
+      <p>ganglios principales: {{ infoForShow.mainGanglia }}</p>
+      <p>membrana mucosa: {{ infoForShow.mucousMembrane }}</p>
+      <p>observaciones: {{ infoForShow.observations }}</p>
+      <p>condicion de piel: {{ infoForShow.skinCondition }}</p>
+      <p>temperatura: {{ infoForShow.temp }}</p>
+      <p>torax: {{ infoForShow.torax }}</p>
+      <p>practicas: {{ infoForShow.practices }}</p>
+      <p>veterinario: {{ infoForShow.vet }}</p>
+
+    </ModalReusable>
     <div>
       <div v-for="item in data.paginatedItems" class="element" :key="item.name">
-        <div>
+        <div @click="toggleModal(item)">
           <p class="data">{{ item.name }} - {{ item.plan }}</p>
           <p class="date">{{ item.date }}</p>
         </div>
@@ -57,7 +90,7 @@ const data = ref({
 
 <style scoped>
 .btn-search {
-  margin-top :1rem;
+  margin-top: 1rem;
   background-color: #8d57b0;
   color: white;
   border: none;
