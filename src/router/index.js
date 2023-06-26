@@ -104,6 +104,11 @@ const router = createRouter({
           name: 'dashboard-authorization',
           component: () => import('../views/DashboardAuthorization.vue'),
         },
+        {
+          path: '/dashboard/forms',
+          name: 'dashboard-forms',
+          component: () => import('../views/ListForms.vue'),
+        },
       ]
     }
   ]

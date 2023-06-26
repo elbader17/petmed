@@ -144,11 +144,8 @@ export const useUserStore = defineStore('userStore', {
     },
 
     async expirationCode(code) {
-      console.log("🚀 ~ file: user.js:132 ~ expirationCode ~ code:", code)
-      // esta funcion tiene que buscar el code en la db y cambiarle el expiration a este mismo momento
       const queryCode = query(collection(db, 'codes'), where('code', '==', parseInt(code)))
       const querySnapshot = await getDocs(queryCode)
-      console.log("🚀 ~ file: user.js:136 ~ expirationCode ~ querySnapshot:", querySnapshot)
       const codeDoc = querySnapshot.docs[0]
       const expiration = new Date()
       await updateDoc(codeDoc.ref, { expiration })

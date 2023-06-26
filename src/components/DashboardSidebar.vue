@@ -44,6 +44,10 @@ const renderByType = (type) => {
         <font-awesome-icon icon="fa-solid fa-barcode" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Código</h4>
       </router-link>
+      <router-link class="button" v-if="renderByType('admin')" :to="{ name: 'dashboard-forms' }">
+        <font-awesome-icon icon="fa-solid fa-file-medical" class="icon" size="xl" />
+        <h4 class="text" v-if="isExpanded">Planillas</h4>
+      </router-link>
       <router-link class="button" v-if="renderByType('admin')" :to="{ name: 'dashboard-vets' }">
         <font-awesome-icon icon="fa-solid fa-user-doctor" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Veterinarios</h4>
