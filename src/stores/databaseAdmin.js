@@ -46,11 +46,38 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
       const querySnapshot = await getDocs(queryRef)
       const dataForList = []
       querySnapshot.forEach((doc) => {
+        const keysTrue = []
+
+        for (const key in doc.data()) {
+          if (doc.data().hasOwnProperty(key) && doc.data()[key] === true) {
+            keysTrue.push(key)
+          }
+        }
+
         dataForList.push({
           name: doc.data().socio,
           id: doc.id,
           plan: doc.data().plan,
-          date: formatDate(doc.data().date)
+          date: formatDate(doc.data().date),
+          practices: keysTrue.join(', '),
+          abdomen: doc.data().abdomen,
+          anamnesis: doc.data().anamnesis,
+          complementaryStudies: doc.data().complementaryStudies,
+          fc: doc.data().fc,
+          fr: doc.data().fr,
+          feflexes: doc.data().feflexes,
+          formerMembers: doc.data().formerMembers,
+          headNeck: doc.data().headNeck,
+          hindLimbs: doc.data().hindLimbs,
+          mainGanglia: doc.data().mainGanglia,
+          mucousMembrane: doc.data().mucousMembrane,
+          observations: doc.data().observations,
+          petId: doc.data().petId,
+          responsible: doc.data().responsible,
+          skinCondition: doc.data().skinCondition,
+          temp: doc.data().temp,
+          torax: doc.data().torax,
+          vet: doc.data().vet,
         })
       })
 
