@@ -18,7 +18,6 @@ export const useDatabasePlansStore = defineStore('databasePlansStore', {
         const docRef = doc(collection(db, "configs"), "plans");
         const docSnapshot = await getDoc(docRef);
         this.plan = docSnapshot.data()[name];
-        console.log(this.plan);
       } catch (error) {
         console.log(error);
       } finally {

@@ -90,6 +90,11 @@ const router = createRouter({
           component: () => import('../views/DashboardPlansView.vue'),
         },
         {
+          path: '/dashboard/clients-plans',
+          name: 'dashboard-clients-plans',
+          component: () => import('../views/DashboardClientsPlansView.vue'),
+        },
+        {
           path: '/dashboard/providers',
           name: 'dashboard-providers',
           component: () => import('../views/DashboardProvidersView.vue'),

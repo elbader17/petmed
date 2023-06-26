@@ -1,10 +1,18 @@
 <script setup>
 import { useDatabasePetStore } from '@/stores/databasePet';
+import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan';
 import { onMounted, ref } from 'vue';
 
-const props = defineProps(['item']);
+const props = defineProps(['item', 'plans']);
 
 const databasePetStore = useDatabasePetStore();
+const databaseClientPlanStore = useDatabaseClientPlanStore();
+
+const options = ref([]);
+
+onMounted(async () => {
+  options.value = props.plans;
+});
 
 const pet = ref({
   name: '',
@@ -19,6 +27,7 @@ const pet = ref({
 
 const handleSubmit = () => {
   databasePetStore.updatePet(props.item.id, pet.value);
+  databaseClientPlanStore.addClientPlanPet(pet.value.numAffiliate, props.item.id, pet.value.name, pet.value.plan)
 }
 
 onMounted(async () => {
@@ -29,36 +38,34 @@ onMounted(async () => {
 <template>
   <section>
     <form class="form" @submit.prevent="handleSubmit">
-      <label class="form-title" for="adit-name">Nombre:</label>
-      <input class="form-input" type="text" id="adit-name" name="adit-name" v-model="pet.name">
+      <label class="form-title" for="edit-name">Nombre:</label>
+      <input class="form-input" type="text" id="edit-name" name="edit-name" v-model="pet.name">
 
-      <label class="form-title" for="adit-birthday">Fecha de nacimiento:</label>
-      <input class="form-input" type="date" id="adit-birthday" name="adit-birthday" v-model="pet.birthdate">
+      <label class="form-title" for="edit-birthday">Fecha de nacimiento:</label>
+      <input class="form-input" type="date" id="edit-birthday" name="edit-birthday" v-model="pet.birthdate">
 
-      <label class="form-title" for="adit-animal">Tipo:</label>
-      <input class="form-input" type="text" id="adit-animal" name="adit-animal" v-model="pet.animal">
+      <label class="form-title" for="edit-animal">Tipo:</label>
+      <input class="form-input" type="text" id="edit-animal" name="edit-animal" v-model="pet.animal">
 
-      <label class="form-title" for="adit-breed">Raza:</label>
-      <input class="form-input" type="text" id="adit-breed" name="adit-breed" v-model="pet.breed">
+      <label class="form-title" for="edit-breed">Raza:</label>
+      <input class="form-input" type="text" id="edit-breed" name="edit-breed" v-model="pet.breed">
 
-      <label class="form-title" for="adit-sex">Sexo:</label>
-      <select class="form-input" id="adit-sex" name="adit-sex">
+      <label class="form-title" for="edit-sex">Sexo:</label>
+      <select class="form-input" id="edit-sex" name="edit-sex" v-model="pet.sex">
         <option value="Macho">Macho</option>
         <option value="Hembra">Hembra</option>
       </select>
 
-      <label class="form-title" for="adit-color">Color:</label>
-      <input class="form-input" type="text" id="adit-color" name="adit-color" v-model="pet.color">
+      <label class="form-title" for="edit-color">Color:</label>
+      <input class="form-input" type="text" id="edit-color" name="edit-color" v-model="pet.color">
 
-      <label class="form-title" for="adit-plan">Plan:</label>
-      <select class="form-input" id="adit-plan" name="adit-plan">
-        <option value="1005">1005</option>
-        <option value="2010">2010</option>
-        <option value="3015">3015</option>
+      <label class="form-title" for="edit-plan">Plan:</label>
+      <select class="form-input" id="edit-plan" name="edit-plan" v-model="pet.plan">
+        <option v-for="option in options" :key="option" :value="option.plan">{{ option.plan }}</option>
       </select>
 
-      <label class="form-title" for="adit-numAffiliate">Número de afiliado:</label>
-      <input class="form-input" type="text" id="adit-numAffiliate" name="adit-numAffiliate" v-model="pet.numAffiliate">
+      <label class="form-title" for="edit-numAffiliate">Número de afiliado:</label>
+      <input class="form-input" type="text" id="edit-numAffiliate" name="edit-numAffiliate" v-model="pet.numAffiliate">
 
       <button class="form-button" type="submit">Editar</button>
     </form>

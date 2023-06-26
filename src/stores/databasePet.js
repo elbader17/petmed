@@ -6,6 +6,7 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
   state: () => ({
     loadingDoc: false,
     pets: [],
+    newPetRef: null,
     page: 1,
     perPage: 10,
     total: 0,
@@ -50,6 +51,8 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
           id: petRef.id,
           ...petObj
         })
+        console.log(petRef.id);
+        this.newPetRef = petRef.id;
       } catch (error) {
         console.log(error);
       } finally {

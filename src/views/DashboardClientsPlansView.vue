@@ -1,37 +1,17 @@
 <script setup>
-import { useDatabaseUserStore } from '@/stores/databaseUser';
-import { useDatabasePetStore } from '@/stores/databasePet';
 import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan';
 import { ref, onBeforeMount } from 'vue';
-import { auth } from '@/firebaseConfig';
 import ModalReusable from '../components/ModalReusable.vue';
-import DashboardPetsAdd from '../components/DashboardPetsAdd.vue';
-import DashboardPetsEdit from '../components/DashboardPetsEdit.vue';
+import DashboardClientsPlansAdd from '../components/DashboardClientsPlansAdd.vue';
+import DashboardClientsPlansEdit from '../components/DashboardClientsPlansEdit.vue';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
 
-const databaseUserStore = useDatabaseUserStore();
-const databasePetStore = useDatabasePetStore();
 const databaseClientPlanStore = useDatabaseClientPlanStore();
 
 onBeforeMount(async () => {
-  try {
-    await databaseUserStore.readClient(auth.currentUser.uid);
-  } catch (error) {
-    console.log(error);
-  }
-
-  try {
-    await databasePetStore.getPets(databaseUserStore.client.id);
-  } catch (error) {
-    console.log(error);
-  }
-
-  try {
-    await databaseClientPlanStore.getPlansUser(databasePetStore.pets[0].numAffiliate)
-  } catch (error) {
-    console.log(error);
-  }
-})
+  databaseClientPlanStore.getSize();
+  databaseClientPlanStore.getPlans();
+});
 
 const openModal = ref(false);
 const openModalIndexed = ref([]);
@@ -52,48 +32,71 @@ const toggleModalIndexed = (index) => {
 const modalActiveIndexed = (index) => {
   return openModalIndexed.value.includes(index);
 }
+
+const nextPage = async () => {
+  if (databaseClientPlanStore.page > 0) {
+    await databaseClientPlanStore.nextPage();
+  }
+};
+
+const previousPage = async () => {
+  if (databaseClientPlanStore.page < databaseClientPlanStore.total) {
+    await databaseClientPlanStore.previousPage();
+  }
+};
 </script>
 
 <template>
-  <section class="dashboard-pets">
-    <h1 class="pets-title">Mascotas</h1>
+  <section class="dashboard-clients">
+    <h1 class="clients-title">Planes de Clientes</h1>
     <div>
       <button class="button-add" @click="toggleModal">Agregar</button>
     </div>
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
-      <DashboardPetsAdd :plans="databaseClientPlanStore.plansClient" />
+      <DashboardClientsPlansAdd />
     </ModalReusable>
-    <p v-if="databasePetStore.loadingDoc">
+    <p v-if="databaseClientPlanStore.loadingDoc">
       <LoadingAnimation />
     </p>
     <table v-else class="table">
       <thead class="table-head">
-        <th class="head-item">Nombre</th>
+        <th class="head-item">N° de Afiliado</th>
         <th class="head-item">Acciones</th>
       </thead>
-      <tbody class="table-body" v-for="(item, index) of databasePetStore.pets" :key="item.id">
-        <td class="body-item">{{ item.name }}</td>
+      <tbody class="table-body" v-for="(item, index) of databaseClientPlanStore.plans" :key="item.id">
+        <td class="body-item">{{ item.id }}</td>
         <td class="body-buttons">
           <button class="button-edit" @click="toggleModalIndexed(index)">Editar</button>
-          <button class="button-delete" @click="databasePetStore.deletePet(item.id)">Eliminar</button>
         </td>
         <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
-          <DashboardPetsEdit :item="item" :plans="databaseClientPlanStore.plansClient" />
+          <DashboardClientsPlansEdit :item="item" />
         </ModalReusable>
       </tbody>
     </table>
+    <div class="pagination">
+      <button class="pagination-button" :disabled="databaseClientPlanStore.page === 1" @click="previousPage">
+        Anterior
+      </button>
+      <div class="pagination-pages">
+        {{ databaseClientPlanStore.page }} / {{ databaseClientPlanStore.pages }}
+      </div>
+      <button class="pagination-button" :disabled="databaseClientPlanStore.page === databaseClientPlanStore.pages"
+        @click="nextPage">
+        Siguiente
+      </button>
+    </div>
   </section>
 </template>
 
 <style scoped>
-.dashboard-pets {
+.dashboard-clients {
   display: flex;
   flex-direction: column;
   max-width: 860px;
   margin: 0 auto;
 }
 
-.pets-title {
+.clients-title {
   padding: 0.5rem;
   font-weight: 700;
   font-size: 1.75rem;
@@ -143,6 +146,22 @@ const modalActiveIndexed = (index) => {
   color: #fff;
   box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
   cursor: pointer;
+}
+
+.pagination-pages {
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  border: none;
+  border-radius: 1.25rem;
+  font-size: 1rem;
+  color: #fff;
+  box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+  background-color: #8D57B0;
+}
+
+.pagination-button:disabled {
+  cursor: auto;
+  background-color: #794899;
 }
 
 .button-add,
