@@ -6,7 +6,7 @@ import { defineStore } from 'pinia';
 export const useDatabaseUserStore = defineStore('databaseUserStore', {
   state: () => ({
     loadingDoc: false,
-    client: [],
+    client: null,
     clients: [],
     page: 1,
     perPage: 10,
@@ -120,19 +120,18 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
       }
     },
     async readClient(id) {
-      if (this.client.length !== 0 && this.client[0].account == id) {
+      if (this.client && this.client.account == id) {
         return
       }
       this.loadingDoc = true;
       try {
         const clientRef = query(collection(db, 'users'), where('account', '==', id));
         const clientSnapshot = await getDocs(clientRef);
-        clientSnapshot.forEach((doc) => {
-          this.client.push({
-            id: doc.id,
-            ...doc.data()
-          })
-        })
+        const doc = clientSnapshot.docs[0];
+        this.client = {
+          id: doc.id,
+          ...doc.data()
+        };
       } catch (error) {
         console.log(error.message);
       } finally {

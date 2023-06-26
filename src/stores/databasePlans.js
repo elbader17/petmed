@@ -1,13 +1,30 @@
 import { collection, deleteField, doc, getDoc, updateDoc } from 'firebase/firestore/lite';
-import { db, auth } from '@/firebaseConfig';
+import { db } from '@/firebaseConfig';
 import { defineStore } from 'pinia';
 
 export const useDatabasePlansStore = defineStore('databasePlansStore', {
   state: () => ({
     loadingDoc: false,
+    plan: null,
     plans: null,
   }),
   actions: {
+    async getPlan(name) {
+      if (this.plan !== null) {
+        return
+      }
+      this.loadingDoc = true;
+      try {
+        const docRef = doc(collection(db, "configs"), "plans");
+        const docSnapshot = await getDoc(docRef);
+        this.plan = docSnapshot.data()[name];
+        console.log(this.plan);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
     async getPlans() {
       if (this.plans !== null) {
         return
@@ -53,25 +70,6 @@ export const useDatabasePlansStore = defineStore('databasePlansStore', {
         this.plans[name] = dataObj;
       } catch (error) {
         console.log(error);
-      } finally {
-        this.loadingDoc = false;
-      }
-    },
-    async readPlan(id) {
-      this.loadingDoc = true;
-      try {
-        const planRef = doc(db, 'plans', id);
-        const planSnapshot = await getDoc(planRef);
-        if (!planSnapshot.exists()) {
-          throw new Error("No existe el plan");
-        }
-        if (planSnapshot.data().user === auth.currentUser.uid) {
-          return planSnapshot.data();
-        } else {
-          throw new Error("No tienes permiso");
-        }
-      } catch (error) {
-        console.log(error.message);
       } finally {
         this.loadingDoc = false;
       }
