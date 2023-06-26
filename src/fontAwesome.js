@@ -21,6 +21,7 @@ import {
   faClipboard,
   faBarcode,
   faRightFromBracket,
+  faReceipt,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -40,6 +41,7 @@ library.add(
   faAnglesRight,
   faHouse,
   faUser,
+  faReceipt,
   faUserDoctor,
   faFileMedical,
   faClipboard,

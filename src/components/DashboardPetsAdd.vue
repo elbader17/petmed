@@ -1,8 +1,20 @@
 <script setup>
+import { useDatabaseUserStore } from '@/stores/databaseUser';
 import { useDatabasePetStore } from '@/stores/databasePet';
-import { ref } from 'vue';
+import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan';
+import { ref, onMounted } from 'vue';
 
+const databaseUserStore = useDatabaseUserStore();
 const databasePetStore = useDatabasePetStore();
+const databaseClientPlanStore = useDatabaseClientPlanStore();
+
+const props = defineProps(['plans']);
+
+const options = ref([]);
+
+onMounted(async () => {
+  options.value = props.plans;
+});
 
 const pet = ref({
   name: '',
@@ -13,10 +25,13 @@ const pet = ref({
   color: '',
   plan: '',
   numAffiliate: '',
+  client: null
 })
 
 const handleSubmit = () => {
+  pet.value.client = databaseUserStore.client.id
   databasePetStore.addPet(pet.value);
+  databaseClientPlanStore.addClientPlanPet(pet.value.numAffiliate, databasePetStore.newPetRef, pet.value.name, pet.value.plan)
   pet.value.name = '';
   pet.value.birthdate = '';
   pet.value.animal = '';
@@ -44,7 +59,7 @@ const handleSubmit = () => {
       <input class="form-input" type="text" id="add-breed" name="add-breed" v-model="pet.breed">
 
       <label class="form-title" for="add-sex">Sexo:</label>
-      <select class="form-input" id="add-sex" name="add-sex">
+      <select class="form-input" id="add-sex" name="add-sex" v-model="pet.sex">
         <option value="Macho">Macho</option>
         <option value="Hembra">Hembra</option>
       </select>
@@ -53,10 +68,8 @@ const handleSubmit = () => {
       <input class="form-input" type="text" id="add-color" name="add-color" v-model="pet.color">
 
       <label class="form-title" for="add-plan">Plan:</label>
-      <select class="form-input" id="add-plan" name="add-plan">
-        <option value="1005">1005</option>
-        <option value="2010">2010</option>
-        <option value="3015">3015</option>
+      <select class="form-input" id="add-plan" name="add-plan" v-model="pet.plan">
+        <option v-for="option in options" :key="option" :value="option.plan">{{ option.plan }}</option>
       </select>
 
       <label class="form-title" for="add-numAffiliate">Número de afiliado:</label>

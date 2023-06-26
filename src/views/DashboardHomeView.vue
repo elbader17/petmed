@@ -1,13 +1,13 @@
 <script setup>
 import { useUserStore } from '@/stores/user';
 import { useDatabaseUserStore } from '@/stores/databaseUser';
-import { onMounted } from 'vue';
+import { onBeforeMount } from 'vue';
 import { auth } from '@/firebaseConfig';
 
 const userStore = useUserStore();
 const databaseUserStore = useDatabaseUserStore();
 
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
     databaseUserStore.readClient(auth.currentUser.uid);
   } catch (error) {
