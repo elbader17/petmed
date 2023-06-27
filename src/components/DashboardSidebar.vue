@@ -60,6 +60,10 @@ const renderByType = (type) => {
         <font-awesome-icon icon="fa-solid fa-clipboard" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Autorización</h4>
       </router-link>
+      <a class="button" v-if="renderByType('vet')">
+        <font-awesome-icon icon="fa-solid fa-clipboard" class="icon" size="xl" />
+        <h4 class="text" v-if="isExpanded">Derivaciones</h4>
+      </a>
       <router-link class="button" v-if="renderByType('admin')" :to="{ name: 'dashboard-plans' }">
         <font-awesome-icon icon="fa-solid fa-money-check-dollar" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Planes</h4>
