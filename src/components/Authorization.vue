@@ -17,7 +17,6 @@ const sendCode = async () => {
   const response = await databaseVetStore.validateCode(code.value)
   practices.value = response.practices
   practicesData.value = response.plan.practices
-  console.log("🚀 ~ file: Authorization.vue:20 ~ sendCode ~ practicesData:", practicesData.value)
   toggleModal()
 }
 </script>
