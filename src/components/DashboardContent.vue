@@ -8,7 +8,7 @@
 
 <style scoped>
 .dashboard-content {
-  min-height: 100vh;
+  min-height: 83vh;
   flex: 1 1 0;
   padding: 2rem;
   background-color: rgba(0, 0, 0, 0.1);

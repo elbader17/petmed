@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useUserStore } from '@/stores/user';
+import ElipsisLoading from './icons/ElipsisLoading.vue';
 
 const userStore = useUserStore();
 
@@ -29,7 +30,10 @@ const handleSubmit = async () => {
       <input class="form-input" type="email" v-model.trim="email" placeholder="Ingrese el correo">
       <input class="form-input" type="password" v-model.trim="password" placeholder="Ingrese la contraseña">
       <p class="form-error" v-if="errMsg">{{ errMsg }}</p>
-      <button class="form-button" type="submit" :disabled="userStore.loadingUser">Acceder</button>
+      <button class="form-button" type="submit" :disabled="userStore.loadingUser">
+        <ElipsisLoading v-if="userStore.loadingUser" />
+        <p v-else>Acceder</p>
+      </button>
       <p class="password-question">Te has olvidado de la contraseña?</p>
       <p class="password-link" @click="emit('toggle')">Recuperar la contraseña</p>
     </form>

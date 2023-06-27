@@ -1,12 +1,15 @@
 <script setup>
 import { useDatabaseProvidersStore } from '@/stores/databaseProviders';
 import { ref, onBeforeMount } from 'vue';
+import { useCheckScreen } from '@/composables/checkScreen';
 import ModalReusable from '../components/ModalReusable.vue';
 import DashboardProvidersAdd from '../components/DashboardProvidersAdd.vue';
 import DashboardProvidersEdit from '../components/DashboardProvidersEdit.vue';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
 
 const databaseProvidersStore = useDatabaseProvidersStore();
+
+const { mobile } = useCheckScreen();
 
 onBeforeMount(async () => {
   databaseProvidersStore.getSize();
@@ -61,15 +64,21 @@ const previousPage = async () => {
     <table v-else class="table">
       <thead class="table-head">
         <th class="head-item">Nombre</th>
-        <th class="head-item">Especialidad</th>
+        <th class="head-item" v-show="!mobile">Especialidad</th>
         <th class="head-item">Acciones</th>
       </thead>
       <tbody class="table-body" v-for="(item, index) of databaseProvidersStore.providers" :key="item.id">
         <td class="body-item">{{ item.name }}</td>
-        <td class="body-item">{{ item.specialty }}</td>
+        <td class="body-item" v-show="!mobile">{{ item.specialty }}</td>
         <td class="body-buttons">
-          <button class="button-edit" @click="toggleModalIndexed(index)">Editar</button>
-          <button class="button-delete" @click="databaseProvidersStore.deleteProvider(item.id)">Eliminar</button>
+          <button class="button-edit" @click="toggleModalIndexed(index)">
+            <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
+            <p v-show="!mobile">Editar</p>
+          </button>
+          <button class="button-delete" @click="databaseProvidersStore.deleteProvider(item.id)">
+            <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
+            <p v-show="!mobile">Eliminar</p>
+          </button>
         </td>
         <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
           <DashboardProvidersEdit :item="item" />

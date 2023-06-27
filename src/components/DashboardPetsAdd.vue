@@ -31,7 +31,7 @@ const pet = ref({
 const handleSubmit = () => {
   pet.value.client = databaseUserStore.client.id
   databasePetStore.addPet(pet.value);
-  databaseClientPlanStore.addClientPlanPet(pet.value.numAffiliate, databasePetStore.newPetRef, pet.value.name, pet.value.plan)
+  databaseClientPlanStore.addClientPlanPet(pet.value.client, databasePetStore.newPetRef, pet.value.name, pet.value.plan)
   pet.value.name = '';
   pet.value.birthdate = '';
   pet.value.animal = '';
@@ -39,7 +39,7 @@ const handleSubmit = () => {
   pet.value.sex = '';
   pet.value.color = '';
   pet.value.plan = '';
-  pet.value.numAffiliate = '';
+  pet.value.client = '';
 }
 </script>
 

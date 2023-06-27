@@ -220,7 +220,7 @@ onMounted(async () => {
       <h3 class="form-title">Cirugías (Castraciones):</h3>
       <div class="form-categories">
         <label class="form-subtitle" for="edit-amount-14">Cantidad:</label>
-        <input class="form-input" type="text" id="edit-amount-14" name="edit-amount-14">
+        <input class="form-input" type="text" id="edit-amount-14" name="edit-amount-14" v-model="plan[14].amount">
 
         <label class="form-subtitle" for="edit-coverage-14">Cobertura:</label>
         <input class="form-input" type="text" id="edit-coverage-14" name="edit-coverage-14" v-model="plan[14].coverage">
@@ -352,4 +352,5 @@ onMounted(async () => {
 
 .form-button:hover {
   background-color: #794899;
-}</style>
+}
+</style>

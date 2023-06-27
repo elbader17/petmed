@@ -61,7 +61,11 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       try {
         const planRef = doc(db, 'plans', id)
         const planSnapshot = await getDoc(planRef);
-        this.plansClient.push(...planSnapshot.data().plans)
+        if (planSnapshot.exists() && planSnapshot.data()) {
+          this.plansClient.push(...planSnapshot.data().plans);
+        } else {
+          console.log('El cliente no tiene planes');
+        }
       } catch (error) {
         console.log(error);
       } finally {
@@ -118,18 +122,18 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           plan: plan.plan,
           date: plan.date,
           paid: plan.paid,
-          pet: null,
-          name: null,
+          petId: plan.petId || null,
+          petName: plan.petName || null,
           practices: databasePlansStore.plan
         };
-        const planRef = doc(db, 'plans', plan.numAffiliate)
+        const planRef = doc(db, 'plans', plan.client)
         await setDoc(planRef, { ['plans']: arrayUnion(planObj) }, { merge: true });
-        const index = this.plans.findIndex((item) => item.id === plan.numAffiliate);
+        const index = this.plans.findIndex((item) => item.id === plan.client);
         if (index !== -1) {
           this.plans[index].plans.push(planObj);
         } else {
           this.plans.unshift({
-            id: plan.numAffiliate,
+            id: plan.client,
             plans: [planObj]
           })
         }
@@ -166,8 +170,8 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
 
           const index = plans.findIndex(plan => plan.plan === userplan);
 
-          plans[index].pet = pet;
-          plans[index].name = name;
+          plans[index].petId = pet;
+          plans[index].petName = name;
 
           await updateDoc(docRef, { plans: plans });
         }

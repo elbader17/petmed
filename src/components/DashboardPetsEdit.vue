@@ -15,6 +15,7 @@ onMounted(async () => {
 });
 
 const pet = ref({
+  client: '',
   name: '',
   birthdate: '',
   animal: '',
@@ -27,7 +28,7 @@ const pet = ref({
 
 const handleSubmit = () => {
   databasePetStore.updatePet(props.item.id, pet.value);
-  databaseClientPlanStore.addClientPlanPet(pet.value.numAffiliate, props.item.id, pet.value.name, pet.value.plan)
+  databaseClientPlanStore.addClientPlanPet(pet.value.client, props.item.id, pet.value.name, pet.value.plan)
 }
 
 onMounted(async () => {

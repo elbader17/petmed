@@ -1,5 +1,6 @@
 <script setup>
 import { useDatabaseUserStore } from '@/stores/databaseUser';
+import { useCheckScreen } from '@/composables/checkScreen';
 import { ref, onBeforeMount } from 'vue';
 import ModalReusable from '../components/ModalReusable.vue';
 import DashboardClientsAdd from '../components/DashboardClientsAdd.vue';
@@ -7,6 +8,8 @@ import DashboardClientsEdit from '../components/DashboardClientsEdit.vue';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
 
 const databaseUserStore = useDatabaseUserStore();
+
+const { mobile } = useCheckScreen();
 
 onBeforeMount(async () => {
   databaseUserStore.getSize();
@@ -66,8 +69,14 @@ const previousPage = async () => {
       <tbody class="table-body" v-for="(item, index) of databaseUserStore.clients" :key="item.id">
         <td class="body-item">{{ item.name }} {{ item.surname }}</td>
         <td class="body-buttons">
-          <button class="button-edit" @click="toggleModalIndexed(index)">Editar</button>
-          <button class="button-delete" @click="databaseUserStore.deleteClient(item.id)">Eliminar</button>
+          <button class="button-edit" @click="toggleModalIndexed(index)">
+            <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
+            <p v-show="!mobile">Editar</p>
+          </button>
+          <button class="button-delete" @click="databaseUserStore.deleteClient(item.id)">
+            <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
+            <p v-show="!mobile">Eliminar</p>
+          </button>
         </td>
         <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
           <DashboardClientsEdit :item="item" />

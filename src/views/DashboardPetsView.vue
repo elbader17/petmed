@@ -2,6 +2,7 @@
 import { useDatabaseUserStore } from '@/stores/databaseUser';
 import { useDatabasePetStore } from '@/stores/databasePet';
 import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan';
+import { useCheckScreen } from '@/composables/checkScreen';
 import { ref, onBeforeMount } from 'vue';
 import { auth } from '@/firebaseConfig';
 import ModalReusable from '../components/ModalReusable.vue';
@@ -12,6 +13,8 @@ import LoadingAnimation from '../components/LoadingAnimation.vue';
 const databaseUserStore = useDatabaseUserStore();
 const databasePetStore = useDatabasePetStore();
 const databaseClientPlanStore = useDatabaseClientPlanStore();
+
+const { mobile } = useCheckScreen();
 
 onBeforeMount(async () => {
   try {
@@ -63,7 +66,7 @@ const modalActiveIndexed = (index) => {
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
       <DashboardPetsAdd :plans="databaseClientPlanStore.plansClient" />
     </ModalReusable>
-    <p v-if="databasePetStore.loadingDoc">
+    <p v-if="databaseUserStore.loadingDoc || databasePetStore.loadingDoc || databaseClientPlanStore.loadingDoc">
       <LoadingAnimation />
     </p>
     <table v-else class="table">
@@ -74,8 +77,14 @@ const modalActiveIndexed = (index) => {
       <tbody class="table-body" v-for="(item, index) of databasePetStore.pets" :key="item.id">
         <td class="body-item">{{ item.name }}</td>
         <td class="body-buttons">
-          <button class="button-edit" @click="toggleModalIndexed(index)">Editar</button>
-          <button class="button-delete" @click="databasePetStore.deletePet(item.id)">Eliminar</button>
+          <button class="button-edit" @click="toggleModalIndexed(index)">
+            <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
+            <p v-show="!mobile">Editar</p>
+          </button>
+          <button class="button-delete" @click="databasePetStore.deletePet(item.id)">
+            <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
+            <p v-show="!mobile">Eliminar</p>
+          </button>
         </td>
         <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
           <DashboardPetsEdit :item="item" :plans="databaseClientPlanStore.plansClient" />
