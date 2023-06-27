@@ -43,7 +43,8 @@ const emit = defineEmits(['closeModal'])
   box-shadow: 0 1rem 1.75rem rgba(0, 0, 0, 0.5);
   padding: 1.5rem;
   border-radius: 1.25rem;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: clip;
 }
 
 .modal-button {

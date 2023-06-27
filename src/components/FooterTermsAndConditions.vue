@@ -110,8 +110,9 @@ const emit = defineEmits(['abrirModal'])
           justificados. En caso de controversias las partes se someten al Juzgado de Primera Instancia en lo Civil y
           Comercial N°1 de la ciudad de Rio Cuarto, Provincia de Córdoba, renunciando desde ya a cualquier otro Fuero y/o
           Jurisdicción que pudiere corresponder, inclusive el Federal.</p>
-        <ContentSeparator class="separator-bottom" />
+
       </div>
+      <ContentSeparator class="separator-bottom" />
     </div>
   </section>
 </template>
@@ -128,7 +129,7 @@ const emit = defineEmits(['abrirModal'])
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+
 }
 
 .modal-inner {
@@ -136,7 +137,6 @@ const emit = defineEmits(['abrirModal'])
   padding: 2rem;
   width: 75%;
   height: 75%;
-
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -157,7 +157,8 @@ const emit = defineEmits(['abrirModal'])
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: clip;
 }
 
 .content-title {
@@ -177,9 +178,9 @@ p {
 }
 
 .separator-bottom {
-  transform: rotate(180deg) translateY(-2rem) rotateY(180deg);
+  transform: rotate(180deg) translateY(-2rem) translateX(-2rem) rotateY(180deg);
   fill: #3CBEB4;
-  width: 104%;
-  height: 3.875rem;
+  width: 107%;
+  height: 30%;
 }
 </style>
