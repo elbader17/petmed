@@ -1,22 +1,37 @@
 <script setup>
-import { ref, onMounted, toRaw } from 'vue'
-import { useUserStore } from '@/stores/user'
+import { ref } from 'vue'
 import { useDatabaseVetStore } from '@/stores/databaseVets'
-const validate = ref({})
+import ModalReusable from '../components/ModalReusable.vue'
 
-const databaseUserStore = useUserStore()
+const code = ref('')
+const practices = ref([])
+const practicesData = ref([])
+const toggleModal = () => {
+  openModal.value = !openModal.value
+}
+
+const openModal = ref(false)
 const databaseVetStore = useDatabaseVetStore()
+
+const sendCode = async () => {
+  const response = await databaseVetStore.validateCode(code.value)
+  practices.value = response.practices
+  practicesData.value = response.plan.practices
+  toggleModal()
+}
 </script>
 
 <template>
   <form>
     <section>
       <h2 for="">Numero de afiliado</h2>
-      <input type="number" class="inputCode" id="" name="" />
+      <input type="number" v-model="code" class="inputCode" id="" name="" />
     </section>
-
-    <section></section>
-
+    <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
+      <div v-for="(practice, index) in practices" :key="index">
+        <p>{{ practice }}: {{ practicesData[index].amount }} | cobertura {{ practicesData[index].coverage }}% </p>
+      </div>
+    </ModalReusable>
     <input type="button" class="buttonVerificar" value="Solicitar" @click="sendCode" />
   </form>
 </template>

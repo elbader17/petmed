@@ -84,6 +84,23 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
       const res = await addDoc(collection(db, 'forms'), dataParse);
         
     },
+
+    async validateCode(code){
+      const queryRef = query(collection(db, 'pets'), where('numAffiliate', '==', code.toString()));
+      const querySnapshot = await getDocs(queryRef);
+      const petid = querySnapshot.docs[0].id
+      const queryRef2 = query(collection(db, 'plans'), where('__name__', '==', petid)); // <-- example 280376
+      const querySnapshot2 = await getDocs(queryRef2);
+      const plans = querySnapshot2._docs[0].data().plans
+      const queryRef3 = query(collection(db, 'configs'), where('__name__', '==', 'practices'));
+      const querySnapshot3 = await getDocs(queryRef3);
+      const practices = querySnapshot3.docs[0].data().list
+      for ( const plan of plans){
+        if (plan.petId === petid){
+          return {plan, practices}
+        }
+      }
+    },
     async nextPage() {
       this.loadingDoc = true;
       try {
