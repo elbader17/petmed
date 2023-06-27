@@ -58,23 +58,23 @@ const data = ref({
       <p>Nombre: {{ infoForShow.name }}</p>
       <p>Plan: {{ infoForShow.plan }}</p>
       <p>Fecha: {{ infoForShow.date }}</p>
-      <p>abdomen: {{ infoForShow.abdomen}}</p>
-      <p>anamnesis: {{ infoForShow.anamnesis }}</p>
+      <p>Abdomen: {{ infoForShow.abdomen}}</p>
+      <p>Anamnesis: {{ infoForShow.anamnesis }}</p>
       <p>Estudios complementarios {{ infoForShow.complementaryStudies }}</p>
-      <p>fc: {{ infoForShow.fc }}</p>
-      <p>fr: {{ infoForShow.fr }}</p>
-      <p>reflejos: {{ infoForShow.feflexes }}</p>
-      <p>miembros anteriores: {{ infoForShow.formerMembers }}</p>
-      <p>cabeza y cuello: {{ infoForShow.headNeck }}</p>
-      <p>miembros posteriores: {{ infoForShow.hindLimbs }}</p>
-      <p>ganglios principales: {{ infoForShow.mainGanglia }}</p>
-      <p>membrana mucosa: {{ infoForShow.mucousMembrane }}</p>
-      <p>observaciones: {{ infoForShow.observations }}</p>
-      <p>condicion de piel: {{ infoForShow.skinCondition }}</p>
-      <p>temperatura: {{ infoForShow.temp }}</p>
-      <p>torax: {{ infoForShow.torax }}</p>
-      <p>practicas: {{ infoForShow.practices }}</p>
-      <p>veterinario: {{ infoForShow.vet }}</p>
+      <p>Fr: {{ infoForShow.fr }}</p>
+      <p>Fc: {{ infoForShow.fc }}</p>
+      <p>Reflejos: {{ infoForShow.feflexes }}</p>
+      <p>Miembros anteriores: {{ infoForShow.formerMembers }}</p>
+      <p>Cabeza y cuello: {{ infoForShow.headNeck }}</p>
+      <p>Miembros posteriores: {{ infoForShow.hindLimbs }}</p>
+      <p>Ganglios principales: {{ infoForShow.mainGanglia }}</p>
+      <p>Membrana mucosa: {{ infoForShow.mucousMembrane }}</p>
+      <p>Observaciones: {{ infoForShow.observations }}</p>
+      <p>Condicion de piel: {{ infoForShow.skinCondition }}</p>
+      <p>Temperatura: {{ infoForShow.temp }}</p>
+      <p>Torax: {{ infoForShow.torax }}</p>
+      <p>Practicas: {{ infoForShow.practices }}</p>
+      <p>Veterinario: {{ infoForShow.vet }}</p>
 
     </ModalReusable>
     <div>
