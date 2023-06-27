@@ -73,7 +73,8 @@ onMounted(async () => {
             date: date,
             paid: true,
             petId: pet.id,
-            petName: pet.name
+            petName: pet.name,
+            numAffiliate: pet.numAffiliate
           }
 
           try {

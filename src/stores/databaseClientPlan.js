@@ -124,6 +124,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           paid: plan.paid,
           petId: plan.petId || null,
           petName: plan.petName || null,
+          numAffiliate: plan.numAffiliate || null,
           practices: databasePlansStore.plan
         };
         const planRef = doc(db, 'plans', plan.client)
@@ -158,20 +159,21 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         this.loadingDoc = false;
       }
     },
-    async addClientPlanPet(id, pet, name, userplan) {
+    async addClientPlanPet(pet, petId) {
       this.loadingDoc = true;
       try {
-        const docRef = doc(db, 'plans', id);
+        const docRef = doc(db, 'plans', pet.client);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
           const data = docSnap.data();
           const plans = data.plans;
 
-          const index = plans.findIndex(plan => plan.plan === userplan);
+          const index = plans.findIndex(plan => plan.plan === pet.plan && plan.numAffiliate === null);
 
-          plans[index].petId = pet;
-          plans[index].petName = name;
+          plans[index].petId = petId;
+          plans[index].petName = pet.name;
+          plans[index].numAffiliate = pet.numAffiliate;
 
           await updateDoc(docRef, { plans: plans });
         }
@@ -182,6 +184,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       }
     },
     async updateAmountsDefault(docRef, plans, plan, planName, date) {
+      this.loadingDoc = true;
       try {
         const defaultDocRef = doc(db, 'configs', 'plans');
         const defaultDocSnap = await getDoc(defaultDocRef);
@@ -209,25 +212,58 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       }
     },
     async updateAmountsIfYearPassed(id) {
-      const docRef = doc(db, 'plans', id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        const plans = data.plans;
+      this.loadingDoc = true;
+      try {
+        const docRef = doc(db, 'plans', id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          const plans = data.plans;
+
+          for (let i = 0; i < plans.length; i++) {
+            const dateStr = plans[i].date;
+            const date = new Date(dateStr);
+            const currentDate = new Date();
+            const timeDiff = currentDate.getTime() - date.getTime();
+            const yearDiff = timeDiff / (1000 * 3600 * 24 * 365);
+
+            if (yearDiff >= 1) {
+              await this.updateAmountsDefault(docRef, plans, plans[i], plans[i].plan, date);
+            }
+          }
+        } else {
+          console.log('No existe el plan');
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async updatePlan(planId, formPractices, numAffiliate) {
+      this.loadingDoc = true;
+      try {
+        const practicesDoc = await getDoc(doc(db, 'configs', 'practices'));
+        const practices = practicesDoc.data().practices;
+        const practiceIndexes = formPractices.map(practiceName => practices.indexOf(practiceName));
+
+        const docRef = doc(db, 'plans', planId);
+        const planDoc = await getDoc(docRef);
+        const planData = planDoc.data();
+        const plans = planData.plans;
 
         for (let i = 0; i < plans.length; i++) {
-          const dateStr = plans[i].date;
-          const date = new Date(dateStr);
-          const currentDate = new Date();
-          const timeDiff = currentDate.getTime() - date.getTime();
-          const yearDiff = timeDiff / (1000 * 3600 * 24 * 365);
-
-          if (yearDiff >= 1) {
-            await this.updateAmountsDefault(docRef, plans, plans[i], plans[i].plan, date);
+          if (plans[i].numAffiliate === numAffiliate) {
+            for (const practiceIndex of practiceIndexes) {
+              plans[i].practices[practiceIndex].amount--;
+            }
           }
         }
-      } else {
-        console.log('No existe el plan');
+        await updateDoc(docRef, { plans });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
       }
     }
   }

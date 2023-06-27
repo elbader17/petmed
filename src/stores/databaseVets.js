@@ -7,7 +7,6 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
   state: () => ({
     loadingDoc: false,
     vet: null,
-    /* vet: [], */
     vets: [],
     page: 1,
     perPage: 10,
@@ -75,17 +74,17 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
       this.practices = querySnapshot.docs[0].data().list
     },
 
-    async sendForm(data){
+    async sendForm(data) {
       console.log(data)
       const practices = data.practices
       delete data.practices
-      const dataParse = {...data, ...practices}
+      const dataParse = { ...data, ...practices }
       dataParse.date = new Date()
       const res = await addDoc(collection(db, 'forms'), dataParse);
-        
+
     },
 
-    async validateCode(code){
+    async validateCode(code) {
       const queryRef = query(collection(db, 'pets'), where('numAffiliate', '==', code.toString()));
       const querySnapshot = await getDocs(queryRef);
       const petid = querySnapshot.docs[0].id
@@ -95,9 +94,9 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
       const queryRef3 = query(collection(db, 'configs'), where('__name__', '==', 'practices'));
       const querySnapshot3 = await getDocs(queryRef3);
       const practices = querySnapshot3.docs[0].data().list
-      for ( const plan of plans){
-        if (plan.petId === petid){
-          return {plan, practices}
+      for (const plan of plans) {
+        if (plan.petId === petid) {
+          return { plan, practices }
         }
       }
     },
@@ -166,26 +165,6 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
         this.loadingDoc = false;
       }
     },
-    /* async readVet(id) {
-      if (this.vet.length !== 0 && this.vet[0].account == id) {
-        return
-      }
-      this.loadingDoc = true;
-      try {
-        const vetRef = query(collection(db, 'users'), where('account', '==', id));
-        const vetSnapshot = await getDocs(vetRef);
-        vetSnapshot.forEach((doc) => {
-          this.vet.push({
-            id: doc.id,
-            ...doc.data()
-          })
-        })
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.loadingDoc = false;
-      }
-    }, */
     async updateVet(id, vet) {
       this.loadingDoc = true;
       try {

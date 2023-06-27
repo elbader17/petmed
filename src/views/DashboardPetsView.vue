@@ -30,7 +30,7 @@ onBeforeMount(async () => {
   }
 
   try {
-    await databaseClientPlanStore.getPlansUser(databasePetStore.pets[0].numAffiliate)
+    await databaseClientPlanStore.getPlansUser(databasePetStore.pets[0].client)
   } catch (error) {
     console.log(error);
   }

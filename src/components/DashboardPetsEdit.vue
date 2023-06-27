@@ -12,6 +12,7 @@ const options = ref([]);
 
 onMounted(async () => {
   options.value = props.plans;
+  pet.value = props.item;
 });
 
 const pet = ref({
@@ -28,12 +29,7 @@ const pet = ref({
 
 const handleSubmit = () => {
   databasePetStore.updatePet(props.item.id, pet.value);
-  databaseClientPlanStore.addClientPlanPet(pet.value.client, props.item.id, pet.value.name, pet.value.plan)
 }
-
-onMounted(async () => {
-  pet.value = props.item;
-})
 </script>
 
 <template>
@@ -59,14 +55,6 @@ onMounted(async () => {
 
       <label class="form-title" for="edit-color">Color:</label>
       <input class="form-input" type="text" id="edit-color" name="edit-color" v-model="pet.color">
-
-      <label class="form-title" for="edit-plan">Plan:</label>
-      <select class="form-input" id="edit-plan" name="edit-plan" v-model="pet.plan">
-        <option v-for="option in options" :key="option" :value="option.plan">{{ option.plan }}</option>
-      </select>
-
-      <label class="form-title" for="edit-numAffiliate">Número de afiliado:</label>
-      <input class="form-input" type="text" id="edit-numAffiliate" name="edit-numAffiliate" v-model="pet.numAffiliate">
 
       <button class="form-button" type="submit">Editar</button>
     </form>
