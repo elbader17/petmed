@@ -7,7 +7,7 @@ const props = defineProps(['id']);
 const databaseClientPlanStore = useDatabaseClientPlanStore();
 
 const client = ref({
-  numAffiliate: props.id,
+  client: props.id,
   plan: '',
   date: '',
   paid: true

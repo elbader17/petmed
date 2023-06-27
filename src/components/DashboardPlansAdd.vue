@@ -231,7 +231,7 @@ const handleSubmit = () => {
       <h3 class="form-title">Cirugías (Castraciones):</h3>
       <div class="form-categories">
         <label class="form-subtitle" for="add-amount-14">Cantidad:</label>
-        <input class="form-input" type="text" id="add-amount-14" name="add-amount-14">
+        <input class="form-input" type="text" id="add-amount-14" name="add-amount-14" v-model="plan[14].amount">
 
         <label class="form-subtitle" for="add-coverage-14">Cobertura:</label>
         <input class="form-input" type="text" id="add-coverage-14" name="add-coverage-14" v-model="plan[14].coverage">

@@ -1,5 +1,6 @@
 <script setup>
 import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan';
+import { useCheckScreen } from '@/composables/checkScreen';
 import { ref, onBeforeMount } from 'vue';
 import ModalReusable from '../components/ModalReusable.vue';
 import DashboardClientsPlansAdd from '../components/DashboardClientsPlansAdd.vue';
@@ -7,6 +8,8 @@ import DashboardClientsPlansEdit from '../components/DashboardClientsPlansEdit.v
 import LoadingAnimation from '../components/LoadingAnimation.vue';
 
 const databaseClientPlanStore = useDatabaseClientPlanStore();
+
+const { mobile } = useCheckScreen();
 
 onBeforeMount(async () => {
   databaseClientPlanStore.getSize();
@@ -66,7 +69,10 @@ const previousPage = async () => {
       <tbody class="table-body" v-for="(item, index) of databaseClientPlanStore.plans" :key="item.id">
         <td class="body-item">{{ item.id }}</td>
         <td class="body-buttons">
-          <button class="button-edit" @click="toggleModalIndexed(index)">Editar</button>
+          <button class="button-edit" @click="toggleModalIndexed(index)">
+            <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
+            <p v-show="!mobile">Editar</p>
+          </button>
         </td>
         <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
           <DashboardClientsPlansEdit :item="item" />

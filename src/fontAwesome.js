@@ -22,11 +22,17 @@ import {
   faBarcode,
   faRightFromBracket,
   faReceipt,
+  faTrash,
+  faPenToSquare,
+  faEye,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 library.add(
+  faTrash,
+  faPenToSquare,
+  faEye,
   faBars,
   faLocationDot,
   faEnvelope,

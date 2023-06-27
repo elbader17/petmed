@@ -5,7 +5,7 @@ import { ref } from 'vue';
 const databaseClientPlanStore = useDatabaseClientPlanStore();
 
 const client = ref({
-  numAffiliate: '',
+  client: '',
   plan: '',
   date: '',
   paid: true
@@ -24,8 +24,8 @@ const handleSubmit = () => {
   <section>
     <form class="form" @submit.prevent="handleSubmit">
 
-      <label class="form-title" for="add-numAffiliate">Número de afiliado:</label>
-      <input class="form-input" type="text" id="add-numAffiliate" name="add-numAffiliate" v-model="client.numAffiliate">
+      <label class="form-title" for="add-numAffiliate">Cliente:</label>
+      <input class="form-input" type="text" id="add-numAffiliate" name="add-numAffiliate" v-model="client.client">
 
       <label class="form-title" for="add-plan">Plan:</label>
       <select class="form-input" id="add-plan" name="add-plan" v-model="client.plan">

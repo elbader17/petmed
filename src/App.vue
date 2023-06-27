@@ -13,6 +13,15 @@ import FooterMain from './components/FooterMain.vue';
 </template>
 
 <style>
+:root {
+  --pm-vw: #8D57B0;
+  --pm-vb: #794899;
+  --pm-cw: #3CBEB4;
+  --pm-cw: #33A198;
+  --pm-ow: #F4643C;
+  --pm-ow: #F14313;
+}
+
 * {
   font-family: "Poppins", Sans-serif;
   box-sizing: border-box;

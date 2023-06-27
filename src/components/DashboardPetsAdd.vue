@@ -28,18 +28,23 @@ const pet = ref({
   client: null
 })
 
-const handleSubmit = () => {
-  pet.value.client = databaseUserStore.client.id
-  databasePetStore.addPet(pet.value);
-  databaseClientPlanStore.addClientPlanPet(pet.value.numAffiliate, databasePetStore.newPetRef, pet.value.name, pet.value.plan)
-  pet.value.name = '';
-  pet.value.birthdate = '';
-  pet.value.animal = '';
-  pet.value.breed = '';
-  pet.value.sex = '';
-  pet.value.color = '';
-  pet.value.plan = '';
-  pet.value.numAffiliate = '';
+const handleSubmit = async () => {
+  try {
+    pet.value.client = databaseUserStore.client.id
+    await databasePetStore.addPet(pet.value);
+    await databaseClientPlanStore.addClientPlanPet(pet.value, databasePetStore.newPetRef)
+  } catch (error) {
+    console.log(error);
+  } finally {
+    pet.value.name = '';
+    pet.value.birthdate = '';
+    pet.value.animal = '';
+    pet.value.breed = '';
+    pet.value.sex = '';
+    pet.value.color = '';
+    pet.value.plan = '';
+    pet.value.numAffiliate = '';
+  }
 }
 </script>
 

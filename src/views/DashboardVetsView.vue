@@ -1,12 +1,15 @@
 <script setup>
 import { useDatabaseVetStore } from '@/stores/databaseVets';
 import { ref, onBeforeMount } from 'vue';
+import { useCheckScreen } from '@/composables/checkScreen';
 import ModalReusable from '../components/ModalReusable.vue';
 import DashboardVetsAdd from '../components/DashboardVetsAdd.vue';
 import DashboardVetsEdit from '../components/DashboardVetsEdit.vue';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
 
 const databaseVetStore = useDatabaseVetStore();
+
+const { mobile } = useCheckScreen();
 
 onBeforeMount(async () => {
   databaseVetStore.getSize();
@@ -66,8 +69,14 @@ const previousPage = async () => {
       <tbody class="table-body" v-for="(item, index) of databaseVetStore.vets" :key="item.id">
         <td class="body-item">{{ item.name }} {{ item.surname }}</td>
         <td class="body-buttons">
-          <button class="button-edit" @click="toggleModalIndexed(index)">Editar</button>
-          <button class="button-delete" @click="databaseVetStore.deleteVet(item.id)">Eliminar</button>
+          <button class="button-edit" @click="toggleModalIndexed(index)">
+            <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
+            <p v-show="!mobile">Editar</p>
+          </button>
+          <button class="button-delete" @click="databaseVetStore.deleteVet(item.id)">
+            <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
+            <p v-show="!mobile">Eliminar</p>
+          </button>
         </td>
         <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
           <DashboardVetsEdit :item="item" />

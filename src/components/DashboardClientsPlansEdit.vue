@@ -1,10 +1,13 @@
 <script setup>
 import { ref } from 'vue';
 import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan';
+import { useCheckScreen } from '@/composables/checkScreen';
 import ModalReusable from '../components/ModalReusable.vue';
 import DashboardClientsOnePlanAdd from '../components/DashboardClientsOnePlanAdd.vue';
 
 const databaseClientPlanStore = useDatabaseClientPlanStore();
+
+const { mobile } = useCheckScreen();
 
 const props = defineProps(['item']);
 
@@ -19,18 +22,20 @@ const toggleModal = () => {
   <section>
     <table class="table">
       <thead class="table-head">
-        <th class="head-item">N°</th>
-        <th class="head-item">Plan</th>
+        <th class="head-item" v-show="!mobile">N°</th>
+        <th class="head-item" v-show="!mobile">Plan</th>
         <th class="head-item">Mascota</th>
         <th class="head-item">Acciones</th>
       </thead>
       <tbody class="table-body" v-for="(plan, index) of props.item.plans" :key="plan.id">
-        <td class="body-item">{{ index + 1 }}</td>
-        <td class="body-item">{{ plan.plan }}</td>
-        <td class="body-item">{{ plan.name }}</td>
+        <td class="body-item" v-show="!mobile">{{ index + 1 }}</td>
+        <td class="body-item" v-show="!mobile">{{ plan.plan }}</td>
+        <td class="body-item">{{ plan.petName }}</td>
         <td class="body-buttons">
-          <button class="button-delete"
-            @click="databaseClientPlanStore.deleteClientPlan(props.item.id, plan)">Eliminar</button>
+          <button class="button-delete" @click="databaseClientPlanStore.deleteClientPlan(props.item.id, plan)">
+            <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
+            <p v-show="!mobile">Eliminar</p>
+          </button>
         </td>
       </tbody>
     </table>

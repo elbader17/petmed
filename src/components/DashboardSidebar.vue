@@ -81,7 +81,7 @@ const renderByType = (type) => {
   display: flex;
   flex-direction: column;
   width: calc(4rem);
-  min-height: 100vh;
+  min-height: 83vh;
   overflow: hidden;
   padding: 1rem;
   background-color: #8d57b0;
