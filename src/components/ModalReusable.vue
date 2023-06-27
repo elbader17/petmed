@@ -30,7 +30,7 @@ const emit = defineEmits(['closeModal'])
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2;
+  z-index: 5;
   background-color: rgba(0, 0, 0, 0.75);
 }
 
@@ -85,5 +85,11 @@ const emit = defineEmits(['closeModal'])
 
 .modal-animation-inner-leave-to {
   transform: scale(0.8);
+}
+
+@media all and (max-width: 768px) {
+  .modal-inner {
+    width: 93%;
+  }
 }
 </style>

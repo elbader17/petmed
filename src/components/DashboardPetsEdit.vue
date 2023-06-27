@@ -1,12 +1,10 @@
 <script setup>
 import { useDatabasePetStore } from '@/stores/databasePet';
-import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan';
 import { onMounted, ref } from 'vue';
 
 const props = defineProps(['item', 'plans']);
 
 const databasePetStore = useDatabasePetStore();
-const databaseClientPlanStore = useDatabaseClientPlanStore();
 
 const options = ref([]);
 

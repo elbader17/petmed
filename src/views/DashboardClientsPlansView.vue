@@ -67,7 +67,7 @@ const previousPage = async () => {
         <th class="head-item">Acciones</th>
       </thead>
       <tbody class="table-body" v-for="(item, index) of databaseClientPlanStore.plans" :key="item.id">
-        <td class="body-item">{{ item.id }}</td>
+        <td class="body-item">{{ item.plans[0].numAffiliate }}</td>
         <td class="body-buttons">
           <button class="button-edit" @click="toggleModalIndexed(index)">
             <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />

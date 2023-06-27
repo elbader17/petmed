@@ -17,9 +17,10 @@
   border-color: #3CBEB4;
 }
 
-/* @media all and (max-width: 768px) {
+@media all and (max-width: 768px) {
   .dashboard-content {
-    padding-left: 6rem;
+    padding-left: 4.7rem;
+    width: 100%;
   }
-} */
+}
 </style>

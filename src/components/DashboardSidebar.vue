@@ -93,7 +93,7 @@ const renderByType = (type) => {
   display: flex;
   justify-content: center;
   position: relative;
-  margin: 1rem;
+  margin: 1rem 0;
   transition: 0.2s ease-out;
 }
 
@@ -169,10 +169,15 @@ const renderByType = (type) => {
   transition: 0.2s ease-out;
 }
 
-/* @media all and (max-width: 768px) {
+@media all and (max-width: 768px) {
   .sidebar-menu {
-    position: fixed;
+    width: calc(3rem);
+    position: absolute;
     z-index: 3;
   }
-} */
+
+  .is-expanded {
+    width: 12rem;
+  }
+}
 </style>
