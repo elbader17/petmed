@@ -35,7 +35,7 @@ defineProps(['title']);
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2;
+  z-index: 10;
   background-color: rgba(0, 0, 0, 0.75);
 }
 

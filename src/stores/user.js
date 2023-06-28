@@ -34,7 +34,7 @@ export const useUserStore = defineStore('userStore', {
             this.errorMessage = 'Email no válido';
             break;
           case 'auth/user-not-found':
-            this.errorMessage = 'La cuenta no existe';
+            this.errorMessage = 'Email inexistente';
             break;
           case 'auth/wrong-password':
             this.errorMessage = 'Contraseña incorrecta';

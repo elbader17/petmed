@@ -33,19 +33,19 @@ const data = ref({
 </script>
 
 <template>
-  <section class="">
+  <section class="list-forms">
     <h2 class="consult-title">Planillas</h2>
     <div class="container">
       <div>
-        <p>nombre de mascota</p>
+        <p>Mascota</p>
         <input type="text" v-model="data.nameOfPet" />
       </div>
       <div>
-        <p>nro de afiliado</p>
+        <p>N° de afiliado</p>
         <input type="text" v-model="data.nroOfAffiliate" />
       </div>
       <div>
-        <p>nombre de responsable</p>
+        <p>Responsable</p>
         <input type="text" v-model="data.nameOfResponsible" />
       </div>
       <div>
@@ -56,7 +56,7 @@ const data = ref({
       <p>Nombre: {{ infoForShow.name }}</p>
       <p>Plan: {{ infoForShow.plan }}</p>
       <p>Fecha: {{ infoForShow.date }}</p>
-      <p>Abdomen: {{ infoForShow.abdomen}}</p>
+      <p>Abdomen: {{ infoForShow.abdomen }}</p>
       <p>Anamnesis: {{ infoForShow.anamnesis }}</p>
       <p>Estudios complementarios {{ infoForShow.complementaryStudies }}</p>
       <p>Fr: {{ infoForShow.fr }}</p>
@@ -98,29 +98,33 @@ const data = ref({
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
 .consult-title {
   font-weight: 600;
   font-size: 1.25rem;
   letter-spacing: 0.05rem;
   padding-bottom: 1rem;
 }
+
 .container {
   margin-left: 5px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 }
-.element > div {
+
+.element>div {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.element > div .date {
+.element>div .date {
   margin-left: auto;
   color: #888;
 }
-.container > div {
+
+.container>div {
   display: flex;
   flex-direction: column;
   margin-right: 10px;
@@ -141,5 +145,11 @@ const data = ref({
   background-color: #8d57b0;
   border-color: white;
   color: white;
+}
+
+@media all and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
 }
 </style>

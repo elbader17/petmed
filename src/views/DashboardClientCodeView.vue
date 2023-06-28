@@ -113,4 +113,16 @@ const handleSubmit = (async () => {
 .form-button:hover {
   background-color: #794899;
 }
+
+@media all and (max-width: 768px) {
+  .code-form {
+    justify-content: center;
+    width: 280px;
+    height: 240px;
+  }
+
+  .input {
+    margin: 0 0.15rem;
+  }
+}
 </style>
