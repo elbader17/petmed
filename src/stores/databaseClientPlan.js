@@ -118,6 +118,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       this.loadingDoc = true;
       try {
         await databasePlansStore.getPlan(plan.plan);
+        const practices = JSON.parse(JSON.stringify(databasePlansStore.plan))
         const planObj = {
           plan: plan.plan,
           date: plan.date,
@@ -125,7 +126,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           petId: plan.petId || null,
           petName: plan.petName || null,
           numAffiliate: plan.numAffiliate || null,
-          practices: databasePlansStore.plan
+          practices
         };
         const planRef = doc(db, 'plans', plan.client)
         await setDoc(planRef, { ['plans']: arrayUnion(planObj) }, { merge: true });

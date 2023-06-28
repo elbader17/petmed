@@ -1,8 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useDatabaseVetStore } from '@/stores/databaseVets'
+import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan';
 import ModalReusable from '../components/ModalReusable.vue'
 
+const databaseClientPlanStore = useDatabaseClientPlanStore();
 const code = ref('')
 const practices = ref([])
 const practicesData = ref([])
@@ -14,7 +16,12 @@ const openModal = ref(false)
 const databaseVetStore = useDatabaseVetStore()
 
 const sendCode = async () => {
-  const response = await databaseVetStore.validateCode(code.value)
+  let response = await databaseVetStore.validateCode(code.value)
+  if (!response) {
+    const data = await databaseVetStore.updatePlanGetData(code.value)
+    await databaseClientPlanStore.addClientPlan(data)
+    response = await databaseVetStore.validateCode(code.value)
+  }
   practices.value = response.practices
   practicesData.value = response.plan.practices
   toggleModal()
@@ -29,7 +36,10 @@ const sendCode = async () => {
     </section>
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
       <div v-for="(practice, index) in practices" :key="index">
-        <p>{{ practice }}: {{ practicesData[index].amount }} | cobertura {{ practicesData[index].coverage }}% </p>
+        <p>
+          {{ practice }}: {{ practicesData[index].amount }} | cobertura
+          {{ practicesData[index].coverage }}%
+        </p>
       </div>
     </ModalReusable>
     <input type="button" class="buttonVerificar" value="Solicitar" @click="sendCode" />

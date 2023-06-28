@@ -19,9 +19,7 @@ const search = async () => {
 
 const toggleModal = (info) => {
   if (info) infoForShow.value = JSON.parse(JSON.stringify(info))
-
   openModal.value = !openModal.value
-  console.log(infoForShow.value)
 }
 
 const openModal = ref(false)
