@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useDatabaseVetStore } from '@/stores/databaseVets'
-import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan';
+import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan'
 import ModalReusable from '../components/ModalReusable.vue'
 
-const databaseClientPlanStore = useDatabaseClientPlanStore();
+const databaseClientPlanStore = useDatabaseClientPlanStore()
 const code = ref('')
 const practices = ref([])
 const practicesData = ref([])
@@ -31,14 +31,14 @@ const sendCode = async () => {
 <template>
   <form>
     <section>
-      <h2 for="">Numero de afiliado</h2>
+      <h2 for="">Número de afiliado</h2>
       <input type="number" v-model="code" class="inputCode" id="" name="" />
     </section>
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
-      <div v-for="(practice, index) in practices" :key="index">
-        <p>
-          {{ practice }}: {{ practicesData[index].amount }} | cobertura
-          {{ practicesData[index].coverage }}%
+      <div v-for="(practice, index) in practices" :key="index" class="practice-item">
+        <p class="practice-name">{{ practice }}</p>
+        <p class="practice-info">
+          Monto: {{ practicesData[index].amount }} | Cobertura: {{ practicesData[index].coverage }}%
         </p>
       </div>
     </ModalReusable>
@@ -54,6 +54,18 @@ body {
 
 h1 {
   text-align: center;
+}
+.practice-item {
+  margin-bottom: 10px;
+}
+
+.practice-name {
+  font-weight: bold;
+}
+
+.practice-info {
+  margin-top: 5px;
+  color: #555;
 }
 
 .buttonVerificar {

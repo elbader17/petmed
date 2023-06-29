@@ -108,6 +108,16 @@ const sendForm = () => {
 
 <template>
   <form>
+    <section style="margin-bottom: 90px; margin-top: 30px;">
+      <h2>Verificación</h2>
+      <label for="codigo">Código de Verificación del Socio:</label>
+      <input type="text" id="codigo" name="codigo" v-model="validate.code" />
+
+      <button @click="ok()" :class="validate.buttonVerificar" type="button">
+        {{ validate.textButton }}
+      </button>
+    </section>
+
     <section>
       <h2>Fecha y Veterinaria</h2>
       <label for="fecha">Fecha:</label>
@@ -233,14 +243,6 @@ const sendForm = () => {
       </div>
     </div>
 
-    <section>
-      <h2>Verificación</h2>
-      <label for="codigo">Código de Verificación del Socio:</label>
-      <input type="text" id="codigo" name="codigo" v-model="validate.code" />
-
-      <button @click="ok()" :class="validate.buttonVerificar" type="button">{{ validate.textButton }}</button>
-    </section>
-
     <input
       :disabled="validate.send"
       type="button"
@@ -300,7 +302,7 @@ h1 {
   float: right;
 }
 
-.buttonError{
+.buttonError {
   background-color: #ff0000;
   color: #ffffff;
   padding: 10px 20px;
