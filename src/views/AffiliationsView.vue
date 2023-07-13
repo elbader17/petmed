@@ -1,7 +1,7 @@
 <script setup>
-import ContentBanner from '../components/ContentBanner.vue';
-import ContentSeparator from '../components/icons/ContentSeparator.vue';
-import AffiliationsItems from '../components/AffiliationsItems.vue';
+import ContentBanner from '@/components/ContentBanner.vue';
+import ContentSeparator from '@/components/icons/ContentSeparator.vue';
+import AffiliationsItems from '@/components/AffiliationsItems.vue';
 
 import imageBanner from '@/assets/img/banner_afiliaciones.jpg';
 import imageTitle from '@/assets/img/Afiliaciones.png';
@@ -73,22 +73,14 @@ const planesPromos = [
       <h1 class="single-title">Afiliación PETMED</h1>
       <h2 class="single-subtitle">Seleccione el plan deseado</h2>
       <ul class="single-list">
-        <AffiliationsItems
-          v-for="plan in planesSimples"
-          :key="plan.id"
-          :plan="plan"
-        />
+        <AffiliationsItems v-for="plan in planesSimples" :key="plan.id" :plan="plan" />
       </ul>
     </section>
     <section class="affiliations-promo">
       <h1 class="promo-subtitle">Promos</h1>
       <h1 class="promo-title">GRUPO FAMILIAR</h1>
       <ul class="promo-list">
-        <AffiliationsItems
-          v-for="plan in planesPromos"
-          :key="plan.id"
-          :plan="plan"
-        />
+        <AffiliationsItems v-for="plan in planesPromos" :key="plan.id" :plan="plan" />
       </ul>
     </section>
     <ContentSeparator class="separator-bottom" />
@@ -138,6 +130,7 @@ const planesPromos = [
 }
 
 @media all and (max-width: 1024px) {
+
   .single-list,
   .promo-list {
     flex-direction: column;

@@ -90,7 +90,8 @@ const previousPage = async () => {
         Anterior
       </button>
       <div class="pagination-pages">
-        {{ databaseProvidersStore.page }} / {{ databaseProvidersStore.pages }}
+        <div>{{ databaseProvidersStore.page }}</div> /
+        <div>{{ databaseProvidersStore.pages }}</div>
       </div>
       <button class="pagination-button" :disabled="databaseProvidersStore.page === databaseProvidersStore.pages"
         @click="nextPage">
@@ -205,5 +206,11 @@ const previousPage = async () => {
 
 .button-delete:hover {
   background-color: #F14313;
+}
+
+@media all and (max-width: 768px) {
+  .body-item {
+    font-size: 0.7rem;
+  }
 }
 </style>

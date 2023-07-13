@@ -66,7 +66,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 2rem 1.25rem;
+  padding: 1rem;
 }
 
 .footer-contact,
@@ -78,8 +78,8 @@
 }
 
 .footer-logo {
-  width: 6.55rem;
-  padding: 0.25rem;
+  height: 5.95rem;
+  width: auto;
 }
 
 .follow-list {

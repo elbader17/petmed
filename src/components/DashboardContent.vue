@@ -19,7 +19,7 @@
 
 @media all and (max-width: 768px) {
   .dashboard-content {
-    padding-left: 4.7rem;
+    padding-left: 4.2rem;
     width: 100%;
   }
 }
