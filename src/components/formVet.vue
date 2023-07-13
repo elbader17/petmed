@@ -2,6 +2,7 @@
 import { ref, onMounted, toRaw } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useDatabaseVetStore } from '@/stores/databaseVets'
+import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan'
 const validate = ref({
   send: false,
   style: 'disabled',
@@ -9,7 +10,7 @@ const validate = ref({
   buttonVerificar: 'buttonVerificar',
   code: '000000',
   data: {
-    date: '',
+    date: new Date().toISOString().split('T')[0],
     vet: '',
     socio: '',
     plan: '',
@@ -31,40 +32,64 @@ const validate = ref({
     observations: '',
     practices: {},
     account: '',
-    petId: ''
+    petId: '',
+    practicesOfPet: {
+      practices: []
+    },
+    planId: '',
+    numAffiliate: ''
   }
 })
 
 const databaseUserStore = useUserStore()
 const databaseVetStore = useDatabaseVetStore()
+const databaseClientPlanStore = useDatabaseClientPlanStore()
 onMounted(() => {
   databaseVetStore.getPractices()
+  setPractices()
 })
 const ok = async () => {
   validate.value.textButton = 'Verificando...'
-  const [validationResponse, account, pet] = await databaseUserStore.validateCode(
-    parseInt(validate.value.code)
-  )
-
-  if (validationResponse) {
-    validate.value.textButton = 'Verificado'
-    validate.value.style = 'enabled'
-    validate.value.data.socio = pet.name
-    validate.value.data.plan = pet.plan
-    validate.value.data.account = account
-    validate.value.data.petId = pet.id
-    validate.value.data.responsible = pet.client
-    validate.value.textButton = 'Verificar'
-  } else {
-    validate.value.textButton = 'Código Incorrecto'
-    validate.value.style = 'disabled'
-    validate.value.buttonVerificar = 'buttonError'
-    // a los 3 segundos el texto tiene que cambiar a "Verificar"
-    setTimeout(() => {
+  try {
+    const [validationResponse, account, pet] = await databaseUserStore.validateCode(
+      parseInt(validate.value.code)
+    )
+    const [plan, id] = await databaseClientPlanStore.findPlanByPetId(pet.id)
+    validate.value.data.practicesOfPet = plan
+    validate.value.data.planId = id
+    if (validationResponse) {
+      validate.value.textButton = 'Verificado'
+      validate.value.style = 'enabled'
+      validate.value.data.socio = pet.name
+      validate.value.data.plan = pet.plan
+      validate.value.data.account = account
+      validate.value.data.petId = pet.id
+      validate.value.data.responsible = pet.client
+      validate.value.data.numAffiliate = pet.numAffiliate
       validate.value.textButton = 'Verificar'
-      validate.value.buttonVerificar = 'buttonVerificar'
-    }, 1000)
+    } else {
+      errorCode()
+    }
+  } catch (error) {
+    errorCode()
   }
+}
+
+const setPractices = () => {
+  validate.value.data.practices = Object.fromEntries(
+    Object.entries(databaseVetStore.practices).map(([key, value]) => [value, false])
+  )
+}
+
+const errorCode = () => {
+  validate.value.textButton = 'Código Incorrecto'
+  validate.value.style = 'disabled'
+  validate.value.buttonVerificar = 'buttonError'
+  // a los 3 segundos el texto tiene que cambiar a "Verificar"
+  setTimeout(() => {
+    validate.value.textButton = 'Verificar'
+    validate.value.buttonVerificar = 'buttonVerificar'
+  }, 1000)
 }
 
 const resetStates = () => {
@@ -73,7 +98,7 @@ const resetStates = () => {
   validate.value.textButton = 'Verificar'
   validate.value.code = '000000'
   validate.value.data = {
-    date: '',
+    date: new Date().toISOString().split('T')[0],
     vet: '',
     socio: '',
     plan: '',
@@ -95,20 +120,56 @@ const resetStates = () => {
     observations: '',
     practices: {},
     account: '',
-    petId: ''
+    petId: '',
+    practicesOfPet: {
+      practices: []
+    },
+    planId: ''
   }
 }
 
 const sendForm = () => {
-  databaseVetStore.sendForm(toRaw(validate.value.data))
+  const practices = Object.keys(validate.value.data.practices)
+  databaseClientPlanStore.updatePlan(
+    validate.value.data.planId,
+    practices,
+    validate.value.data.numAffiliate
+  )
+  
+  delete validate.value.data.practicesOfPet
+  validate.value.data.practices = practices
+  const objToSend = validate.value.data
+  databaseVetStore.sendForm(objToSend)
   databaseUserStore.expirationCode(validate.value.code)
+
   resetStates()
+}
+
+const consitionalRender = (data) => {
+  if (!validate.value.data.practicesOfPet.practices) return false
+
+  if (validate.value.data.practicesOfPet.practices[data.toString()]) {
+    const value = validate.value.data.practicesOfPet.practices[data.toString()]
+    if (!isNaN(value.amount) && parseInt(value.amount) > 0) {
+      return value.coverage
+    }
+    if (!isNaN(value.amount) && parseInt(value.amount) === 0) {
+      return false
+    }
+    return false
+  }
+  return false
+}
+
+const renderCoverage = (data) => {
+  if (!data) return ''
+  return `${data}%`
 }
 </script>
 
 <template>
   <form>
-    <section style="margin-bottom: 90px; margin-top: 30px;">
+    <section style="margin-bottom: 90px; margin-top: 30px">
       <h2>Verificación</h2>
       <label for="codigo">Código de Verificación del Socio:</label>
       <input type="text" id="codigo" name="codigo" v-model="validate.code" />
@@ -118,10 +179,30 @@ const sendForm = () => {
       </button>
     </section>
 
+    <div class="container">
+      <div v-for="(practice, index) in databaseVetStore.practices" :key="practice">
+        <label style="display: inline-block">
+          {{ practice }}
+          <input
+            :disabled="!consitionalRender(index)"
+            type="checkbox"
+            :id="practice"
+            :name="practice"
+            :value="practice"
+            v-model="validate.data.practices[practice]"
+            style="display: inline-block"
+          />
+          <span :style="{ color: consitionalRender(index) ? 'green' : 'black' }">
+            {{ renderCoverage(consitionalRender(index)) }}
+          </span>
+        </label>
+      </div>
+    </div>
+
     <section>
       <h2>Fecha y Veterinaria</h2>
       <label for="fecha">Fecha:</label>
-      <input type="date" id="fecha" v-model="validate.data.date" name="fecha" />
+      <input type="date" id="fecha" v-model="validate.data.date" name="fecha" disabled />
 
       <label for="veterinaria">Veterinaria:</label>
       <input type="text" id="veterinaria" v-model="validate.data.vet" name="veterinaria" />
@@ -229,20 +310,6 @@ const sendForm = () => {
       ></textarea>
     </section>
 
-    <div class="container">
-      <div v-for="practice in databaseVetStore.practices" :key="practice">
-        <input
-          type="checkbox"
-          :id="practice"
-          :name="practice"
-          :value="practice"
-          v-model="validate.data.practices[practice]"
-          style="display: inline-block"
-        />
-        <label style="display: inline-block" :for="practice">{{ practice }}</label>
-      </div>
-    </div>
-
     <input
       :disabled="validate.send"
       type="button"
@@ -267,6 +334,9 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px; /* Espacio entre los elementos */
+  background: #d8d8d8a2;
+  padding: 1.25rem;
+  margin: 20px 0;
 }
 
 .enabled {

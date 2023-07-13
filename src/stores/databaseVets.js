@@ -93,6 +93,7 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
       const queryRef = query(collection(db, 'configs'), where('__name__', '==', 'practices'))
       const querySnapshot = await getDocs(queryRef)
       this.practices = querySnapshot.docs[0].data().list
+      console.log("🚀 ~ file: databaseVets.js:96 ~ getPractices ~ practices:", this.practices)
     },
 
     async sendForm(data) {
