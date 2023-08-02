@@ -1,19 +1,11 @@
 import {
   collection,
-  deleteDoc,
-  doc,
   getDocs,
   query,
-  updateDoc,
   orderBy,
   limit,
-  limitToLast,
-  startAfter,
-  endBefore,
-  getDoc,
-  setDoc,
   where,
-  addDoc
+  
 } from 'firebase/firestore/lite'
 import { db, auth } from '@/firebaseConfig'
 import { defineStore } from 'pinia'
@@ -46,20 +38,20 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
       const querySnapshot = await getDocs(queryRef)
       const dataForList = []
       querySnapshot.forEach((doc) => {
-        const keysTrue = []
+        const practices = []
 
-        for (const key in doc.data()) {
-          if (doc.data().hasOwnProperty(key) && doc.data()[key] === true) {
-            keysTrue.push(key)
+        Object.keys(doc.data()).forEach((key) => {
+          if (Number.isInteger(parseInt(key))) {
+            practices.push(doc.data()[key])
           }
-        }
+        })
 
         dataForList.push({
           name: doc.data().socio,
           id: doc.id,
           plan: doc.data().plan,
           date: formatDate(doc.data().date),
-          practices: keysTrue.join(', '),
+          practices: practices,
           abdomen: doc.data().abdomen,
           anamnesis: doc.data().anamnesis,
           complementaryStudies: doc.data().complementaryStudies,
