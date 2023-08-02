@@ -73,7 +73,7 @@ export const useUserStore = defineStore('userStore', {
       }
     },
 
-    async createCode() {
+    async createCode(afiliate) {
       const code = Math.floor(100000 + Math.random() * 900000)
       const expiration = new Date()
       expiration.setMinutes(expiration.getMinutes() + 5)
@@ -86,15 +86,13 @@ export const useUserStore = defineStore('userStore', {
       queryUserSnap.forEach((document) => {
         user = document.id
       })
-
-      const queryRef = query(collection(db, 'pets'), where('client', '==', user))
+      const queryRef = query(collection(db, 'pets'), where('numAffiliate', '==', afiliate))
       const querySnapshot = await getDocs(queryRef)
       const pets = []
       querySnapshot.forEach((document) => {
         pets.push(document.id)
       })
-
-      await addDoc(collection(db, 'codes'), {
+            await addDoc(collection(db, 'codes'), {
         code,
         account: auth.currentUser.uid,
         expiration,
