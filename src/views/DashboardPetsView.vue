@@ -79,7 +79,7 @@ const modalActiveIndexed = (index) => {
         <td class="body-buttons">
           <button class="button-edit" @click="toggleModalIndexed(index)">
             <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
-            <p v-show="!mobile">Editar</p>
+            <p v-show="!mobile">Ver</p>
           </button>
           <button class="button-delete" @click="databasePetStore.deletePet(item.id)">
             <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
