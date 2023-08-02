@@ -129,6 +129,17 @@ const resetStates = () => {
 }
 
 const sendForm = () => {
+
+  if(validate.value.data.anamnesis === '' || validate.value.data.temp === '' || validate.value.data.fc === '' || validate.value.data.fr === '' || validate.value.data.mucousMembrane === '' || validate.value.data.skinCondition === '' || validate.value.data.feflexes === '' || validate.value.data.mainGanglia === '' || validate.value.data.headNeck === '' || validate.value.data.formerMembers === '' || validate.value.data.hindLimbs === '' || validate.value.data.torax === '' || validate.value.data.abdomen === '' || validate.value.data.complementaryStudies === '' || validate.value.data.observations === '') {
+    console.log(validate.value.data.practices)
+    alert('Faltan datos por completar')
+    return
+  }
+
+  if(validate.value.data.practices['Consulta en Domicilio'] || validate.value.data.practices['Consulta de Urgencia']) {
+    validate.value.data.practices['Consulta en Clínica'] = false
+  }
+
   const practices = Object.keys(validate.value.data.practices)
   databaseClientPlanStore.updatePlan(
     validate.value.data.planId,
@@ -225,17 +236,6 @@ const renderCoverage = (data) => {
         name="responsable"
       />
 
-      <label>Lugar de Consulta:</label>
-      <div class="checkbox-group">
-        <input type="checkbox" id="clinica" name="lugar" value="clinica" />
-        <label for="clinica">Clínica</label>
-
-        <input type="checkbox" id="domicilio" name="lugar" value="domicilio" />
-        <label for="domicilio">Domicilio</label>
-
-        <input type="checkbox" id="fuera_horario" name="lugar" value="fuera_horario" />
-        <label for="fuera_horario">Fuera de Horario</label>
-      </div>
     </section>
 
     <section>
