@@ -32,13 +32,13 @@ const emit = defineEmits(['closeModal'])
   bottom: 0;
   z-index: 5;
   background-color: rgba(0, 0, 0, 0.75);
+  
 }
 
 .modal-inner {
   position: relative;
-  max-width: 480px;
-  width: 80%;
-  max-height: 85%;
+  max-width: none;
+  max-height: none;
   background-color: #fff;
   box-shadow: 0 1rem 1.75rem rgba(0, 0, 0, 0.5);
   padding: 1.5rem;
@@ -90,6 +90,7 @@ const emit = defineEmits(['closeModal'])
 @media all and (max-width: 768px) {
   .modal-inner {
     width: 93%;
+    height: 93%;
   }
 }
 </style>
