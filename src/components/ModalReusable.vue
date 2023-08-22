@@ -1,5 +1,5 @@
 <script setup>
-defineProps(['modalActive']);
+defineProps(['modalActive'])
 
 const emit = defineEmits(['closeModal'])
 </script>
@@ -10,8 +10,12 @@ const emit = defineEmits(['closeModal'])
       <transition name="modal-animation-inner">
         <div v-show="modalActive" class="modal-inner">
           <div class="modal-button">
-            <font-awesome-icon icon="fa-solid fa-circle-xmark" size="2x" @click="emit('closeModal')"
-              class="button-close" />
+            <font-awesome-icon
+              icon="fa-solid fa-circle-xmark"
+              size="2x"
+              @click="emit('closeModal')"
+              class="button-close"
+            />
           </div>
           <slot></slot>
         </div>
@@ -32,7 +36,6 @@ const emit = defineEmits(['closeModal'])
   bottom: 0;
   z-index: 5;
   background-color: rgba(0, 0, 0, 0.75);
-  
 }
 
 .modal-inner {
@@ -43,8 +46,9 @@ const emit = defineEmits(['closeModal'])
   box-shadow: 0 1rem 1.75rem rgba(0, 0, 0, 0.5);
   padding: 1.5rem;
   border-radius: 1.25rem;
+  overflow-x: auto;
   overflow-y: auto;
-  overflow-x: clip;
+  max-height: 80vh;
 }
 
 .modal-button {
@@ -55,7 +59,7 @@ const emit = defineEmits(['closeModal'])
 .button-close {
   justify-content: flex-end;
   border: none;
-  color: #9E63C4;
+  color: #9e63c4;
   background: none;
   cursor: pointer;
 }

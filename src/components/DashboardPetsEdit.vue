@@ -215,6 +215,8 @@ h1 {
     transform: rotate(90deg);
     margin-bottom: 1rem;
     margin-top: 3rem;
+    top: -3rem;
+    position: inherit;
   }
   .credit-card {
     width: 600px;
@@ -269,15 +271,17 @@ h1 {
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 399px) {
   .dashboard {
     transform: rotate(90deg);
     margin-bottom: 1rem;
     margin-top: 0rem;
+    position: inherit;
+    top: -1rem;
   }
   .credit-card {
     width: 550px;
-    height: 180%;
+    height: 110%;
     margin: 5px 10px;
     padding: 0px;
     overflow: auto;
@@ -322,7 +326,7 @@ h1 {
   }
   .form-button {
     margin-left: 10rem;
-    margin-top: 0.5rem;
+    margin-top: 0rem;
     width: 80%;
     font-size: 0.8rem;
   }
