@@ -129,14 +129,32 @@ const resetStates = () => {
 }
 
 const sendForm = () => {
-
-  if(validate.value.data.anamnesis === '' || validate.value.data.temp === '' || validate.value.data.fc === '' || validate.value.data.fr === '' || validate.value.data.mucousMembrane === '' || validate.value.data.skinCondition === '' || validate.value.data.feflexes === '' || validate.value.data.mainGanglia === '' || validate.value.data.headNeck === '' || validate.value.data.formerMembers === '' || validate.value.data.hindLimbs === '' || validate.value.data.torax === '' || validate.value.data.abdomen === '' || validate.value.data.complementaryStudies === '' || validate.value.data.observations === '') {
+  if (
+    validate.value.data.anamnesis === '' ||
+    validate.value.data.temp === '' ||
+    validate.value.data.fc === '' ||
+    validate.value.data.fr === '' ||
+    validate.value.data.mucousMembrane === '' ||
+    validate.value.data.skinCondition === '' ||
+    validate.value.data.feflexes === '' ||
+    validate.value.data.mainGanglia === '' ||
+    validate.value.data.headNeck === '' ||
+    validate.value.data.formerMembers === '' ||
+    validate.value.data.hindLimbs === '' ||
+    validate.value.data.torax === '' ||
+    validate.value.data.abdomen === '' ||
+    validate.value.data.complementaryStudies === '' ||
+    validate.value.data.observations === ''
+  ) {
     console.log(validate.value.data.practices)
     alert('Faltan datos por completar')
     return
   }
 
-  if(validate.value.data.practices['Consulta en Domicilio'] || validate.value.data.practices['Consulta de Urgencia']) {
+  if (
+    validate.value.data.practices['Consulta en Domicilio'] ||
+    validate.value.data.practices['Consulta de Urgencia']
+  ) {
     validate.value.data.practices['Consulta en Clínica'] = false
   }
 
@@ -146,7 +164,7 @@ const sendForm = () => {
     practices,
     validate.value.data.numAffiliate
   )
-  
+
   delete validate.value.data.practicesOfPet
   validate.value.data.practices = practices
   const objToSend = validate.value.data
@@ -191,22 +209,39 @@ const renderCoverage = (data) => {
     </section>
 
     <div class="container">
-      <div v-for="(practice, index) in databaseVetStore.practices" :key="practice">
-        <label style="display: inline-block">
-          {{ practice }}
-          <input
-            :disabled="!consitionalRender(index)"
-            type="checkbox"
-            :id="practice"
-            :name="practice"
-            :value="practice"
-            v-model="validate.data.practices[practice]"
-            style="display: inline-block"
-          />
-          <span :style="{ color: consitionalRender(index) ? 'green' : 'black' }">
-            {{ renderCoverage(consitionalRender(index)) }}
-          </span>
-        </label>
+      <template v-for="(practice, index) in databaseVetStore.practices" :key="practice">
+        <div
+          v-if="
+            practice !== 'Análisis clínicos no específicos' &&
+            practice !== 'Análisis clínicos específico'
+          "
+        >
+          <label style="display: inline-block">
+            {{ practice }}
+            <input
+              :disabled="!consitionalRender(index)"
+              type="checkbox"
+              :id="practice"
+              :name="practice"
+              :value="practice"
+              v-model="validate.data.practices[practice]"
+              style="display: inline-block"
+            />
+            <span :style="{ color: consitionalRender(index) ? 'green' : 'black' }">
+              {{ renderCoverage(consitionalRender(index)) }}
+            </span>
+          </label>
+        </div>
+      </template>
+    </div>
+    <div v-if="validate.data.practices['Vacunas'] || validate.data.practices['Radiografías']"  style="background-color: #f7c642d7; padding: 10px; border-radius: 5px;">
+      <div  v-if="validate.data.practices['Vacunas']" class="input-container">
+        <label for="radiografias">Cantidad de Vacunas:</label>
+        <input type="number" id="radiografias" v-model="cantidadVacunas" class="short-input" />
+      </div>
+      <div v-if="validate.data.practices['Radiografías']" class="input-container">
+        <label for="radiografias">Cantidad de radiografías:</label>
+        <input type="number" id="radiografias" v-model="cantidadRadiografias" class="short-input" />
       </div>
     </div>
 
@@ -235,7 +270,6 @@ const renderCoverage = (data) => {
         v-model="validate.data.responsible"
         name="responsable"
       />
-
     </section>
 
     <section>
@@ -321,6 +355,15 @@ const renderCoverage = (data) => {
 </template>
 
 <style scoped>
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.short-input {
+  width: 60px;
+  margin-left: 10px; /* Ajusta el margen según tus preferencias */
+}
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
@@ -340,7 +383,7 @@ h1 {
 }
 
 .enabled {
-  background-color: #4caf50;
+  background-color: #70d851;
   color: white;
   padding: 10px 90px;
   font-size: 16px;

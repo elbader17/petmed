@@ -12,7 +12,7 @@ const generate = async () => {
     userStore.createCode(pet.value.numAffiliate)
     code.value = userStore.userCode
     showCard.value = !showCard.value
-    if(textButton.value === 'Generar Token') {
+    if (textButton.value === 'Generar Token') {
       textButton.value = 'Regresar'
     } else {
       textButton.value = 'Generar Token'
@@ -144,6 +144,8 @@ const pet = ref({
   border-radius: 50%;
   object-fit: cover;
   margin-right: 1rem;
+  border: 2px solid #fff; /* Agrega un borde blanco de 2px */
+  box-sizing: border-box;
 }
 
 h1 {
@@ -211,51 +213,231 @@ h1 {
 @media (max-width: 600px) {
   .dashboard {
     transform: rotate(90deg);
-    margin-bottom: 1rem ;
+    margin-bottom: 1rem;
+    margin-top: 3rem;
   }
   .credit-card {
     width: 600px;
     height: 180%;
-    margin: 10px 10px ;  
+    margin: 10px 10px;
     padding: 0px;
+    overflow: auto;
   }
-  .logo{
+  .logo {
     width: 100px;
   }
-  .logo-container{
+  .logo-container {
     right: -15rem;
     bottom: 4rem;
   }
-  .field-title{
+  .field-title {
     width: 100px;
     font-size: 0.8rem;
     margin-left: 0.7rem;
   }
-  .field-value{
+  .field-value {
     width: 100px;
     font-size: 0.8rem;
   }
-  .card-field{
+  .card-field {
     margin-bottom: 0.1rem;
   }
-  .card-info{
+  .card-info {
     margin-bottom: 0.1rem;
     height: 10%;
   }
-  .card-header{
+  .card-header {
     margin-bottom: 0.1rem;
   }
-  .pet-photo{
-    width: 100px;
-    height: 100px;
-    margin-right: 0.5rem;
-    margin-top: 0.5rem;
+  .pet-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+    border: 2px solid #fff; /* Agrega un borde blanco de 2px */
+    box-sizing: border-box;
   }
-  h1{
+  h1 {
     font-size: 1.5rem;
   }
-  .form-button{
+  .form-button {
     margin-left: 10rem;
+    margin-top: 0.5rem;
+    width: 80%;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .dashboard {
+    transform: rotate(90deg);
+    margin-bottom: 1rem;
+    margin-top: 0rem;
+  }
+  .credit-card {
+    width: 550px;
+    height: 180%;
+    margin: 5px 10px;
+    padding: 0px;
+    overflow: auto;
+  }
+  .logo {
+    width: 100px;
+  }
+  .logo-container {
+    right: -15rem;
+    bottom: 4rem;
+  }
+  .field-title {
+    width: 100px;
+    font-size: 0.8rem;
+    margin-left: 0.7rem;
+  }
+  .field-value {
+    width: 100px;
+    font-size: 0.8rem;
+  }
+  .card-field {
+    margin-bottom: 0.1rem;
+  }
+  .card-info {
+    margin-bottom: 0.1rem;
+    height: 10%;
+  }
+  .card-header {
+    margin-bottom: 0.1rem;
+  }
+  .pet-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+    border: 2px solid #fff; /* Agrega un borde blanco de 2px */
+    box-sizing: border-box;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  .form-button {
+    margin-left: 10rem;
+    margin-top: 0.5rem;
+    width: 80%;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-height: 450px) {
+  .dashboard {
+    margin-bottom: 1rem;
+  }
+  .credit-card {
+    width: 650px;
+    height: 180%;
+    margin: 10px 10px;
+    padding: 0px;
+    overflow: auto;
+  }
+  .logo {
+    width: 80px;
+    z-index: 1000;
+  }
+  .logo-container {
+    right: 4rem;
+    bottom: 6rem;
+  }
+  .field-title {
+    width: 100px;
+    font-size: 0.8rem;
+    margin-left: 0.7rem;
+  }
+  .field-value {
+    width: 100px;
+    font-size: 0.8rem;
+  }
+  .card-field {
+    margin-bottom: 0.1rem;
+  }
+  .card-info {
+    margin-bottom: 0.1rem;
+    height: 10%;
+  }
+  .card-header {
+    margin-bottom: 0.1rem;
+  }
+  .pet-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+    border: 2px solid #fff; /* Agrega un borde blanco de 2px */
+    box-sizing: border-box;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  .form-button {
+    margin-left: 4rem;
+    margin-top: 0.5rem;
+    width: 80%;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-height: 360px) {
+  .dashboard {
+    margin-bottom: 1rem;
+  }
+  .credit-card {
+    width: 600px;
+    height: 180%;
+    margin: 10px 10px;
+    padding: 0px;
+    overflow: auto;
+  }
+  .logo {
+    width: 100px;
+    z-index: 1000;
+  }
+  .logo-container {
+    right: 4rem;
+    bottom: 0rem;
+  }
+  .field-title {
+    width: 100px;
+    font-size: 0.8rem;
+    margin-left: 0.7rem;
+  }
+  .field-value {
+    width: 100px;
+    font-size: 0.8rem;
+  }
+  .card-field {
+    margin-bottom: 0.1rem;
+  }
+  .card-info {
+    margin-bottom: 0.1rem;
+    height: 10%;
+  }
+  .card-header {
+    margin-bottom: 0.1rem;
+  }
+  .pet-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+    border: 2px solid #fff; /* Agrega un borde blanco de 2px */
+    box-sizing: border-box;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  .form-button {
+    margin-left: 4rem;
     margin-top: 0.5rem;
     width: 80%;
     font-size: 0.8rem;

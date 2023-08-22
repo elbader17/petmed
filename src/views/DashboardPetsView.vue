@@ -1,72 +1,78 @@
 <script setup>
-import { useDatabaseUserStore } from '@/stores/databaseUser';
-import { useDatabasePetStore } from '@/stores/databasePet';
-import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan';
-import { useCheckScreen } from '@/composables/checkScreen';
-import { ref, onBeforeMount } from 'vue';
-import { auth } from '@/firebaseConfig';
-import ModalReusable from '../components/ModalReusable.vue';
-import DashboardPetsAdd from '../components/DashboardPetsAdd.vue';
-import DashboardPetsEdit from '../components/DashboardPetsEdit.vue';
-import LoadingAnimation from '../components/LoadingAnimation.vue';
+import { useDatabaseUserStore } from '@/stores/databaseUser'
+import { useDatabasePetStore } from '@/stores/databasePet'
+import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan'
+import { useCheckScreen } from '@/composables/checkScreen'
+import { ref, onBeforeMount } from 'vue'
+import { auth } from '@/firebaseConfig'
+import ModalReusable from '../components/ModalReusable.vue'
+import DashboardPetsAdd from '../components/DashboardPetsAdd.vue'
+import DashboardPetsEdit from '../components/DashboardPetsEdit.vue'
+import LoadingAnimation from '../components/LoadingAnimation.vue'
 
-const databaseUserStore = useDatabaseUserStore();
-const databasePetStore = useDatabasePetStore();
-const databaseClientPlanStore = useDatabaseClientPlanStore();
+const databaseUserStore = useDatabaseUserStore()
+const databasePetStore = useDatabasePetStore()
+const databaseClientPlanStore = useDatabaseClientPlanStore()
 
-const { mobile } = useCheckScreen();
+const { mobile } = useCheckScreen()
 
 onBeforeMount(async () => {
   try {
-    await databaseUserStore.readClient(auth.currentUser.uid);
+    await databaseUserStore.readClient(auth.currentUser.uid)
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 
   try {
-    await databasePetStore.getPets(databaseUserStore.client.id);
+    await databasePetStore.getPets(databaseUserStore.client.id)
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 
   try {
     await databaseClientPlanStore.getPlansUser(databasePetStore.pets[0].client)
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 })
 
-const openModal = ref(false);
-const openModalIndexed = ref([]);
+const openModal = ref(false)
+const openModalIndexed = ref([])
 
 const toggleModal = () => {
-  openModal.value = !openModal.value;
+  openModal.value = !openModal.value
 }
 
 const toggleModalIndexed = (index) => {
-  const i = openModalIndexed.value.indexOf(index);
+  const i = openModalIndexed.value.indexOf(index)
   if (i === -1) {
-    openModalIndexed.value.push(index);
+    openModalIndexed.value.push(index)
   } else {
-    openModalIndexed.value.splice(i, 1);
+    openModalIndexed.value.splice(i, 1)
   }
 }
 
 const modalActiveIndexed = (index) => {
-  return openModalIndexed.value.includes(index);
+  return openModalIndexed.value.includes(index)
 }
 </script>
 
 <template>
   <section class="dashboard-pets">
     <h1 class="pets-title">Mascotas</h1>
-    <div>
+    <!-- <div>
       <button class="button-add" @click="toggleModal">Agregar</button>
-    </div>
+    </div> -->
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
       <DashboardPetsAdd :plans="databaseClientPlanStore.plansClient" />
     </ModalReusable>
-    <p v-if="databaseUserStore.loadingDoc || databasePetStore.loadingDoc || databaseClientPlanStore.loadingDoc">
+    <p
+      v-if="
+        databaseUserStore.loadingDoc ||
+        databasePetStore.loadingDoc ||
+        databaseClientPlanStore.loadingDoc
+      "
+    >
       <LoadingAnimation />
     </p>
     <table v-else class="table">
@@ -79,14 +85,17 @@ const modalActiveIndexed = (index) => {
         <td class="body-buttons">
           <button class="button-edit" @click="toggleModalIndexed(index)">
             <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
-            <p v-show="!mobile">Ver</p>
+            <p class="button-label" v-show="!mobile">Ver</p>
           </button>
-          <button class="button-delete" @click="databasePetStore.deletePet(item.id)">
+          <!-- <button class="button-delete" @click="databasePetStore.deletePet(item.id)">
             <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
             <p v-show="!mobile">Eliminar</p>
-          </button>
+          </button> -->
         </td>
-        <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
+        <ModalReusable
+          @closeModal="toggleModalIndexed(index)"
+          :modalActive="modalActiveIndexed(index)"
+        >
           <DashboardPetsEdit :item="item" :plans="databaseClientPlanStore.plansClient" />
         </ModalReusable>
       </tbody>
@@ -95,6 +104,9 @@ const modalActiveIndexed = (index) => {
 </template>
 
 <style scoped>
+.button-label {
+  margin: 0;
+}
 .dashboard-pets {
   display: flex;
   flex-direction: column;
@@ -135,7 +147,8 @@ const modalActiveIndexed = (index) => {
 
 .body-buttons {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center; /* Centrar horizontalmente */
   padding: 0.75rem;
   border-top: 1px solid #cacaca;
 }
@@ -156,7 +169,7 @@ const modalActiveIndexed = (index) => {
 
 .button-add,
 .pagination-button {
-  background-color: #8D57B0;
+  background-color: #8d57b0;
 }
 
 .button-add:hover,
@@ -165,18 +178,21 @@ const modalActiveIndexed = (index) => {
 }
 
 .button-edit {
-  background-color: #3CBEB4;
+  background-color: #3cbeb4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button-edit:hover {
-  background-color: #33A198;
+  background-color: #33a198;
 }
 
 .button-delete {
-  background-color: #F4643C;
+  background-color: #f4643c;
 }
 
 .button-delete:hover {
-  background-color: #F14313;
+  background-color: #f14313;
 }
 </style>
