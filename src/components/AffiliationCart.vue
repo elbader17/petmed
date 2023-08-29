@@ -1,7 +1,7 @@
 <script setup>
 import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation'
-import AffiliationItem from './AffiliationItem.vue';
-import AffiliationFooter from './AffiliationFooter.vue';
+import AffiliationItem from './AffiliationItem.vue'
+import AffiliationFooter from './AffiliationFooter.vue'
 
 const databaseAffiliationStore = useDatabaseAffiliationStore()
 </script>
@@ -30,11 +30,15 @@ const databaseAffiliationStore = useDatabaseAffiliationStore()
         <th>Total del carrito</th>
       </thead>
       <tbody>
-        <th v-if="Object.keys(databaseAffiliationStore.cart).length === 0">Tu carrito está vacío</th>
+        <th v-if="Object.keys(databaseAffiliationStore.cart).length === 0">
+          Tu carrito está vacío
+        </th>
         <AffiliationFooter v-else />
       </tbody>
       <tfoot>
-        <button>Finalizar compra</button>
+        <RouterLink :to="{ name: 'afiliacion' }" class="info-link">
+          <button>Finalizar compra</button>
+        </RouterLink>
       </tfoot>
     </table>
   </div>
@@ -44,12 +48,11 @@ const databaseAffiliationStore = useDatabaseAffiliationStore()
 .table {
   border: 1px solid #ebebeb;
   border-radius: 10%;
-
 }
 
 .table-header {
   background-color: #fbfbfb;
-  border: 1px solid rgba(0, 0, 0, .1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   margin: 0 -1px 24px 0;
   text-align: left;
   width: 100%;

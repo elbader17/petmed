@@ -18,7 +18,7 @@ defineProps(['plan'])
         <h2 class="info-total">${{ new Intl.NumberFormat('es-ar').format(plan.price - (plan.price * (plan.discount /
           100))) }}</h2>
       </div>
-      <RouterLink :to="{ name: 'afiliacion' }" class="info-link" @click="databaseAffiliationStore.addToCart(plan)">
+      <RouterLink :to="{ name: 'pre-afiliacion' }" class="info-link" @click="databaseAffiliationStore.addToCart(plan)">
         <font-awesome-icon icon="fa-solid fa-paw" />
         Quiero este plan
       </RouterLink>
