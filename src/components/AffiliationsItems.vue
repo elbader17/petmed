@@ -1,5 +1,7 @@
 <script setup>
-import { RouterLink } from 'vue-router';
+import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation'
+
+const databaseAffiliationStore = useDatabaseAffiliationStore()
 
 defineProps(['plan'])
 </script>
@@ -16,7 +18,7 @@ defineProps(['plan'])
         <h2 class="info-total">${{ new Intl.NumberFormat('es-ar').format(plan.price - (plan.price * (plan.discount /
           100))) }}</h2>
       </div>
-      <RouterLink :to="plan.link" class="info-link">
+      <RouterLink :to="{ name: 'afiliacion' }" class="info-link" @click="databaseAffiliationStore.addToCart(plan)">
         <font-awesome-icon icon="fa-solid fa-paw" />
         Quiero este plan
       </RouterLink>

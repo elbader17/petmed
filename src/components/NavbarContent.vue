@@ -76,7 +76,7 @@ const toggleShowLogin = () => {
 }
 
 .logo-img {
-  height: 5.95rem;
+  height: 5rem;
   width: auto;
 }
 
@@ -104,7 +104,7 @@ const toggleShowLogin = () => {
   background-color: #fff;
   width: 100%;
   height: 35%;
-  top: 9rem;
+  top: 8.5rem;
   left: 0;
   z-index: 5;
 }
