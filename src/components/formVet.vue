@@ -41,6 +41,12 @@ const validate = ref({
   }
 })
 
+const counts = ref({
+  cantidadAplicaciones: 1,
+  cantidadVacunas: 1,
+  cantidadRadiografias: 1
+})
+
 const databaseUserStore = useUserStore()
 const databaseVetStore = useDatabaseVetStore()
 const databaseClientPlanStore = useDatabaseClientPlanStore()
@@ -68,6 +74,7 @@ const ok = async () => {
       validate.value.data.numAffiliate = pet.numAffiliate
       validate.value.textButton = 'Verificar'
     } else {
+      print(validationResponse)
       errorCode()
     }
   } catch (error) {
@@ -128,7 +135,7 @@ const resetStates = () => {
   }
 }
 
-const sendForm = () => {
+const sendForm = async () => {
   if (
     validate.value.data.anamnesis === '' ||
     validate.value.data.temp === '' ||
@@ -159,11 +166,41 @@ const sendForm = () => {
   }
 
   const practices = Object.keys(validate.value.data.practices)
-  databaseClientPlanStore.updatePlan(
+  await databaseClientPlanStore.updatePlan(
     validate.value.data.planId,
     practices,
     validate.value.data.numAffiliate
   )
+  console.log(counts.value.cantidadVacunas > 1)
+  if (counts.value.cantidadAplicaciones > 1) {
+    for (var x = 0; x < counts.value.cantidadAplicaciones - 1; x++) {
+      await databaseClientPlanStore.updatePlan(
+        validate.value.data.planId,
+        ['Aplicaciones (Inyectables)'],
+        validate.value.data.numAffiliate
+      )
+    }
+  }
+
+  if (counts.value.cantidadRadiografias > 1) {
+    for (var x = 0; x < counts.value.cantidadRadiografias - 1; x++) {
+      await databaseClientPlanStore.updatePlan(
+        validate.value.data.planId,
+        ['Radiografías'],
+        validate.value.data.numAffiliate
+      )
+    }
+  }
+
+  if (counts.value.cantidadVacunas > 1) {
+    for (var x = 0; x < counts.value.cantidadVacunas - 1; x++) {
+      await databaseClientPlanStore.updatePlan(
+        validate.value.data.planId,
+        ['Vacunas'],
+        validate.value.data.numAffiliate
+      )
+    }
+  }
 
   delete validate.value.data.practicesOfPet
   validate.value.data.practices = practices
@@ -213,7 +250,7 @@ const renderCoverage = (data) => {
         <div
           v-if="
             practice !== 'Análisis clínicos no específicos' &&
-            practice !== 'Análisis clínicos específico' && 
+            practice !== 'Análisis clínicos específico' &&
             practice !== 'Farmacia Veterinaria' &&
             practice !== 'Kinesiología y Fisioterapia'
           "
@@ -236,14 +273,31 @@ const renderCoverage = (data) => {
         </div>
       </template>
     </div>
-    <div v-if="validate.data.practices['Vacunas'] || validate.data.practices['Radiografías']"  style="background-color: #f7c642d7; padding: 10px; border-radius: 5px;">
-      <div  v-if="validate.data.practices['Vacunas']" class="input-container">
-        <label for="radiografias">Cantidad de Vacunas:</label>
-        <input type="number" id="radiografias" v-model="cantidadVacunas" class="short-input" />
+    <div
+      v-if="validate.data.practices['Vacunas'] || validate.data.practices['Radiografías']"
+      style="background-color: #9e63c4; padding: 10px; border-radius: 5px"
+    >
+      <div v-if="validate.data.practices['Vacunas']" class="input-container">
+        <label for="vacunas">Cantidad de Vacunas:</label>
+        <input type="number" id="vacunas" v-model="counts.cantidadVacunas" class="short-input" />
       </div>
       <div v-if="validate.data.practices['Radiografías']" class="input-container">
         <label for="radiografias">Cantidad de radiografías:</label>
-        <input type="number" id="radiografias" v-model="cantidadRadiografias" class="short-input" />
+        <input
+          type="number"
+          id="radiografias"
+          v-model="counts.cantidadRadiografias"
+          class="short-input"
+        />
+      </div>
+      <div v-if="validate.data.practices['Radiografías']" class="input-container">
+        <label for="aplicaciones">Cantidad de aplicaciones:</label>
+        <input
+          type="number"
+          id="aplicaciones"
+          v-model="counts.cantidadAplicaciones"
+          class="short-input"
+        />
       </div>
     </div>
 
