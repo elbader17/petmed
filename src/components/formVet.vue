@@ -213,7 +213,9 @@ const renderCoverage = (data) => {
         <div
           v-if="
             practice !== 'Análisis clínicos no específicos' &&
-            practice !== 'Análisis clínicos específico'
+            practice !== 'Análisis clínicos específico' && 
+            practice !== 'Farmacia Veterinaria' &&
+            practice !== 'Kinesiología y Fisioterapia'
           "
         >
           <label style="display: inline-block">

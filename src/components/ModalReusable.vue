@@ -44,7 +44,7 @@ const emit = defineEmits(['closeModal'])
   max-height: none;
   background-color: #fff;
   box-shadow: 0 1rem 1.75rem rgba(0, 0, 0, 0.5);
-  padding: 1.5rem;
+  padding: 0.5rem;
   border-radius: 1.25rem;
   overflow-x: auto;
   overflow-y: auto;
@@ -91,10 +91,4 @@ const emit = defineEmits(['closeModal'])
   transform: scale(0.8);
 }
 
-@media all and (max-width: 768px) {
-  .modal-inner {
-    width: 93%;
-    height: 93%;
-  }
-}
 </style>
