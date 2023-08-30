@@ -103,7 +103,6 @@ export const useUserStore = defineStore('userStore', {
     async validateCode(code) {
       const codeQuery = query(collection(db, 'codes'), where('code', '==', code))
       const codeSnapshot = await getDocs(codeQuery)
-
       if (codeSnapshot.empty) {
         return [false, null, null]
       }
@@ -111,7 +110,6 @@ export const useUserStore = defineStore('userStore', {
       const codeDoc = codeSnapshot.docs[0]
       const expiration = codeDoc.data().expiration.toDate()
       const currentTime = new Date()
-
       if (currentTime > expiration) {
         return [false, null, null]
       }

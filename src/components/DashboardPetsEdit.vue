@@ -187,7 +187,7 @@ h1 {
   align-items: center; /* Center the code text horizontally */
   margin-top: 1rem; /* Add some top margin for spacing */
   text-align: center; /* Center the text inside the container */
-  color: #c4c3c5; /* Set the text color to purple */
+  color: #7a26ce; /* Set the text color to purple */
   height: 15rem;
 }
 .plan1{
