@@ -171,7 +171,6 @@ const sendForm = async () => {
     practices,
     validate.value.data.numAffiliate
   )
-  console.log(counts.value.cantidadVacunas > 1)
   if (counts.value.cantidadAplicaciones > 1) {
     for (var x = 0; x < counts.value.cantidadAplicaciones - 1; x++) {
       await databaseClientPlanStore.updatePlan(
@@ -274,7 +273,7 @@ const renderCoverage = (data) => {
       </template>
     </div>
     <div
-      v-if="validate.data.practices['Vacunas'] || validate.data.practices['Radiografías']"
+      v-if="validate.data.practices['Vacunas'] || validate.data.practices['Radiografías'] || validate.data.practices['Aplicaciones (Inyectables)']"
       style="background-color: #9e63c4; padding: 10px; border-radius: 5px"
     >
       <div v-if="validate.data.practices['Vacunas']" class="input-container">
@@ -290,7 +289,7 @@ const renderCoverage = (data) => {
           class="short-input"
         />
       </div>
-      <div v-if="validate.data.practices['Radiografías']" class="input-container">
+      <div v-if="validate.data.practices['Aplicaciones (Inyectables)']" class="input-container">
         <label for="aplicaciones">Cantidad de aplicaciones:</label>
         <input
           type="number"
