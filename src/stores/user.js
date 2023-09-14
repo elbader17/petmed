@@ -92,7 +92,7 @@ export const useUserStore = defineStore('userStore', {
       querySnapshot.forEach((document) => {
         pets.push(document.id)
       })
-            await addDoc(collection(db, 'codes'), {
+      await addDoc(collection(db, 'codes'), {
         code,
         account: auth.currentUser.uid,
         expiration,
@@ -101,52 +101,121 @@ export const useUserStore = defineStore('userStore', {
     },
 
     async validateCode(code) {
-      const codeQuery = query(collection(db, 'codes'), where('code', '==', code))
-      const codeSnapshot = await getDocs(codeQuery)
-      if (codeSnapshot.empty) {
+      try {
+        const codeQuery = query(collection(db, 'codes'), where('code', '==', code))
+        const codeSnapshot = await getDocs(codeQuery)
+        console.log('🚀 ~ file: user.js:106 ~ validateCode ~ codeSnapshot:', codeSnapshot)
+        if (codeSnapshot.empty) {
+          return [false, null, null]
+        }
+
+        const codeDoc = codeSnapshot.docs[0]
+        const expiration = codeDoc.data().expiration.toDate()
+        const currentTime = new Date()
+        if (currentTime > expiration) {
+          return [false, null, null]
+        }
+
+        const account = codeDoc.data().account
+        const petId = codeDoc.data().pet
+
+        const petQuery = query(collection(db, 'pets'), where('__name__', '==', petId))
+        const petSnapshot = await getDocs(petQuery)
+
+        if (petSnapshot.empty) {
+          return [false, null, null]
+        }
+
+        const petName = petSnapshot.docs[0].data().name
+        const petPlan = petSnapshot.docs[0].data().plan
+        const petClient = petSnapshot.docs[0].data().client
+        const numAffiliate = petSnapshot.docs[0].data().numAffiliate
+
+        const userQuery = query(collection(db, 'users'), where('__name__', '==', petClient))
+        const userSnapshot = await getDocs(userQuery)
+
+        if (userSnapshot.empty) {
+          return [false, null, null]
+        }
+        console.log('test')
+        const userName = userSnapshot.docs[0].data().name
+        console.log('test')
+        const thirtyDaysAgo = new Date()
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+
+        const formsQuery = query(
+          collection(db, 'forms'),
+          where('account', '==', account),
+          where('date', '>=', thirtyDaysAgo)
+        )
+        console.log(
+          '🚀 ~ file: user.js:175 ~ getFormsForAccountLast30Days ~ formsQuery:',
+          formsQuery
+        )
+
+        const formsSnapshot = await getDocs(formsQuery)
+        console.log(
+          '🚀 ~ file: user.js:177 ~ getFormsForAccountLast30Days ~ formsSnapshot:',
+          formsSnapshot
+        )
+
+        if (formsSnapshot.empty) {
+          console.log('vacio') // No se encontraron formularios en los últimos 30 días
+        }
+
+        const formsData = []
+
+        formsSnapshot.forEach((doc) => {
+          const formData = doc.data()
+          formsData.push(formData)
+        })
+        if (formsData.length > 0) {
+          const formsWithConsults = []
+          for (const form of formsData) {
+            if (this.searchValue(form, 'Consulta en Clínica')) {
+              formsWithConsults.push(form)
+            }
+          }
+          if (petPlan === 'Plan 1005') {
+            if (formsWithConsults.length >= 1) {
+              return [false, null, null]
+            }
+          }
+          if (petPlan === 'Plan 2010') {
+            if (formsWithConsults.length >= 2) {
+              return [false, null, null]
+            }
+          }
+          if (petPlan === 'Plan 3015') {
+            if (formsWithConsults.length >= 3) {
+              return [false, null, null]
+            }
+          }
+          console.log(formsWithConsults.length, petPlan);
+        }
+
+        const petData = {
+          name: petName,
+          client: userName,
+          id: petId,
+          plan: petPlan,
+          numAffiliate: numAffiliate
+        }
+        return [true, account, petData]
+      } catch (error) {
         return [false, null, null]
       }
-
-      const codeDoc = codeSnapshot.docs[0]
-      const expiration = codeDoc.data().expiration.toDate()
-      const currentTime = new Date()
-      if (currentTime > expiration) {
-        return [false, null, null]
-      }
-
-      const account = codeDoc.data().account
-      const petId = codeDoc.data().pet
-
-      const petQuery = query(collection(db, 'pets'), where('__name__', '==', petId))
-      const petSnapshot = await getDocs(petQuery)
-
-      if (petSnapshot.empty) {
-        return [false, null, null]
-      }
-
-      const petName = petSnapshot.docs[0].data().name
-      const petPlan = petSnapshot.docs[0].data().plan
-      const petClient = petSnapshot.docs[0].data().client
-      const numAffiliate = petSnapshot.docs[0].data().numAffiliate
-
-      const userQuery = query(collection(db, 'users'), where('__name__', '==', petClient))
-      const userSnapshot = await getDocs(userQuery)
-
-      if (userSnapshot.empty) {
-        return [false, null, null]
-      }
-
-      const userName = userSnapshot.docs[0].data().name
-
-      const petData = {
-        name: petName,
-        client: userName,
-        id: petId,
-        plan: petPlan,
-        numAffiliate: numAffiliate
-      }
-
-      return [true, account, petData]
+    },
+    searchValue(object, searchedValue) {
+      return Object.values(object).some((value) => {
+        if (typeof value === 'object') {
+          return searchValue(value, searchedValue)
+        }
+        return value === searchedValue
+      })
+    },
+    async getFormsForAccountLast30Days(account) {
+      return formsData
     },
 
     async expirationCode(code) {
