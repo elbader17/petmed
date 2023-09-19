@@ -301,6 +301,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       }
     },
     async updatePlan(planId, formPractices, numAffiliate) {
+      console.log('updatePlan')
       this.loadingDoc = true
       try {
         const practicesDoc = await getDoc(doc(db, 'configs', 'practices'))
@@ -308,6 +309,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         const practiceIndexes = formPractices.map((practiceName) => {
           return practices.indexOf(practiceName)
         })
+        console.log(practiceIndexes)
         const docRef = doc(db, 'plans', planId)
         const planDoc = await getDoc(docRef)
         const planData = planDoc.data()
@@ -315,7 +317,12 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         for (let i = 0; i < plans.length; i++) {
           if (plans[i].numAffiliate === numAffiliate) {
             for (const practiceIndex of practiceIndexes) {
-              plans[i].practices[practiceIndex].amount--
+              const currentAmount = plans[i].practices[practiceIndex].amount
+              if (!isNaN(currentAmount) && currentAmount !== '-') {
+                plans[i].practices[practiceIndex].amount = (
+                  parseInt(currentAmount, 10) - 1
+                ).toString()
+              }
             }
           }
         }

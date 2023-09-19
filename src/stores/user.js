@@ -104,8 +104,8 @@ export const useUserStore = defineStore('userStore', {
       try {
         const codeQuery = query(collection(db, 'codes'), where('code', '==', code))
         const codeSnapshot = await getDocs(codeQuery)
-        console.log('🚀 ~ file: user.js:106 ~ validateCode ~ codeSnapshot:', codeSnapshot)
         if (codeSnapshot.empty) {
+          console.log('test 1')
           return [false, null, null]
         }
 
@@ -113,6 +113,7 @@ export const useUserStore = defineStore('userStore', {
         const expiration = codeDoc.data().expiration.toDate()
         const currentTime = new Date()
         if (currentTime > expiration) {
+          console.log('test 2')
           return [false, null, null]
         }
 
@@ -123,6 +124,7 @@ export const useUserStore = defineStore('userStore', {
         const petSnapshot = await getDocs(petQuery)
 
         if (petSnapshot.empty) {
+          console.log('test 3')
           return [false, null, null]
         }
 
@@ -135,11 +137,10 @@ export const useUserStore = defineStore('userStore', {
         const userSnapshot = await getDocs(userQuery)
 
         if (userSnapshot.empty) {
+          console.log('test 4')
           return [false, null, null]
         }
-        console.log('test')
         const userName = userSnapshot.docs[0].data().name
-        console.log('test')
         const thirtyDaysAgo = new Date()
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
 
@@ -148,22 +149,25 @@ export const useUserStore = defineStore('userStore', {
           where('account', '==', account),
           where('date', '>=', thirtyDaysAgo)
         )
-        console.log(
-          '🚀 ~ file: user.js:175 ~ getFormsForAccountLast30Days ~ formsQuery:',
-          formsQuery
-        )
 
-        const formsSnapshot = await getDocs(formsQuery)
-        console.log(
-          '🚀 ~ file: user.js:177 ~ getFormsForAccountLast30Days ~ formsSnapshot:',
-          formsSnapshot
-        )
-
-        if (formsSnapshot.empty) {
-          console.log('vacio') // No se encontraron formularios en los últimos 30 días
+        function searchValue(object, searchedValue) {
+          return Object.values(object).some((value) => {
+            if (typeof value === 'object') {
+              return searchValue(value, searchedValue)
+            }
+            return value === searchedValue
+          })
         }
 
+        const formsSnapshot = await getDocs(formsQuery)
         const formsData = []
+        const petData = {
+          name: petName,
+          client: userName,
+          id: petId,
+          plan: petPlan,
+          numAffiliate: numAffiliate
+        }
 
         formsSnapshot.forEach((doc) => {
           const formData = doc.data()
@@ -172,47 +176,32 @@ export const useUserStore = defineStore('userStore', {
         if (formsData.length > 0) {
           const formsWithConsults = []
           for (const form of formsData) {
-            if (this.searchValue(form, 'Consulta en Clínica')) {
+            if (searchValue(form, 'Consulta en Clínica')) {
               formsWithConsults.push(form)
             }
           }
           if (petPlan === 'Plan 1005') {
             if (formsWithConsults.length >= 1) {
-              return [false, null, null]
+              return [true, account, petData, true]
             }
           }
           if (petPlan === 'Plan 2010') {
             if (formsWithConsults.length >= 2) {
-              return [false, null, null]
+              return [true, account, petData, true]
             }
           }
           if (petPlan === 'Plan 3015') {
             if (formsWithConsults.length >= 3) {
-              return [false, null, null]
+              return [true, account, petData, true]
             }
           }
-          console.log(formsWithConsults.length, petPlan);
         }
 
-        const petData = {
-          name: petName,
-          client: userName,
-          id: petId,
-          plan: petPlan,
-          numAffiliate: numAffiliate
-        }
         return [true, account, petData]
       } catch (error) {
+        console.log('test 5', error)
         return [false, null, null]
       }
-    },
-    searchValue(object, searchedValue) {
-      return Object.values(object).some((value) => {
-        if (typeof value === 'object') {
-          return searchValue(value, searchedValue)
-        }
-        return value === searchedValue
-      })
     },
     async getFormsForAccountLast30Days(account) {
       return formsData

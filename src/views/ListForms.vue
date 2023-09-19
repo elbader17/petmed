@@ -53,27 +53,35 @@ const data = ref({
       </div>
     </div>
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
-      <p>Nombre: {{ infoForShow.name }}</p>
-      <p>Plan: {{ infoForShow.plan }}</p>
-      <p>Fecha: {{ infoForShow.date }}</p>
-      <p>Abdomen: {{ infoForShow.abdomen }}</p>
-      <p>Anamnesis: {{ infoForShow.anamnesis }}</p>
-      <p>Estudios complementarios {{ infoForShow.complementaryStudies }}</p>
-      <p>Fr: {{ infoForShow.fr }}</p>
-      <p>Fc: {{ infoForShow.fc }}</p>
-      <p>Reflejos: {{ infoForShow.feflexes }}</p>
-      <p>Miembros anteriores: {{ infoForShow.formerMembers }}</p>
-      <p>Cabeza y cuello: {{ infoForShow.headNeck }}</p>
-      <p>Miembros posteriores: {{ infoForShow.hindLimbs }}</p>
-      <p>Ganglios principales: {{ infoForShow.mainGanglia }}</p>
-      <p>Membrana mucosa: {{ infoForShow.mucousMembrane }}</p>
-      <p>Observaciones: {{ infoForShow.observations }}</p>
-      <p>Condicion de piel: {{ infoForShow.skinCondition }}</p>
-      <p>Temperatura: {{ infoForShow.temp }}</p>
-      <p>Torax: {{ infoForShow.torax }}</p>
-      <p>Practicas: {{ infoForShow.practices }}</p>
-      <p>Veterinario: {{ infoForShow.vet }}</p>
+      <div class="content-modal">
+        <h2 class="title">Planilla</h2>
+        <p>Nombre: {{ infoForShow.name }}</p>
+        <p>Plan: {{ infoForShow.plan }}</p>
+        <p>Fecha: {{ infoForShow.date }}</p>
+        <p>Abdomen: {{ infoForShow.abdomen }}</p>
+        <p>Anamnesis: {{ infoForShow.anamnesis }}</p>
+        <p>Estudios complementarios {{ infoForShow.complementaryStudies }}</p>
+        <p>Fr: {{ infoForShow.fr }}</p>
+        <p>Fc: {{ infoForShow.fc }}</p>
+        <p>Reflejos: {{ infoForShow.feflexes }}</p>
+        <p>Miembros anteriores: {{ infoForShow.formerMembers }}</p>
+        <p>Cabeza y cuello: {{ infoForShow.headNeck }}</p>
+        <p>Miembros posteriores: {{ infoForShow.hindLimbs }}</p>
+        <p>Ganglios principales: {{ infoForShow.mainGanglia }}</p>
+        <p>Membrana mucosa: {{ infoForShow.mucousMembrane }}</p>
+        <p>Observaciones: {{ infoForShow.observations }}</p>
+        <p>Condicion de piel: {{ infoForShow.skinCondition }}</p>
+        <p>Temperatura: {{ infoForShow.temp }}</p>
+        <p>Torax: {{ infoForShow.torax }}</p>
+        <p v-if="infoForShow.practices && infoForShow.practices.length">
+          Prácticas Aplicadas: {{ infoForShow.practices.join(', ') }}
+        </p>
+        <p>Veterinario: {{ infoForShow.vet }}</p>
+        <p>Cantidad de Vacunas aplicadas: {{ infoForShow.countVacunas }}</p>
+        <p>Cantidad de Radiografias: {{ infoForShow.countRadiografias }}</p>
+        <p>Cantidad de cantidadAplicaciones: {{ infoForShow.countAplicaciones }}</p>
 
+      </div>
     </ModalReusable>
     <div>
       <div v-for="item in data.paginatedItems" class="element" :key="item.name">
@@ -98,7 +106,11 @@ const data = ref({
   cursor: pointer;
   transition: background-color 0.3s;
 }
-
+.title{
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
 .consult-title {
   font-weight: 600;
   font-size: 1.25rem;
@@ -112,19 +124,24 @@ const data = ref({
   flex-direction: row;
   align-items: flex-start;
 }
-
-.element>div {
+.content-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 1.5rem;
+}
+.element > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.element>div .date {
+.element > div .date {
   margin-left: auto;
   color: #888;
 }
 
-.container>div {
+.container > div {
   display: flex;
   flex-direction: column;
   margin-right: 10px;

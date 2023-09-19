@@ -57,13 +57,16 @@ onMounted(() => {
 const ok = async () => {
   validate.value.textButton = 'Verificando...'
   try {
-    const [validationResponse, account, pet] = await databaseUserStore.validateCode(
+    const [validationResponse, account, pet, exededLimit] = await databaseUserStore.validateCode(
       parseInt(validate.value.code)
     )
+    console.log(validationResponse, account, pet, exededLimit)
     const [plan, id] = await databaseClientPlanStore.findPlanByPetId(pet.id)
     validate.value.data.practicesOfPet = plan
+    console.log(validate.value.data.practicesOfPet)
     validate.value.data.planId = id
     if (validationResponse) {
+      console.log('verificado')
       validate.value.textButton = 'Verificado'
       validate.value.style = 'enabled'
       validate.value.data.socio = pet.name
@@ -77,7 +80,11 @@ const ok = async () => {
       print(validationResponse)
       errorCode()
     }
+    if (exededLimit) {
+      validate.value.exededLimit = 'Consulta en Clínica'
+    }
   } catch (error) {
+    console.log(error)
     errorCode()
   }
 }
@@ -92,7 +99,6 @@ const errorCode = () => {
   validate.value.textButton = 'Código Incorrecto'
   validate.value.style = 'disabled'
   validate.value.buttonVerificar = 'buttonError'
-  // a los 3 segundos el texto tiene que cambiar a "Verificar"
   setTimeout(() => {
     validate.value.textButton = 'Verificar'
     validate.value.buttonVerificar = 'buttonVerificar'
@@ -165,7 +171,10 @@ const sendForm = async () => {
     validate.value.data.practices['Consulta en Clínica'] = false
   }
 
-  const practices = Object.keys(validate.value.data.practices)
+  const practices = Object.keys(validate.value.data.practices).filter(
+    (key) => validate.value.data.practices[key] === true
+  )
+
   await databaseClientPlanStore.updatePlan(
     validate.value.data.planId,
     practices,
@@ -204,6 +213,16 @@ const sendForm = async () => {
   delete validate.value.data.practicesOfPet
   validate.value.data.practices = practices
   const objToSend = validate.value.data
+  if (validate.value.data.practices['Vacunas']) {
+    objToSend.countVacunas = counts.value.cantidadVacunas
+  }
+  if (validate.value.data.practices['Radiografías']) {
+    objToSend.countRadiografias = counts.value.cantidadRadiografias
+  }
+  if (validate.value.data.practices['Aplicaciones (Inyectables)']) {
+    objToSend.countAplicaciones = counts.value.cantidadAplicaciones
+  }
+
   databaseVetStore.sendForm(objToSend)
   databaseUserStore.expirationCode(validate.value.code)
 
@@ -251,7 +270,8 @@ const renderCoverage = (data) => {
             practice !== 'Análisis clínicos no específicos' &&
             practice !== 'Análisis clínicos específico' &&
             practice !== 'Farmacia Veterinaria' &&
-            practice !== 'Kinesiología y Fisioterapia'
+            practice !== 'Kinesiología y Fisioterapia' &&
+            practice !== validate.exededLimit
           "
         >
           <label style="display: inline-block">
@@ -273,33 +293,60 @@ const renderCoverage = (data) => {
       </template>
     </div>
     <div
-      v-if="validate.data.practices['Vacunas'] || validate.data.practices['Radiografías'] || validate.data.practices['Aplicaciones (Inyectables)']"
+      v-if="
+        validate.data.practices['Vacunas'] ||
+        validate.data.practices['Radiografías'] ||
+        validate.data.practices['Aplicaciones (Inyectables)']
+      "
       style="background-color: #9e63c4; padding: 10px; border-radius: 5px"
     >
       <div v-if="validate.data.practices['Vacunas']" class="input-container">
-        <label for="vacunas">Cantidad de Vacunas:</label>
+        <label for="vacunas" class="title-counter">Cantidad de Vacunas:</label>
         <input type="number" id="vacunas" v-model="counts.cantidadVacunas" class="short-input" />
+        <label for="topeVacunas" class="title-counter">
+          Tope de covertura
+          {{
+            validate.data.practicesOfPet.practices['4'].amount <= 0
+              ? 'Se alcanzó el límite de cobertura'
+              : validate.data.practicesOfPet.practices['4'].amount
+          }}
+        </label>
       </div>
       <div v-if="validate.data.practices['Radiografías']" class="input-container">
-        <label for="radiografias">Cantidad de radiografías:</label>
+        <label for="radiografias" class="title-counter">Cantidad de radiografías:</label>
         <input
           type="number"
           id="radiografias"
           v-model="counts.cantidadRadiografias"
           class="short-input"
         />
+        <label for="topeRadiografias" class="title-counter">
+          Tope de covertura
+          {{
+            validate.data.practicesOfPet.practices['9'].amount <= 0
+              ? 'Se alcanzó el límite de cobertura'
+              : validate.data.practicesOfPet.practices['9'].amount
+          }}
+        </label>
       </div>
       <div v-if="validate.data.practices['Aplicaciones (Inyectables)']" class="input-container">
-        <label for="aplicaciones">Cantidad de aplicaciones:</label>
+        <label for="aplicaciones" class="title-counter">Cantidad de aplicaciones:</label>
         <input
           type="number"
           id="aplicaciones"
           v-model="counts.cantidadAplicaciones"
           class="short-input"
         />
+        <label for="topeAplicaciones" class="title-counter">
+          Tope de covertura
+          {{
+            validate.data.practicesOfPet.practices['5'].amount <= 0
+              ? 'Se alcanzó el límite de cobertura'
+              : validate.data.practicesOfPet.practices['5'].amount
+          }}
+        </label>
       </div>
     </div>
-
     <section>
       <h2>Fecha y Veterinaria</h2>
       <label for="fecha">Fecha:</label>
@@ -418,7 +465,13 @@ const renderCoverage = (data) => {
 .short-input {
   width: 60px;
   margin-left: 10px; /* Ajusta el margen según tus preferencias */
+  margin-right: 20px;
 }
+
+.title-counter {
+  color: #fff;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 20px;

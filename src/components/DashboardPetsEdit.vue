@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useUserStore } from '@/stores/user'
-import dog from '@/assets/img/dog.svg';
+import dog from '@/assets/img/dog.svg'
 
 const userStore = useUserStore()
 const code = ref()
@@ -27,14 +27,13 @@ const props = defineProps(['item', 'plans'])
 const options = ref([])
 
 const renderPlans = (num) => {
-  console.log(num)
-  if(num === 'Plan 1005'){
+  if (num === 'Plan 1005') {
     return 'plan1'
   }
-  if(num === 'Plan 2010'){
+  if (num === 'Plan 2010') {
     return 'plan2'
   }
-  if(num === 'Plan 3015'){
+  if (num === 'Plan 3015') {
     return 'plan3'
   }
   return 'credit-card'
@@ -64,12 +63,20 @@ const pet = ref({
     <section v-if="showCard" class="credit-card" :class="renderPlans(pet.plan)">
       <div class="card-info">
         <div class="card-header">
-          <h1>Credencial de Servicio</h1>
-          <img
-            src="https://s3.ppllstatics.com/laverdad/www/multimedia/202211/23/media/cortadas/como-saber-cuanto-frio-soportar-perro-kpaB-U180813416069owF-1248x770@La%20Verdad.jpg"
-            alt="Pet Photo"
-            class="pet-photo"
-          />
+          <div class="header-title">
+            <h1>Credencial</h1>
+            <h1>de Servicio</h1>
+          </div>
+          <div class="pet-photo-container">
+            <img
+              src="https://s3.ppllstatics.com/laverdad/www/multimedia/202211/23/media/cortadas/como-saber-cuanto-frio-soportar-perro-kpaB-U180813416069owF-1248x770@La%20Verdad.jpg"
+              alt="Pet Photo"
+              class="pet-photo"
+            />
+            <div class="logo-container2">
+              <img src="../../src/assets/logo.svg" alt="Logo" class="logo" />
+            </div>
+          </div>
         </div>
 
         <div class="card-field">
@@ -103,12 +110,8 @@ const pet = ref({
         </div>
 
         <div class="logo-container">
-          <img src="../../src/assets/logo.svg" alt="Logo" class="logo" />
-        </div>
-        <div class="logo-container">
           <img :src="dog" alt="Logo" class="logo2" />
         </div>
-
       </div>
     </section>
     <div class="code-container" v-if="!showCard">
@@ -131,8 +134,13 @@ const pet = ref({
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-
+.header-title {
+  margin-left: 0.7rem;
+  margin-right: 15rem;
+}
+.pet-photo-container {
+  position: relative; /* Agrega posicionamiento relativo al contenedor de la foto y el logo */
+}
 .form-button {
   padding: 0.5rem 1rem;
   margin-left: 4.5rem;
@@ -156,6 +164,7 @@ const pet = ref({
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
+  font-family: 'Sigmar One', cursive;
 }
 
 .pet-photo {
@@ -171,10 +180,11 @@ h1 {
   font-size: 2.4rem; /* Increased font size */
   font-weight: bold;
   color: #fff;
-  margin: 0;
-  padding: 0.5rem 1rem; /* Added padding to create a background */
-  background-color: #64b5f6; /* Background color for the h1 */
+  margin: 0.2rem;
+  padding: 0.1rem 0.1rem; /* Added padding to create a background */
+  background-color: #3cbeb3; /* Background color for the h1 */
   border-radius: 5px; /* Rounded corners */
+  font-family: 'Sigmar One', cursive;
 }
 
 .data-container {
@@ -190,42 +200,46 @@ h1 {
   color: #7a26ce; /* Set the text color to purple */
   height: 15rem;
 }
-.plan1{
+.logo-container2{
+  position: absolute; /* Agrega posicionamiento absoluto al logo */
+  left: 10px;
+  bottom: -220px; /* Ajusta la distancia desde la parte inferior */
+}
+.plan1 {
   display: flex;
   flex-direction: column;
   padding: 1rem;
   width: 100%;
-  background-color: #8D57B0; /* Add a background color for the card */
+  background-color: #8d57b0; /* Add a background color for the card */
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-
-.plan2{
+.plan2 {
   display: flex;
   flex-direction: column;
   padding: 1rem;
   width: 100%;
-  background-color: #F4643C; /* Add a background color for the card */
+  background-color: #f4643c; /* Add a background color for the card */
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .plan2 h1 {
-  background-color: #3CBEB4; /* Cambia el color de fondo a un tono más oscuro */
+  background-color: #3cbeb4; /* Cambia el color de fondo a un tono más oscuro */
 }
 
-.plan3{
+.plan3 {
   display: flex;
   flex-direction: column;
   padding: 1rem;
   width: 100%;
-  background-color: #3CBEB4; /* Add a background color for the card */
+  background-color: #3cbeb4; /* Add a background color for the card */
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .plan3 h1 {
-  background-color: #F4643C; /* Cambia el color de fondo a un tono más oscuro */
+  background-color: #f4643c; /* Cambia el color de fondo a un tono más oscuro */
 }
 
 .code-text {
@@ -245,6 +259,7 @@ h1 {
   font-weight: bold;
   width: 150px;
   color: #fff;
+  font-family: 'Poppins', sans-serif;
 }
 
 .field-value {
@@ -254,6 +269,7 @@ h1 {
   padding: 0.1rem;
   color: #fff; /* Text color in white */
   width: 10%;
+  font-family: 'Poppins', sans-serif;
 }
 
 .logo-container {
@@ -273,8 +289,7 @@ h1 {
   width: 450px;
   right: 80%;
   bottom: 100px;
-  filter: invert(100%) brightness(200%) opacity(0.3); 
-
+  filter: invert(100%) brightness(200%) opacity(0.3);
 }
 
 @media (max-width: 800px) {
@@ -286,6 +301,10 @@ h1 {
 @media (max-width: 770px) {
   .dashboard {
     transform: scale(0.8);
+  }
+  .header-title {
+    margin-left: 0.7rem;
+    margin-right: 13rem;
   }
 }
 
@@ -324,7 +343,8 @@ h1 {
   .logo-container {
     left: 80%;
   }
-}@media (max-width: 475px) {
+}
+@media (max-width: 475px) {
   .dashboard {
     transform: scale(0.6);
   }
@@ -353,6 +373,10 @@ h1 {
   .credit-card {
     width: 160%;
     margin-left: -30%;
+  }
+  .header-title {
+    margin-left: 0.7rem;
+    margin-right: 11rem;
   }
 }
 

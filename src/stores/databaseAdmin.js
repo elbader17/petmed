@@ -1,12 +1,4 @@
-import {
-  collection,
-  getDocs,
-  query,
-  orderBy,
-  limit,
-  where,
-  
-} from 'firebase/firestore/lite'
+import { collection, getDocs, query, orderBy, limit, where } from 'firebase/firestore/lite'
 import { db, auth } from '@/firebaseConfig'
 import { defineStore } from 'pinia'
 
@@ -39,7 +31,7 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
       const dataForList = []
       querySnapshot.forEach((doc) => {
         const practices = []
-
+        console.log(doc.data())
         Object.keys(doc.data()).forEach((key) => {
           if (Number.isInteger(parseInt(key))) {
             practices.push(doc.data()[key])
@@ -70,6 +62,9 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
           temp: doc.data().temp,
           torax: doc.data().torax,
           vet: doc.data().vet,
+          countVacunas: doc.data().countVacunas || 0,
+          countRadiografias: doc.data().countRadiografias || 0,
+          countAplicaciones: doc.data().countAplicaciones || 0,
         })
       })
 
