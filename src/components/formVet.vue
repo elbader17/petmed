@@ -304,7 +304,7 @@ const renderCoverage = (data) => {
         <label for="vacunas" class="title-counter">Cantidad de Vacunas:</label>
         <input type="number" id="vacunas" v-model="counts.cantidadVacunas" class="short-input" />
         <label for="topeVacunas" class="title-counter">
-          Tope de covertura
+          Tope de cobertura
           {{
             validate.data.practicesOfPet.practices['4'].amount <= 0
               ? 'Se alcanzó el límite de cobertura'
@@ -321,7 +321,7 @@ const renderCoverage = (data) => {
           class="short-input"
         />
         <label for="topeRadiografias" class="title-counter">
-          Tope de covertura
+          Tope de cobertura
           {{
             validate.data.practicesOfPet.practices['9'].amount <= 0
               ? 'Se alcanzó el límite de cobertura'
@@ -338,7 +338,7 @@ const renderCoverage = (data) => {
           class="short-input"
         />
         <label for="topeAplicaciones" class="title-counter">
-          Tope de covertura
+          Tope de cobertura
           {{
             validate.data.practicesOfPet.practices['5'].amount <= 0
               ? 'Se alcanzó el límite de cobertura'
