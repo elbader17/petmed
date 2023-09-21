@@ -42,9 +42,9 @@ const validate = ref({
 })
 
 const counts = ref({
-  cantidadAplicaciones: 1,
-  cantidadVacunas: 1,
-  cantidadRadiografias: 1
+  cantidadAplicaciones: 0,
+  cantidadVacunas: 0,
+  cantidadRadiografias: 0
 })
 
 const databaseUserStore = useUserStore()
@@ -213,16 +213,16 @@ const sendForm = async () => {
   delete validate.value.data.practicesOfPet
   validate.value.data.practices = practices
   const objToSend = validate.value.data
-  if (validate.value.data.practices['Vacunas']) {
+  const values = Object.values(validate.value.data.practices)
+  if (values.includes('Vacunas')) {
     objToSend.countVacunas = counts.value.cantidadVacunas
   }
-  if (validate.value.data.practices['Radiografías']) {
+  if (values.includes('Radiografías')) {
     objToSend.countRadiografias = counts.value.cantidadRadiografias
   }
-  if (validate.value.data.practices['Aplicaciones (Inyectables)']) {
+  if (values.includes('Aplicaciones (Inyectables)')) {
     objToSend.countAplicaciones = counts.value.cantidadAplicaciones
   }
-
   databaseVetStore.sendForm(objToSend)
   databaseUserStore.expirationCode(validate.value.code)
 
@@ -234,7 +234,7 @@ const consitionalRender = (data) => {
 
   if (validate.value.data.practicesOfPet.practices[data.toString()]) {
     const value = validate.value.data.practicesOfPet.practices[data.toString()]
-    if (!isNaN(value.amount) && parseInt(value.amount) > 0) {
+    if (!isNaN(value.amount) && parseInt(value.amount) > 0 || value.amount === '-') {
       return value.coverage
     }
     if (!isNaN(value.amount) && parseInt(value.amount) === 0) {
