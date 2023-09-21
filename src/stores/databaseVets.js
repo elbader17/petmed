@@ -93,7 +93,7 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
       const queryRef = query(collection(db, 'configs'), where('__name__', '==', 'practices'))
       const querySnapshot = await getDocs(queryRef)
       this.practices = querySnapshot.docs[0].data().list
-      console.log("🚀 ~ file: databaseVets.js:96 ~ getPractices ~ practices:", this.practices)
+      console.log('🚀 ~ file: databaseVets.js:96 ~ getPractices ~ practices:', this.practices)
     },
 
     async sendForm(data) {
@@ -131,12 +131,23 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
     async updatePlanGetData(code) {
       const queryRef = query(collection(db, 'pets'), where('numAffiliate', '==', code.toString()))
       const querySnapshot = await getDocs(queryRef)
+      const originalDateFormat = querySnapshot.docs[0].data().date
+      const dateParts = originalDateFormat.split('/')
+      const day = dateParts[0]
+      const month = dateParts[1]
+      const year = dateParts[2]
+
+      // Crear un objeto Date en el formato "mm/dd/yyyy"
+      const dateInDateFormat = new Date(`${month}/${day}/${year}`)
+
+      // Formatear la fecha en el nuevo formato ISO 8601
+      const dateInISOFormat = dateInDateFormat.toISOString()
       const petId = querySnapshot.docs[0].id
       const client = querySnapshot.docs[0].data().client
       const plan = querySnapshot.docs[0].data().plan.slice(-4)
       const petName = querySnapshot.docs[0].data().name
       const paid = true
-      const date = Date.now()
+      const date = dateInISOFormat
       const numAffiliate = code.toString()
       return { petId, client, plan, petName, date, numAffiliate, paid }
     },

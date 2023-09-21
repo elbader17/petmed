@@ -138,10 +138,36 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       }
     },
     async addClientPlan(plan) {
+      console.log(plan)
       this.loadingDoc = true
       try {
         await databasePlansStore.getPlan(plan.plan)
         const practices = JSON.parse(JSON.stringify(databasePlansStore.plan))
+
+        // get pet ussing numAffiliate
+        if (plan.numAffiliate) {
+          const queryRef = query(
+            collection(db, 'pets'),
+            where('numAffiliate', '==', plan.numAffiliate)
+          )
+          const querySnapshot = await getDocs(queryRef)
+          querySnapshot.forEach((doc) => {
+            plan.petId = doc.id
+            plan.petName = doc.data().name
+            const date = doc.data().registration_code || null
+            const partesFecha = date.split('/')
+            const dia = partesFecha[0]
+            const mes = partesFecha[1]
+            const año = partesFecha[2]
+
+            // Crear un objeto Date en el formato "mm/dd/yyyy"
+            const fechaEnFormatoDate = new Date(`${mes}/${dia}/${año}`)
+
+            // Formatear la fecha en el nuevo formato ISO 8601
+            const fechaEnFormatoISO = fechaEnFormatoDate.toISOString()
+            plan.date = fechaEnFormatoISO
+          })
+        }
         const planObj = {
           plan: plan.plan,
           date: plan.date,
@@ -301,7 +327,6 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       }
     },
     async updatePlan(planId, formPractices, numAffiliate) {
-      console.log('updatePlan')
       this.loadingDoc = true
       try {
         const practicesDoc = await getDoc(doc(db, 'configs', 'practices'))
