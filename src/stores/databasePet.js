@@ -12,7 +12,7 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
     total: 0,
   }),
   actions: {
-    async getPets(id) {
+    async getPets(id, name) {
       if (this.pets.length !== 0) {
         return
       }
@@ -23,7 +23,8 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
         querySnapshot.forEach((doc) => {
           this.pets.push({
             id: doc.id,
-            ...doc.data()
+            ...doc.data(),
+            responsable: name
           })
         })
       } catch (error) {

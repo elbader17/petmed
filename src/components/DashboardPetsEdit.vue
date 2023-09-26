@@ -54,7 +54,9 @@ const pet = ref({
   color: '',
   plan: '',
   numAffiliate: '',
-  render_not: false
+  render_not: false,
+  registration_code: '',
+  responsable: '',
 })
 </script>
 
@@ -83,30 +85,26 @@ const pet = ref({
           <span class="field-title">Nombre:</span>
           <div class="field-value">{{ pet.name }}</div>
         </div>
-
         <div class="card-field">
-          <span class="field-title">Fecha de nacimiento:</span>
-          <div class="field-value">{{ pet.birthdate }}</div>
+          <span class="field-title">Sexo:</span>
+          <div class="field-value">{{ pet.sex }}</div>
         </div>
-
-        <div class="card-field">
-          <span class="field-title">Tipo:</span>
-          <div class="field-value">{{ pet.animal }}</div>
-        </div>
-
         <div class="card-field">
           <span class="field-title">Raza:</span>
           <div class="field-value">{{ pet.breed }}</div>
         </div>
 
         <div class="card-field">
-          <span class="field-title">Sexo:</span>
-          <div class="field-value">{{ pet.sex }}</div>
+          <span class="field-titles">Socio: <span class="extra-space"/> {{ pet.numAffiliate }} <span class="spaces"/> Plan: {{ pet.plan }}</span>
         </div>
 
         <div class="card-field">
-          <span class="field-title">Color:</span>
-          <div class="field-value">{{ pet.color }}</div>
+          <span class="field-titles">fecha de nac:&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; {{ pet.birthdate }}  &nbsp;&nbsp;  Alta: {{ pet.registration_code }}</span>
+        </div>
+
+        <div class="card-field">
+          <span class="field-title">responsable:</span>
+          <div class="field-value">{{ pet.responsable }}</div>
         </div>
 
         <div class="logo-container">
@@ -138,6 +136,14 @@ const pet = ref({
   margin-left: 0.7rem;
   margin-right: 15rem;
 }
+.extra-space {
+  margin: 47px;
+}
+
+.spaces {
+  margin: 22px;
+}
+
 .pet-photo-container {
   position: relative; /* Agrega posicionamiento relativo al contenedor de la foto y el logo */
 }
@@ -200,7 +206,7 @@ h1 {
   color: #7a26ce; /* Set the text color to purple */
   height: 15rem;
 }
-.logo-container2{
+.logo-container2 {
   position: absolute; /* Agrega posicionamiento absoluto al logo */
   left: 10px;
   bottom: -220px; /* Ajusta la distancia desde la parte inferior */
@@ -261,6 +267,14 @@ h1 {
   color: #fff;
   font-family: 'Poppins', sans-serif;
 }
+.field-titles {
+  font-size: 1.1rem; /* Increased font size */
+  font-weight: bold;
+  width: 100%;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
 
 .field-value {
   flex: 1;
