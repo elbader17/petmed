@@ -42,11 +42,11 @@ const data = ref({
       </div>
       <div>
         <p>N° de afiliado</p>
-        <input type="text" v-model="data.nroOfAffiliate" />
+        <input type="text" v-model="data.numAffiliate" />
       </div>
       <div>
         <p>Responsable</p>
-        <input type="text" v-model="data.nameOfResponsible" />
+        <input type="text" v-model="data.responsable" />
       </div>
       <div>
         <button class="btn-search" @click="search">buscar</button>
@@ -56,6 +56,8 @@ const data = ref({
       <div class="content-modal">
         <h2 class="title">Planilla</h2>
         <p>Nombre: {{ infoForShow.name }}</p>
+        <p>N° de afiliado: {{ infoForShow.numAffiliate }}</p>
+        <p>Responsable: {{ infoForShow.responsable }}</p>
         <p>Plan: {{ infoForShow.plan }}</p>
         <p>Fecha: {{ infoForShow.date }}</p>
         <p>Abdomen: {{ infoForShow.abdomen }}</p>
@@ -80,7 +82,6 @@ const data = ref({
         <p>Cantidad de Vacunas aplicadas: {{ infoForShow.countVacunas }}</p>
         <p>Cantidad de Radiografias: {{ infoForShow.countRadiografias }}</p>
         <p>Cantidad de cantidadAplicaciones: {{ infoForShow.countAplicaciones }}</p>
-
       </div>
     </ModalReusable>
     <div>
@@ -106,7 +107,7 @@ const data = ref({
   cursor: pointer;
   transition: background-color 0.3s;
 }
-.title{
+.title {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;

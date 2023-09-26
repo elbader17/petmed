@@ -31,7 +31,6 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
       const dataForList = []
       querySnapshot.forEach((doc) => {
         const practices = []
-        console.log(doc.data())
         Object.keys(doc.data()).forEach((key) => {
           if (Number.isInteger(parseInt(key))) {
             practices.push(doc.data()[key])
@@ -41,6 +40,8 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
         dataForList.push({
           name: doc.data().socio,
           id: doc.id,
+          responsable: doc.data().responsible,
+          numAffiliate: doc.data().numAffiliate,
           plan: doc.data().plan,
           date: formatDate(doc.data().date),
           practices: practices,
