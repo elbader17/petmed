@@ -99,7 +99,7 @@ const pet = ref({
         </div>
 
         <div class="card-field">
-          <span class="field-titles">fecha de nac:&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; {{ pet.birthdate }}  &nbsp;&nbsp;  Alta: {{ pet.registration_code }}</span>
+          <span class="field-titles">fecha de nac:&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; {{ pet.birthdate }}  &nbsp;&nbsp; &nbsp;&nbsp;  Alta: {{ pet.registration_code }}</span>
         </div>
 
         <div class="card-field">

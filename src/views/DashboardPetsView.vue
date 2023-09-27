@@ -24,7 +24,7 @@ onBeforeMount(async () => {
   }
 
   try {
-    await databasePetStore.getPets(databaseUserStore.client.id,databaseUserStore.client.name )
+    await databasePetStore.getPets(databaseUserStore.client.id, databaseUserStore.client.name)
   } catch (error) {
     console.log(error)
   }

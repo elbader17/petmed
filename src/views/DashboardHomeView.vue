@@ -28,7 +28,7 @@ onMounted(async () => {
   } else {
     try {
       databasePetStore.pets = [];
-      await databasePetStore.getPets(client.id);
+      await databasePetStore.getPets(client.id, client.name);
     } catch (error) {
       console.log(error);
     }
