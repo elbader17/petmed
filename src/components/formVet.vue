@@ -231,7 +231,8 @@ const sendForm = async () => {
 
 const consitionalRender = (data) => {
   if (!validate.value.data.practicesOfPet.practices) return false
-
+  if(data == 0 && validate.value.exededLimit) return false
+  if(data == 16 && validate.value.data.plan !== 'Plan 3015') return false
   if (validate.value.data.practicesOfPet.practices[data.toString()]) {
     const value = validate.value.data.practicesOfPet.practices[data.toString()]
     if (!isNaN(value.amount) && parseInt(value.amount) > 0 || value.amount === '-') {
@@ -270,8 +271,7 @@ const renderCoverage = (data) => {
             practice !== 'Análisis clínicos no específicos' &&
             practice !== 'Análisis clínicos específico' &&
             practice !== 'Farmacia Veterinaria' &&
-            practice !== 'Kinesiología y Fisioterapia' &&
-            practice !== validate.exededLimit
+            practice !== 'Kinesiología y Fisioterapia' 
           "
         >
           <label style="display: inline-block">
@@ -360,6 +360,9 @@ const renderCoverage = (data) => {
       <h2>Socio, Plan y Consulta</h2>
       <label for="socio">Socio:</label>
       <input disabled type="text" id="socio" v-model="validate.data.socio" name="socio" />
+
+      <label for="numAffiliate">Número de Afiliado:</label>
+      <input disabled type="text" id="numAffiliate" v-model="validate.data.numAffiliate" name="numAffiliate" />
 
       <label for="plan">Plan:</label>
       <input disabled type="text" id="plan" v-model="validate.data.plan" name="plan" />
