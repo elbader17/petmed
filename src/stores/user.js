@@ -176,10 +176,11 @@ export const useUserStore = defineStore('userStore', {
         if (formsData.length > 0) {
           const formsWithConsults = []
           for (const form of formsData) {
-            if (searchValue(form, 'Consulta en Clínica')) {
+            if (searchValue(form, 'Consulta en Clínica') && form.petId === petId) {
               formsWithConsults.push(form)
             }
           }
+          
           if (petPlan === 'Plan 1005') {
             if (formsWithConsults.length >= 1) {
               return [true, account, petData, true]
