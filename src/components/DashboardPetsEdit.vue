@@ -27,16 +27,16 @@ const props = defineProps(['item', 'plans'])
 const options = ref([])
 
 const renderPlans = (num) => {
-  if (num === 'Plan 1005') {
+  if (num === 'Plan 1005' || num == '1005') {
     return 'plan1'
   }
-  if (num === 'Plan 2010') {
+  if (num === 'Plan 2010' || num == '2010') {
     return 'plan2'
   }
-  if (num === 'Plan 3015') {
+  if (num === 'Plan 3015' || num == '3015') {
     return 'plan3'
   }
-  return 'credit-card'
+  return 'plan1'
 }
 
 onMounted(async () => {
@@ -302,7 +302,7 @@ h1 {
   z-index: 0; /* Coloca la imagen detrás de otros elementos */
   width: 450px;
   right: 80%;
-  bottom: 100px;
+  bottom: 80px;
   filter: invert(100%) brightness(200%) opacity(0.3);
 }
 
@@ -339,6 +339,13 @@ h1 {
   .logo-container {
     left: 75%;
   }
+  .logo-container2 {
+    bottom: -200px;
+  }
+  .logo{
+    width: 140px;
+  }
+
 }
 @media (max-width: 580px) {
   .dashboard {
@@ -393,6 +400,19 @@ h1 {
     margin-right: 11rem;
   }
 }
+
+@media (max-width: 400px) {
+  .dashboard {
+    transform: scale(0.53);
+  }
+  .logo{
+    width: 130px;
+    margin-left: 15px;
+  }
+  
+}
+
+
 
 @media (max-width: 380px) {
   .dashboard {
