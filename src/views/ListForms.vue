@@ -87,7 +87,7 @@ const data = ref({
     <div>
       <div v-for="item in data.paginatedItems" class="element" :key="item.name">
         <div @click="toggleModal(item)">
-          <p class="data">{{ item.name }} - {{ item.plan }}</p>
+          <p class="data">{{ item.name }} - {{ item.plan }} - {{ item.numAffiliate }} </p>
           <p class="date">{{ item.date }}</p>
         </div>
       </div>
