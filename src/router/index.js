@@ -34,7 +34,7 @@ const router = createRouter({
       component: () => import('../views/AffiliationsView.vue')
     },
     {
-      path: '/pe-afiliacion',
+      path: '/pre-afiliacion',
       name: 'pre-afiliacion',
       component: () => import('../views/PreAffiliationView.vue')
     },
