@@ -284,12 +284,35 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
             })
           }
         })
+
         let plan = {}
-        plans[0].plans.map((p) => {
+        plans[0].plans.forEach((p) => {
           if (p.petId === petId) {
             plan = p
           }
         })
+
+        const dateOfActivation = new Date(plan.date)
+        const currentDate = new Date()
+        const practices = {}
+
+        for (const practiceId in plan.practices) {
+          const practice = plan.practices[practiceId]
+          if (!practice.gracetime || practice.gracetime === '-') {
+            practices[practiceId] = practice
+            continue
+          }
+
+          const graceTimeInDays = parseInt(practice.gracetime)
+          const graceTimeInMillis = graceTimeInDays * 24 * 60 * 60 * 1000
+          const activationDateInMillis = dateOfActivation.getTime()
+
+          if (currentDate.getTime() - activationDateInMillis >= graceTimeInMillis) {
+            practices[practiceId] = practice
+          }
+        }
+
+        plan.practices = practices
 
         return [plan, plans[0].id]
       } catch (error) {
@@ -297,6 +320,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         return []
       }
     },
+
     async updateAmountsIfYearPassed(id) {
       this.loadingDoc = true
       try {
