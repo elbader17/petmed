@@ -138,13 +138,11 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       }
     },
     async addClientPlan(plan) {
-      console.log(plan)
       this.loadingDoc = true
       try {
         await databasePlansStore.getPlan(plan.plan)
         const practices = JSON.parse(JSON.stringify(databasePlansStore.plan))
 
-        // get pet ussing numAffiliate
         if (plan.numAffiliate) {
           const queryRef = query(
             collection(db, 'pets'),
@@ -160,10 +158,8 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
             const mes = partesFecha[1]
             const año = partesFecha[2]
 
-            // Crear un objeto Date en el formato "mm/dd/yyyy"
             const fechaEnFormatoDate = new Date(`${mes}/${dia}/${año}`)
 
-            // Formatear la fecha en el nuevo formato ISO 8601
             const fechaEnFormatoISO = fechaEnFormatoDate.toISOString()
             plan.date = fechaEnFormatoISO
           })

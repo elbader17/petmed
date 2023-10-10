@@ -18,8 +18,8 @@ const databaseVetStore = useDatabaseVetStore()
 const sendCode = async () => {
   let response = await databaseVetStore.validateCode(code.value)
   if (!response) {
-    const data = await databaseVetStore.updatePlanGetData(code.value)
-    await databaseClientPlanStore.addClientPlan(data)
+    // const data = await databaseVetStore.updatePlanGetData(code.value)
+    // await databaseClientPlanStore.addClientPlan(data)
     response = await databaseVetStore.validateCode(code.value)
   }
   practices.value = response.practices
