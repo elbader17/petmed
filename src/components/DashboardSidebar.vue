@@ -3,14 +3,14 @@ import { ref } from 'vue';
 import { useUserStore } from '@/stores/user';
 
 const isExpanded = ref(true);
-const databaseUserStore = useUserStore();
 
 const toggleMenu = () => {
   isExpanded.value = !isExpanded.value;
 }
 
 const renderByType = (type) => {
-  if (type === databaseUserStore.typeUser) return true;
+  const userType = localStorage.getItem('userType');
+  if (type ===userType) return true;
   return false;
 }
 </script>
