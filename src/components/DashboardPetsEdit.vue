@@ -10,8 +10,7 @@ const textButton = ref('Generar Token')
 
 const generate = async () => {
   try {
-    userStore.createCode(pet.value.numAffiliate)
-    code.value = userStore.userCode
+    code.value = await userStore.createCode(pet.value.numAffiliate)
     showCard.value = !showCard.value
     if (textButton.value === 'Generar Token') {
       textButton.value = 'Regresar'
