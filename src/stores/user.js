@@ -5,7 +5,7 @@ import {
   signOut,
   sendPasswordResetEmail
 } from 'firebase/auth'
-import { addDoc, collection, getDocs, query, where, updateDoc } from 'firebase/firestore/lite'
+import { addDoc, collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore/lite'
 import { db, auth } from '@/firebaseConfig'
 import { useDatabaseUserStore } from './databaseUser'
 import { useDatabaseVetStore } from './databaseVets'
@@ -19,7 +19,8 @@ export const useUserStore = defineStore('userStore', {
     loadingUser: false,
     loadingSession: false,
     typeUser: 'client',
-    errorMessage: null
+    errorMessage: null,
+    user: {}
   }),
   actions: {
     async loginUser(email, password) {
@@ -32,7 +33,8 @@ export const useUserStore = defineStore('userStore', {
           where('account', '==', auth.currentUser.uid)
         )
         const queryUserSnap = await getDocs(queryUser)
-        this.typeUser = queryUserSnap.docs[0].data().type
+        localStorage.setItem('userType', queryUserSnap.docs[0].data().type)
+        this.user = queryUserSnap.docs[0].data()
         this.errorMessage = null
         router.push({ name: 'dashboard-home' })
       } catch (error) {
@@ -53,6 +55,18 @@ export const useUserStore = defineStore('userStore', {
       } finally {
         this.loadingUser = false
       }
+    },
+    async updateUser(){
+      const user = this.user
+      const queryUser = query(
+        collection(db, 'users'),
+        where('account', '==', auth.currentUser.uid)
+      )
+      const queryUserSnap = await getDocs(queryUser)
+      const id = queryUserSnap.docs[0].id
+      const userRef = doc(db, 'users', id)
+      await updateDoc(userRef, user)
+
     },
     async logoutUser() {
       const databaseUserStore = useDatabaseUserStore()
@@ -79,25 +93,31 @@ export const useUserStore = defineStore('userStore', {
       expiration.setMinutes(expiration.getMinutes() + 5)
       this.userCode = code
 
-      const queryUser = query(collection(db, 'users'), where('account', '==', auth.currentUser.uid))
-      const queryUserSnap = await getDocs(queryUser)
-
-      let user = null
-      queryUserSnap.forEach((document) => {
-        user = document.id
-      })
       const queryRef = query(collection(db, 'pets'), where('numAffiliate', '==', afiliate))
       const querySnapshot = await getDocs(queryRef)
+
       const pets = []
+      const dataPet = []
       querySnapshot.forEach((document) => {
         pets.push(document.id)
+        dataPet.push(document.data())
       })
+      if (dataPet[0]) {
+        const userQuery = query(collection(db, 'users'), where('__name__', '==', dataPet[0].client))
+        const userSnapshot = await getDocs(userQuery)
+        const userData = userSnapshot.docs[0].data()
+        if (userData.banned) {
+          return 'Esta cuenta a sido bloqueada'
+        }
+      }
       await addDoc(collection(db, 'codes'), {
         code,
         account: auth.currentUser.uid,
         expiration,
-        pet: pets[0]
+        pet: pets[0],
+        afiliate
       })
+      return code
     },
 
     async validateCode(code) {
@@ -180,7 +200,7 @@ export const useUserStore = defineStore('userStore', {
               formsWithConsults.push(form)
             }
           }
-          
+
           if (petPlan === 'Plan 1005') {
             if (formsWithConsults.length >= 1) {
               return [true, account, petData, true]
