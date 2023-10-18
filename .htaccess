@@ -4,4 +4,7 @@
 </IfModule>
 RewriteEngine On
 RewriteBase /new/
-RewriteRule ^(.*)$ /new/$1 [L,QSA]
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /new/index.html [L]
