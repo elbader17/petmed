@@ -190,6 +190,49 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         this.loadingDoc = false
       }
     },
+
+    createAllPlans() {
+      // obtener el Id de todos los clientes desde la base de datos y guardarlos en un array
+      const clients = []
+      const queryRef = query(collection(db, 'clients'))
+      getDocs(queryRef).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          clients.push(doc.id)
+        })
+      })
+      const pets = []
+      clients.forEach((client) => {
+        const queryRef = query(collection(db, 'pets'), where('client', '==', client))
+        getDocs(queryRef).then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const date = doc.data().registration_code || null
+            const partesFecha = date.split('/')
+            const dia = partesFecha[0]
+            const mes = partesFecha[1]
+            const año = partesFecha[2]
+
+            const fechaEnFormatoDate = new Date(`${mes}/${dia}/${año}`)
+
+            const fechaEnFormatoISO = fechaEnFormatoDate.toISOString()
+            pets.push({
+              client,
+              plan: doc.data().plan.slice(-4),
+              date: fechaEnFormatoISO,
+              paid: true,
+              petId: doc.id,
+              petName: doc.data().name,
+              numAffiliate: doc.data().numAffiliate
+            })
+          })
+        })
+      })
+      pets.forEach((pet) => {
+        this.addClientPlan(pet)
+        console.log('🚀 plan creado');
+      }
+      )
+    },
+
     async deleteClientPlan(id, plan) {
       this.loadingDoc = true
       try {
@@ -347,6 +390,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       }
     },
     async updatePlan(planId, formPractices, numAffiliate) {
+      console.log('🚀 ~ file: plans.js ~ line 208 ~ PlansStore ~ updatePlan ~ formPractices', formPractices, planId,numAffiliate);
       this.loadingDoc = true
       try {
         const practicesDoc = await getDoc(doc(db, 'configs', 'practices'))
