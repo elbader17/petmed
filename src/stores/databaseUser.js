@@ -47,21 +47,27 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
         this.loadingDoc = false
       }
     },
-    async getClients() {
-      if (this.clients.length !== 0) {
-        return
+    async getClients(find = null) {
+      console.log(find)
+      let param1 = 'type'
+      let param2 = 'client'
+      if (find !== null && find !== '') {
+        console.log('entro')
+        param1 = 'email'
+        param2 = find
       }
       this.loadingDoc = true
       try {
         const queryRef = query(
           collection(db, 'users'),
-          where('type', '==', 'client'),
+          where(param1, '==', param2),
           orderBy('name', 'asc'),
           limit(this.perPage)
         )
         const querySnapshot = await getDocs(queryRef)
         this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]
         this.firstVisible = querySnapshot.docs[0]
+        this.clients = []
         querySnapshot.forEach((doc) => {
           this.clients.push({
             id: doc.id,
@@ -120,7 +126,7 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
         const querySnapshot = await getDocs(queryRef)
         querySnapshot.forEach((us) => {
           const clientRef = doc(db, 'users', us.id)
-          console.log(clientRef);
+          console.log(clientRef)
           updateDoc(clientRef, {
             lastPay: new Date().toLocaleDateString(),
             banned: false
@@ -219,7 +225,9 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
           address: client.address,
           city: client.city,
           type: 'client',
-          account: user.uid
+          account: user.uid,
+          lastPay: new Date().toLocaleDateString(),
+          banned: false
         }
         await setDoc(doc(db, 'users', user.uid), clientObj)
       } catch (error) {

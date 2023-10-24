@@ -68,13 +68,13 @@ export const useUserStore = defineStore('userStore', {
       await updateDoc(userRef, user)
 
     },
-    async logoutUser() {
+    async logoutUser(redirect = true) {
       const databaseUserStore = useDatabaseUserStore()
       databaseUserStore.$reset()
       try {
         await signOut(auth)
         this.userData = null
-        router.push({ name: 'home' })
+        if (redirect) router.push({ name: 'home' })
       } catch (error) {
         console.log(error)
       }

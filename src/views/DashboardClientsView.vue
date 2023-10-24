@@ -6,6 +6,8 @@ import ModalReusable from '../components/ModalReusable.vue'
 import DashboardClientsAdd from '../components/DashboardClientsAdd.vue'
 import DashboardClientsEdit from '../components/DashboardClientsEdit.vue'
 import LoadingAnimation from '../components/LoadingAnimation.vue'
+import DashboardClientsAddPet from '../components/DashboardClientsAddPet.vue';
+
 
 const databaseUserStore = useDatabaseUserStore()
 
@@ -19,12 +21,14 @@ onBeforeMount(async () => {
 
 const openModal = ref(false)
 const openModalIndexed = ref([])
+const typeModal = ref('edit')
 
 const toggleModal = () => {
   openModal.value = !openModal.value
 }
 
-const toggleModalIndexed = (index) => {
+const toggleModalIndexed = (index, type) => {
+  typeModal.value = type
   const i = openModalIndexed.value.indexOf(index)
   if (i === -1) {
     openModalIndexed.value.push(index)
@@ -100,6 +104,13 @@ const previousPage = async () => {
     await databaseUserStore.previousPage()
   }
 }
+
+const findClient = async () => {
+  await databaseUserStore.getClients(inputFind.value)
+}
+
+const inputFind = ref('')
+
 </script>
 
 <template>
@@ -107,6 +118,8 @@ const previousPage = async () => {
     <h1 class="clients-title">Clientes</h1>
     <div>
       <button class="button-add" @click="toggleModal">Agregar</button>
+      <input type="text" v-model="inputFind">
+      <button @click="findClient()">Buscar</button>
     </div>
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
       <DashboardClientsAdd />
@@ -130,9 +143,13 @@ const previousPage = async () => {
             <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
             <p v-show="!mobile">Pagó</p>
           </button>
-          <button class="button-edit" @click="toggleModalIndexed(index)">
+          <button class="button-edit" @click="toggleModalIndexed(index, 'edit')">
             <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
             <p v-show="!mobile">Editar</p>
+          </button>
+          <button class="button-edit" @click="toggleModalIndexed(index, 'add')">
+            <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
+            <p v-show="!mobile">Agregar</p>
           </button>
           <button class="button-block" @click="databaseUserStore.banClient(item.id)">
             <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
@@ -147,7 +164,8 @@ const previousPage = async () => {
           @closeModal="toggleModalIndexed(index)"
           :modalActive="modalActiveIndexed(index)"
         >
-          <DashboardClientsEdit :item="item" />
+          <DashboardClientsEdit v-if="typeModal =='edit'" :item="item" />
+          <DashboardClientsAddPet v-if="typeModal == 'add'" :item="item" />
         </ModalReusable>
       </tbody>
     </table>

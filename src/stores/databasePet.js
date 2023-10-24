@@ -44,8 +44,9 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
           sex: pet.sex,
           color: pet.color,
           plan: pet.plan,
-          numAffiliate: pet.numAffiliate,
-          client: pet.client
+          numAffiliate: pet.numAfiliate,
+          client: pet.client,
+          registration_code: pet.registration_code,
         }
         const petRef = await addDoc(collection(db, 'pets'), petObj);
         this.pets.push({

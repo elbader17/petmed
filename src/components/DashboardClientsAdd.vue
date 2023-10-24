@@ -1,10 +1,10 @@
 <script setup>
-import { useDatabaseUserStore } from '@/stores/databaseUser';
-import { useUserStore } from '@/stores/user';
-import { ref } from 'vue';
+import { useDatabaseUserStore } from '@/stores/databaseUser'
+import { useUserStore } from '@/stores/user'
+import { ref } from 'vue'
 
-const databaseUserStore = useDatabaseUserStore();
-const userStore = useUserStore();
+const databaseUserStore = useDatabaseUserStore()
+const userStore = useUserStore()
 
 const client = ref({
   email: '',
@@ -17,11 +17,27 @@ const client = ref({
   city: ''
 })
 
+const resetForm = () => {
+  client.value = {
+    email: '',
+    name: '',
+    surname: '',
+    cuit: '',
+    birthdate: '',
+    phone: '',
+    address: '',
+    city: ''
+  }
+}
+
 const handleSubmit = () => {
   try {
-    databaseUserStore.addClient(client.value).then(userStore.logoutUser());
+    databaseUserStore.addClient(client.value).then(() => {
+      userStore.logoutUser(false)
+      resetForm()
+    })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 }
 </script>
@@ -30,28 +46,58 @@ const handleSubmit = () => {
   <section>
     <form class="form" @submit.prevent="handleSubmit">
       <label class="form-title" for="add-email">Correo electrónico:</label>
-      <input class="form-input" type="text" id="add-email" name="add-email" v-model="client.email">
+      <input
+        class="form-input"
+        type="text"
+        id="add-email"
+        name="add-email"
+        v-model="client.email"
+      />
 
       <label class="form-title" for="add-name">Nombre:</label>
-      <input class="form-input" type="text" id="add-name" name="add-name" v-model="client.name">
+      <input class="form-input" type="text" id="add-name" name="add-name" v-model="client.name" />
 
       <label class="form-title" for="add-surname">Apellido:</label>
-      <input class="form-input" type="text" id="add-surname" name="add-surname" v-model="client.surname">
+      <input
+        class="form-input"
+        type="text"
+        id="add-surname"
+        name="add-surname"
+        v-model="client.surname"
+      />
 
       <label class="form-title" for="add-cuit">C.U.I.T.:</label>
-      <input class="form-input" type="text" id="add-cuit" name="add-cuit" v-model="client.cuit">
+      <input class="form-input" type="text" id="add-cuit" name="add-cuit" v-model="client.cuit" />
 
       <label class="form-title" for="add-birthdate">Fecha de nacimiento:</label>
-      <input class="form-input" type="date" id="add-birthdate" name="add-birthdate" v-model="client.birthdate">
+      <input
+        class="form-input"
+        type="date"
+        id="add-birthdate"
+        name="add-birthdate"
+        v-model="client.birthdate"
+      />
 
       <label class="form-title" for="add-phone">Teléfono:</label>
-      <input class="form-input" type="text" id="add-phone" name="add-phone" v-model="client.phone">
+      <input
+        class="form-input"
+        type="text"
+        id="add-phone"
+        name="add-phone"
+        v-model="client.phone"
+      />
 
       <label class="form-title" for="add-address">Dirección:</label>
-      <input class="form-input" type="text" id="add-address" name="add-address" v-model="client.address">
+      <input
+        class="form-input"
+        type="text"
+        id="add-address"
+        name="add-address"
+        v-model="client.address"
+      />
 
       <label class="form-title" for="add-city">Ciudad:</label>
-      <input class="form-input" type="text" id="add-city" name="add-city" v-model="client.city">
+      <input class="form-input" type="text" id="add-city" name="add-city" v-model="client.city" />
 
       <button class="form-button" type="submit">Agregar</button>
     </form>
@@ -87,7 +133,7 @@ const handleSubmit = () => {
   border-radius: 1.25rem;
   font-size: 1rem;
   color: #fff;
-  background-color: #8D57B0;
+  background-color: #8d57b0;
   box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
   cursor: pointer;
 }
