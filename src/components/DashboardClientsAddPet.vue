@@ -5,7 +5,6 @@ import { onMounted, ref } from 'vue'
 
 const props = defineProps(['item'])
 
-const databaseUserStore = useDatabaseUserStore()
 const databasePetStore = useDatabasePetStore()
 
 const client = ref({
@@ -21,14 +20,17 @@ const client = ref({
   client: props.item.id
 })
 
+const form = ref(true)
+
 const handleSubmit = () => {
   databasePetStore.addPet(client.value)
+  form.value = false
 }
 </script>
 
 <template>
   <section>
-    <form class="form" @submit.prevent="handleSubmit">
+    <form v-if="form" class="form" @submit.prevent="handleSubmit">
       <label class="form-title" for="name">Nombre:</label>
       <input class="form-input" type="text" id="name" name="name" v-model="client.name" />
 
@@ -73,6 +75,9 @@ const handleSubmit = () => {
 
       <button class="form-button" type="submit">Agregar</button>
     </form>
+    <div class="container-notification">
+      <h1 v-if="!form" class="notification">Mascota agregada</h1>
+    </div>
   </section>
 </template>
 
@@ -81,7 +86,16 @@ const handleSubmit = () => {
   display: flex;
   flex-direction: column;
 }
-
+.notification {
+  color: rgb(154, 14, 167);
+  font-size: 1.5rem;
+}
+.container-notification {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+}
 .form-title {
   font-size: 1.15rem;
   line-height: 1.75rem;
