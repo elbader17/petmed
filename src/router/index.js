@@ -39,9 +39,14 @@ const router = createRouter({
       component: () => import('../views/PreAffiliationView.vue')
     },
     {
-      path: '/afiliacion',
-      name: 'afiliacion',
-      component: () => import('../views/AffiliationView.vue')
+      path: '/afiliacion-usuario',
+      name: 'afiliacion-usuario',
+      component: () => import('../views/AffiliationUserView.vue')
+    },
+    {
+      path: '/afiliacion-mascota',
+      name: 'afiliacion-mascota',
+      component: () => import('../views/AffiliationPetView.vue')
     },
     {
       path: '/cartilla-de-prestadores',

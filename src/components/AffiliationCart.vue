@@ -43,7 +43,7 @@ const databaseAffiliationStore = useDatabaseAffiliationStore()
           <AffiliationFooter v-else />
         </tbody>
         <tfoot>
-          <RouterLink :to="{ name: 'afiliacion' }" class="info-link">
+          <RouterLink :to="{ name: 'afiliacion-usuario' }" class="info-link">
             <button>Finalizar compra</button>
           </RouterLink>
         </tfoot>
