@@ -106,10 +106,11 @@ const previousPage = async () => {
 }
 
 const findClient = async () => {
-  await databaseUserStore.getClients(inputFind.value)
+  await databaseUserStore.getClients(inputFindWhitEmail.value, inputFindWhitCuit.value)
 }
 
-const inputFind = ref('')
+const inputFindWhitEmail = ref('')
+const inputFindWhitCuit = ref('')
 
 </script>
 
@@ -118,8 +119,9 @@ const inputFind = ref('')
     <h1 class="clients-title">Clientes</h1>
     <div>
       <button class="button-add" @click="toggleModal">Agregar</button>
-      <input type="text" v-model="inputFind">
-      <button @click="findClient()">Buscar</button>
+      <input type="text" placeholder="Email" v-model="inputFindWhitEmail">
+      <input type="text" placeholder="Cuit" v-model="inputFindWhitCuit">
+      <button class="button-add" @click="findClient()">Buscar</button>
     </div>
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
       <DashboardClientsAdd />
@@ -198,7 +200,13 @@ const inputFind = ref('')
   max-width: 860px;
   margin: 0 auto;
 }
-
+input {
+  padding: 0.5rem;
+  margin: 1rem 0.25rem;
+  border: none;
+  border-radius: 1.25rem;
+  background-color: #fafafa;
+}
 .clients-title {
   padding: 0.5rem;
   font-weight: 700;

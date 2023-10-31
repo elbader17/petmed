@@ -47,14 +47,16 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
         this.loadingDoc = false
       }
     },
-    async getClients(find = null) {
-      console.log(find)
+    async getClients(email = null, cuit = null) {
       let param1 = 'type'
       let param2 = 'client'
-      if (find !== null && find !== '') {
-        console.log('entro')
+      if (email !== null && email !== '') {
         param1 = 'email'
-        param2 = find
+        param2 = email
+      }
+      if (cuit !== null && cuit !== '') {
+        param1 = 'cuit'
+        param2 = cuit
       }
       this.loadingDoc = true
       try {

@@ -37,6 +37,7 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
           }
         })
 
+
         dataForList.push({
           name: doc.data().socio,
           id: doc.id,
@@ -56,6 +57,12 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
           hindLimbs: doc.data().hindLimbs,
           mainGanglia: doc.data().mainGanglia,
           mucousMembrane: doc.data().mucousMembrane,
+          diagnosis: doc.data().diagnosis,
+          differentialDiagnosis: doc.data().differentialDiagnosis,
+          treatment: doc.data().treatment,
+          odontology: doc.data()?.audit?.odontology,
+          noAudit: doc.data()?.audit?.noAudit,
+          surgery: doc.data()?.audit?.surgery,
           observations: doc.data().observations,
           petId: doc.data().petId,
           responsible: doc.data().responsible,

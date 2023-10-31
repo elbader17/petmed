@@ -18,6 +18,7 @@ const search = async () => {
 }
 
 const toggleModal = (info) => {
+  console.log(info);
   if (info) infoForShow.value = JSON.parse(JSON.stringify(info))
   openModal.value = !openModal.value
 }
@@ -71,6 +72,9 @@ const data = ref({
         <p>Miembros posteriores: {{ infoForShow.hindLimbs }}</p>
         <p>Ganglios principales: {{ infoForShow.mainGanglia }}</p>
         <p>Membrana mucosa: {{ infoForShow.mucousMembrane }}</p>
+        <p>Diagnostico: {{ infoForShow.diagnosis }}</p>
+        <p>Diagnostico Diferencial: {{ infoForShow.differentialDiagnosis }}</p>
+        <p>Tratamiento: {{ infoForShow.treatment }}</p>
         <p>Observaciones: {{ infoForShow.observations }}</p>
         <p>Condicion de piel: {{ infoForShow.skinCondition }}</p>
         <p>Temperatura: {{ infoForShow.temp }}</p>
@@ -82,12 +86,16 @@ const data = ref({
         <p>Cantidad de Vacunas aplicadas: {{ infoForShow.countVacunas }}</p>
         <p>Cantidad de Radiografias: {{ infoForShow.countRadiografias }}</p>
         <p>Cantidad de cantidadAplicaciones: {{ infoForShow.countAplicaciones }}</p>
+        <h3>Auditorias: </h3>
+        <p v-if="infoForShow.odontology">Odontologia</p>
+        <p v-if="infoForShow.surgery">Cirugía</p>
       </div>
     </ModalReusable>
     <div>
       <div v-for="item in data.paginatedItems" class="element" :key="item.name">
         <div @click="toggleModal(item)">
           <p class="data">{{ item.name }} - {{ item.plan }} - {{ item.numAffiliate }} </p>
+          <p v-if="item.odontology || item.surgery" class="audit">Auditoria</p>
           <p class="date">{{ item.date }}</p>
         </div>
       </div>
@@ -96,6 +104,14 @@ const data = ref({
 </template>
 
 <style scoped>
+
+.audit {
+  color: #8d57b0;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
+  margin-left: 1rem;
+}
 .btn-search {
   margin-top: 1rem;
   background-color: #8d57b0;

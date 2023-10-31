@@ -1,8 +1,9 @@
 <script setup>
-import { ref, onMounted, toRaw } from 'vue'
+import { ref, onMounted, toRaw, reactive, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useDatabaseVetStore } from '@/stores/databaseVets'
 import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan'
+
 const validate = ref({
   send: false,
   style: 'disabled',
@@ -33,6 +34,9 @@ const validate = ref({
     practices: {},
     account: '',
     petId: '',
+    diagnosis: '',
+    differentialDiagnosis: '',
+    treatment: '',
     practicesOfPet: {
       practices: []
     },
@@ -46,6 +50,28 @@ const counts = ref({
   cantidadVacunas: 0,
   cantidadRadiografias: 0
 })
+
+const state = reactive({
+  surgery: false,
+  odontology: false,
+  noAudit: false
+})
+
+watch(
+  [() => state.surgery, () => state.odontology, () => state.noAudit],
+  ([surgery, odontology, noAudit]) => {
+    if (noAudit) {
+      state.surgery = false
+      state.odontology = false
+    }
+    if (surgery) {
+      state.noAudit = false
+    }
+    if (odontology) {
+      state.noAudit = false
+    }
+  }
+)
 
 const databaseUserStore = useUserStore()
 const databaseVetStore = useDatabaseVetStore()
@@ -137,8 +163,19 @@ const resetStates = () => {
     practicesOfPet: {
       practices: []
     },
-    planId: ''
+    planId: '',
+    numAffiliate: '',
+    surgery: false,
+    odontology: false,
+    noAudit: false
   }
+}
+
+const isAudit = () => {
+  if (state.surgery || state.odontology || state.noAudit) {
+    return true
+  }
+  return false
 }
 
 const sendForm = async () => {
@@ -157,9 +194,12 @@ const sendForm = async () => {
     validate.value.data.torax === '' ||
     validate.value.data.abdomen === '' ||
     validate.value.data.complementaryStudies === '' ||
-    validate.value.data.observations === ''
+    validate.value.data.observations === '' ||
+    validate.value.data.diagnosis === '' ||
+    validate.value.data.differentialDiagnosis === '' ||
+    validate.value.data.treatment === '' ||
+    !isAudit()
   ) {
-    console.log(validate.value.data.practices)
     alert('Faltan datos por completar')
     return
   }
@@ -213,6 +253,11 @@ const sendForm = async () => {
   delete validate.value.data.practicesOfPet
   validate.value.data.practices = practices
   const objToSend = validate.value.data
+  objToSend.audit = {
+    surgery: state.surgery,
+    odontology: state.odontology,
+    noAudit: state.noAudit
+  }
   const values = Object.values(validate.value.data.practices)
   if (values.includes('Vacunas')) {
     objToSend.countVacunas = counts.value.cantidadVacunas
@@ -231,11 +276,11 @@ const sendForm = async () => {
 
 const consitionalRender = (data) => {
   if (!validate.value.data.practicesOfPet.practices) return false
-  if(data == 0 && validate.value.exededLimit) return false
-  if(data == 16 && validate.value.data.plan !== 'Plan 3015') return false
+  if (data == 0 && validate.value.exededLimit) return false
+  if (data == 16 && validate.value.data.plan !== 'Plan 3015') return false
   if (validate.value.data.practicesOfPet.practices[data.toString()]) {
     const value = validate.value.data.practicesOfPet.practices[data.toString()]
-    if (!isNaN(value.amount) && parseInt(value.amount) > 0 || value.amount === '-') {
+    if ((!isNaN(value.amount) && parseInt(value.amount) > 0) || value.amount === '-') {
       return value.coverage
     }
     if (!isNaN(value.amount) && parseInt(value.amount) === 0) {
@@ -271,7 +316,7 @@ const renderCoverage = (data) => {
             practice !== 'Análisis clínicos no específicos' &&
             practice !== 'Análisis clínicos específico' &&
             practice !== 'Farmacia Veterinaria' &&
-            practice !== 'Kinesiología y Fisioterapia' 
+            practice !== 'Kinesiología y Fisioterapia'
           "
         >
           <label style="display: inline-block">
@@ -362,7 +407,13 @@ const renderCoverage = (data) => {
       <input disabled type="text" id="socio" v-model="validate.data.socio" name="socio" />
 
       <label for="numAffiliate">Número de Afiliado:</label>
-      <input disabled type="text" id="numAffiliate" v-model="validate.data.numAffiliate" name="numAffiliate" />
+      <input
+        disabled
+        type="text"
+        id="numAffiliate"
+        v-model="validate.data.numAffiliate"
+        name="numAffiliate"
+      />
 
       <label for="plan">Plan:</label>
       <input disabled type="text" id="plan" v-model="validate.data.plan" name="plan" />
@@ -378,8 +429,8 @@ const renderCoverage = (data) => {
     </section>
 
     <section>
-      <h2>Estado General y Anamnesis</h2>
-      <label for="anamnesis">Estado General y Anamnesis:</label>
+      <h2>Síntomas Clínicos y Anamnesis</h2>
+      <label for="anamnesis">Síntomas Clínicos y Anamnesis:</label>
       <textarea id="anamnesis" v-model="validate.data.anamnesis" name="anamnesis"></textarea>
 
       <label for="temperatura">Temperatura:</label>
@@ -441,6 +492,20 @@ const renderCoverage = (data) => {
         name="estudios"
       />
 
+      <label for="diagnosis">Diagnostico:</label>
+      <input type="text" id="diagnosis" v-model="validate.data.diagnosis" name="diagnosis" />
+
+      <label for="differentialDiagnosis">Diagnostico Diferencial:</label>
+      <input
+        type="text"
+        id="differentialDiagnosis"
+        v-model="validate.data.differentialDiagnosis"
+        name="differentialDiagnosis"
+      />
+
+      <label for="treatment">Tratamiento:</label>
+      <input type="text" id="treatment" v-model="validate.data.treatment" name="treatment" />
+
       <label for="observaciones">Observaciones:</label>
       <textarea
         id="observaciones"
@@ -448,7 +513,21 @@ const renderCoverage = (data) => {
         name="observaciones"
       ></textarea>
     </section>
-
+    <section>
+      <h2>Auditoria</h2>
+      <div class="input-container">
+        <input type="checkbox" id="noAudit" v-model="state.noAudit" name="noAudit" />
+        <label for="noAudit">Ninguno</label>
+      </div>
+      <div class="input-container">
+        <input type="checkbox" id="surgery" v-model="state.surgery" name="surgery" />
+        <label for="surgery">Cirugía</label>
+      </div>
+      <div class="input-container">
+        <input type="checkbox" id="odontology" v-model="state.odontology" name="odontology" />
+        <label for="odontology">Odontología</label>
+      </div>
+    </section>
     <input
       :disabled="validate.send"
       type="button"
