@@ -430,7 +430,7 @@ const renderCoverage = (data) => {
     </section>
 
     <section>
-      <h2>Síntomas Clínicos y Anamnesis</h2>
+      <h2>Consulta Veterinaria</h2>
       <label for="anamnesis">Síntomas Clínicos y Anamnesis:</label>
       <textarea id="anamnesis" v-model="validate.data.anamnesis" name="anamnesis"></textarea>
 
