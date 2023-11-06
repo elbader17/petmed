@@ -17,7 +17,9 @@ const client = ref({
   plan: '',
   registration_code: new Date().toLocaleDateString(),
   sex: '',
-  client: props.item.id
+  client: props.item.id,
+  castrated: '',
+  pathology: '',
 })
 
 const form = ref(true)
@@ -72,6 +74,15 @@ const handleSubmit = () => {
         <option value="Macho">Macho</option>
         <option value="Hembra">Hembra</option>
       </select>
+
+      <label class="form-title" for="castrated">Castrado:</label>
+      <select class="form-input" id="castrated" name="castrated" v-model="client.castrated">
+        <option value="True">Si</option>
+        <option value="False">No</option>
+      </select>
+
+      <label class="form-title" for="pathology">Patologia preexistente:</label>
+      <input class="form-input" type="text" id="pathology" name="pathology" v-model="client.pathology" />
 
       <button class="form-button" type="submit">Agregar</button>
     </form>
