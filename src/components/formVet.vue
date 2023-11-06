@@ -278,6 +278,7 @@ const consitionalRender = (data) => {
   if (!validate.value.data.practicesOfPet.practices) return false
   if (data == 0 && validate.value.exededLimit) return false
   if (data == 16 && validate.value.data.plan !== 'Plan 3015') return false
+  if (data == 19 && validate.value.data.plan !== 'Plan 3015') return false
   if (validate.value.data.practicesOfPet.practices[data.toString()]) {
     const value = validate.value.data.practicesOfPet.practices[data.toString()]
     if ((!isNaN(value.amount) && parseInt(value.amount) > 0) || value.amount === '-') {
