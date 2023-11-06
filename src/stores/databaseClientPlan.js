@@ -140,7 +140,11 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
     async addClientPlan(plan) {
       this.loadingDoc = true
       try {
-        await databasePlansStore.getPlan(plan.plan)
+        const existingPlan = await databasePlansStore.getPlan(plan.plan)
+        if (!existingPlan) {
+          throw new Error(`El plan "${plan.plan}" no existe en la base de datos.`)
+        }
+
         const practices = JSON.parse(JSON.stringify(databasePlansStore.plan))
 
         if (plan.numAffiliate) {
@@ -190,7 +194,6 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         this.loadingDoc = false
       }
     },
-
     createAllPlans() {
       // obtener el Id de todos los clientes desde la base de datos y guardarlos en un array
       const clients = []
@@ -228,9 +231,8 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       })
       pets.forEach((pet) => {
         this.addClientPlan(pet)
-        console.log('🚀 plan creado');
-      }
-      )
+        console.log('🚀 plan creado')
+      })
     },
 
     async deleteClientPlan(id, plan) {
@@ -390,7 +392,12 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       }
     },
     async updatePlan(planId, formPractices, numAffiliate) {
-      console.log('🚀 ~ file: plans.js ~ line 208 ~ PlansStore ~ updatePlan ~ formPractices', formPractices, planId,numAffiliate);
+      console.log(
+        '🚀 ~ file: plans.js ~ line 208 ~ PlansStore ~ updatePlan ~ formPractices',
+        formPractices,
+        planId,
+        numAffiliate
+      )
       this.loadingDoc = true
       try {
         const practicesDoc = await getDoc(doc(db, 'configs', 'practices'))
