@@ -33,7 +33,7 @@ const resetForm = () => {
 const handleSubmit = () => {
   try {
     databaseUserStore.addClient(client.value).then(() => {
-      userStore.logoutUser(false)
+      // userStore.logoutUser(false)
       resetForm()
     })
   } catch (error) {
