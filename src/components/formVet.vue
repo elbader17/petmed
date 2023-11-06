@@ -403,7 +403,7 @@ const renderCoverage = (data) => {
 
     <section>
       <h2>Socio, Plan y Consulta</h2>
-      <label for="socio">Socio:</label>
+      <label for="socio">Cliente:</label>
       <input disabled type="text" id="socio" v-model="validate.data.socio" name="socio" />
 
       <label for="numAffiliate">Número de Afiliado:</label>
