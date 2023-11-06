@@ -61,6 +61,7 @@ const data = ref({
         <p>Responsable: {{ infoForShow.responsable }}</p>
         <p>Plan: {{ infoForShow.plan }}</p>
         <p>Fecha: {{ infoForShow.date }}</p>
+        <p>Veterinario: {{ infoForShow.vet }}</p>
         <p>Abdomen: {{ infoForShow.abdomen }}</p>
         <p>Anamnesis: {{ infoForShow.anamnesis }}</p>
         <p>Estudios complementarios {{ infoForShow.complementaryStudies }}</p>
