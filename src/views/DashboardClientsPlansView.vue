@@ -1,67 +1,9 @@
-<script setup>
-import { useDatabasePetStore } from '@/stores/databasePet'
-import { useCheckScreen } from '@/composables/checkScreen'
-import { ref, onBeforeMount } from 'vue'
-import ModalReusable from '../components/ModalReusable.vue'
-import DashboardClientsPlansAdd from '../components/DashboardClientsPlansAdd.vue'
-import DashboardClientsPlansEdit from '../components/DashboardClientsPlansEdit.vue'
-import LoadingAnimation from '../components/LoadingAnimation.vue'
-
-const databasePetStore = useDatabasePetStore()
-
-const { mobile } = useCheckScreen()
-
-onBeforeMount(async () => {
-  databasePetStore.getPetsByPage()
-})
-
-const openModal = ref(false)
-const openModalIndexed = ref([])
-
-const toggleModal = () => {
-  openModal.value = !openModal.value
-}
-
-const toggleModalIndexed = (index) => {
-  const i = openModalIndexed.value.indexOf(index)
-  if (i === -1) {
-    openModalIndexed.value.push(index)
-  } else {
-    openModalIndexed.value.splice(i, 1)
-  }
-}
-
-const modalActiveIndexed = (index) => {
-  return openModalIndexed.value.includes(index)
-}
-
-const numAffiliateSearch = ref('')
-const nameSearch = ref('')
-
-const searchPets = async () => {
-  let param1 = ''
-  let param2 = ''
-  if (numAffiliateSearch.value !== '') {
-    param1 = numAffiliateSearch.value
-  }
-  if (nameSearch.value !== '') {
-    param2 = nameSearch.value
-  }
-  await databasePetStore.getPetsByPage(1, param1, param2)
-}
-</script>
-
 <template>
   <section class="dashboard-clients">
     <h1 class="clients-title">Mascotas</h1>
     <div>
-
       <button class="button-add" @click="toggleModal">Agregar</button>
-      <input
-        type="text"
-        placeholder="Buscar por número de afiliado"
-        v-model="numAffiliateSearch"
-      />
+      <input type="text" placeholder="Buscar por número de afiliado" v-model="numAffiliateSearch" />
       <input type="text" placeholder="Buscar por nombre" v-model="nameSearch" />
       <button class="button-add" @click="searchPets">Buscar</button>
     </div>
@@ -83,6 +25,17 @@ const searchPets = async () => {
             <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
             <p v-show="!mobile">In process</p>
           </button>
+          <button
+            class="button-edit"
+            @click="databaseUserStore.getClientWithAfiliateNum(item.numAffiliate)"
+          >
+            <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
+            <p v-show="!mobile">{{ getClientByAffiliationNumber(item.numAffiliate) }}</p>
+          </button>
+          <button class="button-edit" @click="toggleModalPhotoIndexed(index)">
+            <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
+            <p v-show="!mobile">Foto</p>
+          </button>
         </td>
         <ModalReusable
           @closeModal="toggleModalIndexed(index)"
@@ -90,10 +43,100 @@ const searchPets = async () => {
         >
           <DashboardClientsPlansEdit :item="item" />
         </ModalReusable>
+        <ModalReusable
+          @closeModal="toggleModalPhotoIndexed(index)"
+          :modalActive="modalActivePhotoIndexed(index)"
+        >
+          <DashboardUpdatePhoto :numAffiliate="item.numAffiliate" />
+        </ModalReusable>
       </tbody>
     </table>
   </section>
 </template>
+
+<script setup>
+import { useDatabasePetStore } from '@/stores/databasePet'
+import { useDatabaseUserStore } from '@/stores/databaseUser'
+import { useCheckScreen } from '@/composables/checkScreen'
+import { ref, onBeforeMount, computed } from 'vue'
+import ModalReusable from '../components/ModalReusable.vue'
+import DashboardClientsPlansAdd from '../components/DashboardClientsPlansAdd.vue'
+import DashboardClientsPlansEdit from '../components/DashboardClientsPlansEdit.vue'
+import DashboardUpdatePhoto from '../components/DashboardUpdatePhoto.vue'
+import LoadingAnimation from '../components/LoadingAnimation.vue'
+
+const databasePetStore = useDatabasePetStore()
+const databaseUserStore = useDatabaseUserStore()
+
+const { mobile } = useCheckScreen()
+
+onBeforeMount(async () => {
+  databasePetStore.getPetsByPage()
+})
+
+const openModal = ref(false)
+const openModalIndexed = ref([])
+const openModalPhotoIndexed = ref([])
+
+const toggleModal = () => {
+  openModal.value = !openModal.value
+}
+
+const toggleModalIndexed = (index) => {
+  const i = openModalIndexed.value.indexOf(index)
+  if (i === -1) {
+    openModalIndexed.value.push(index)
+  } else {
+    openModalIndexed.value.splice(i, 1)
+  }
+}
+
+const modalActiveIndexed = (index) => {
+  return openModalIndexed.value.includes(index)
+}
+
+const toggleModalPhotoIndexed = (index) => {
+  const i = openModalPhotoIndexed.value.indexOf(index)
+  if (i === -1) {
+    openModalPhotoIndexed.value.push(index)
+  } else {
+    openModalPhotoIndexed.value.splice(i, 1)
+  }
+}
+
+const modalActivePhotoIndexed = (index) => {
+  return openModalPhotoIndexed.value.includes(index)
+}
+
+const numAffiliateSearch = ref('')
+const nameSearch = ref('')
+
+const searchPets = async () => {
+  let param1 = ''
+  let param2 = ''
+  if (numAffiliateSearch.value !== '') {
+    param1 = numAffiliateSearch.value
+  }
+  if (nameSearch.value !== '') {
+    param2 = nameSearch.value
+  }
+  await databasePetStore.getPetsByPage(1, param1, param2)
+}
+
+const openModalPhoto = (numAffiliate) => {
+  databaseUserStore.getClientWithAfiliateNum(numAffiliate)
+  toggleModalPhotoIndexed(0)
+}
+
+const getClientByAffiliationNumber = computed(() => {
+  return (affiliationNumber) => {
+    const data = databaseUserStore.clientsOfPet.find(
+      (client) => client.numAffiliate === affiliationNumber
+    )
+    return data ? data.name : 'Responsable'
+  }
+})
+</script>
 
 <style scoped>
 .dashboard-clients {

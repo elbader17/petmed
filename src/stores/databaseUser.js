@@ -22,6 +22,7 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
     loadingDoc: false,
     client: null,
     clients: [],
+    clientsOfPet: [],
     pets: [],
     page: 1,
     perPage: 10,
@@ -82,6 +83,38 @@ export const useDatabaseUserStore = defineStore('databaseUserStore', {
         this.loadingDoc = false
       }
     },
+
+    async getClientWithAfiliateNum(numAffiliate) {
+      // el numero de afiliado pertenece a una pet, y la pet en el campo client tiene el id del user de la tabla users
+      this.loadingDoc = true
+      try {
+        const queryRef = query(
+          collection(db, 'pets'),
+          where('numAffiliate', '==', numAffiliate)
+        )
+        const querySnapshot = await getDocs(queryRef)
+        const document = querySnapshot.docs[0]
+        const clientRef = query(
+          collection(db, 'users'),
+          where('__name__', '==', document.data().client)
+        )
+        const clientSnapshot = await getDocs(clientRef)
+        const client = clientSnapshot.docs[0]
+        this.clientsOfPet.push ({
+          id: client.id,
+          ...client.data(),
+          numAffiliate
+        })
+        console.log("🚀 ~ file: databaseUser.js:104 ~ getClientWithAfiliateNum ~ clientsOfPet:", this.clientsOfPet)
+      } catch (error) {
+        console.log(error.message)
+      } finally {
+        this.loadingDoc = false
+      }
+
+
+    }
+    ,
     async getPets() {
       if (this.pets.length !== 0) {
         return
