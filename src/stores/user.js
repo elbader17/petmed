@@ -56,17 +56,13 @@ export const useUserStore = defineStore('userStore', {
         this.loadingUser = false
       }
     },
-    async updateUser(){
+    async updateUser() {
       const user = this.user
-      const queryUser = query(
-        collection(db, 'users'),
-        where('account', '==', auth.currentUser.uid)
-      )
+      const queryUser = query(collection(db, 'users'), where('account', '==', auth.currentUser.uid))
       const queryUserSnap = await getDocs(queryUser)
       const id = queryUserSnap.docs[0].id
       const userRef = doc(db, 'users', id)
       await updateDoc(userRef, user)
-
     },
     async logoutUser(redirect = true) {
       const databaseUserStore = useDatabaseUserStore()
@@ -107,7 +103,14 @@ export const useUserStore = defineStore('userStore', {
         const userSnapshot = await getDocs(userQuery)
         const userData = userSnapshot.docs[0].data()
         if (userData.banned) {
-          return 'Esta cuenta a sido bloqueada'
+          return 'blocked'
+        }
+        const lastPayDate = new Date(userData.lastPay.split('/').reverse().join('-'))
+        const currentDate = new Date()
+        const oneMonthInMs = 1000 * 60 * 60 * 24 * 30 
+        const timeDiff = currentDate.getTime() - lastPayDate.getTime()
+        if (timeDiff > oneMonthInMs) {
+          return 'blocked'
         }
       }
       await addDoc(collection(db, 'codes'), {

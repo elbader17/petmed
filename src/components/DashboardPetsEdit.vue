@@ -55,7 +55,7 @@ const pet = ref({
   numAffiliate: '',
   render_not: false,
   registration_code: '',
-  responsable: '',
+  responsable: ''
 })
 </script>
 
@@ -94,11 +94,17 @@ const pet = ref({
         </div>
 
         <div class="card-field">
-          <span class="field-titles">Socio: <span class="extra-space"/> {{ pet.numAffiliate }} <span class="spaces"/> Plan: {{ pet.plan }}</span>
+          <span class="field-titles"
+            >Socio: <span class="extra-space" /> {{ pet.numAffiliate }}
+            <span class="spaces" /> Plan: {{ pet.plan }}</span
+          >
         </div>
 
         <div class="card-field">
-          <span class="field-titles">fecha de nac:&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; {{ pet.birthdate }}  &nbsp;&nbsp; &nbsp;&nbsp;  Alta: {{ pet.registration_code }}</span>
+          <span class="field-titles"
+            >fecha de nac:&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; {{ pet.birthdate }} &nbsp;&nbsp;
+            &nbsp;&nbsp; Alta: {{ pet.registration_code }}</span
+          >
         </div>
 
         <div class="card-field">
@@ -112,17 +118,28 @@ const pet = ref({
       </div>
     </section>
     <div class="code-container" v-if="!showCard">
-      <p>Este token es unico, es valido solo por 5 minutos</p>
-      <p>En el caso de que expire el token, debe generar uno nuevo</p>
-      <p class="code-text">{{ code }}</p>
+      <div v-if="code !== 'blocked'">
+        <p>Este token es unico, es valido solo por 5 minutos</p>
+        <p>En el caso de que expire el token, debe generar uno nuevo</p>
+        <p class="code-text">{{ code }}</p>
+      </div>
+      <div v-else>
+        <p class="code-text">Cuenta bloqueada.</p>
+        <p>Comunicarse al 3585176454</p>
+      </div>
     </div>
 
     <!-- boton para generar token -->
-    <button class="form-button" @click="generate">{{ textButton }}</button>
+    <div class="form-container ">
+      <button class="form-button" @click="generate">{{ textButton }}</button>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.form-button {
+  margin: 0 auto;
+}
 .credit-card {
   display: flex;
   flex-direction: column;
@@ -138,7 +155,9 @@ const pet = ref({
 .extra-space {
   margin: 47px;
 }
-
+.form-container {
+  text-align: center;
+}
 .spaces {
   margin: 22px;
 }
@@ -148,8 +167,7 @@ const pet = ref({
 }
 .form-button {
   padding: 0.5rem 1rem;
-  margin-left: 4.5rem;
-  margin-top: 1rem;
+  margin-top: 5px;
   width: 80%;
   border: none;
   border-radius: 1.25rem;
@@ -274,7 +292,6 @@ h1 {
   font-family: 'Poppins', sans-serif;
 }
 
-
 .field-value {
   flex: 1;
   font-size: 1.1rem; /* Increased font size */
@@ -341,10 +358,9 @@ h1 {
   .logo-container2 {
     bottom: -200px;
   }
-  .logo{
+  .logo {
     width: 140px;
   }
-
 }
 @media (max-width: 580px) {
   .dashboard {
@@ -404,14 +420,11 @@ h1 {
   .dashboard {
     transform: scale(0.53);
   }
-  .logo{
+  .logo {
     width: 130px;
     margin-left: 15px;
   }
-  
 }
-
-
 
 @media (max-width: 380px) {
   .dashboard {
