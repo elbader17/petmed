@@ -7,12 +7,25 @@ const databaseAdmin = useDatabaseAdminStore()
 
 const search = async () => {
   const params = []
-  if (data.value.nameOfPet !== '') {
+  if (data.value.nameOfPet !== '' && data.value.nameOfPet !== undefined) {
     params.push({
       key: 'socio',
       value: data.value.nameOfPet
     })
   }
+  if (data.value.numAffiliate !== '' && data.value.numAffiliate !== undefined) {
+    params.push({
+      key: 'numAffiliate',
+      value: data.value.numAffiliate
+    })
+  }
+  if (data.value.responsable !== '' && data.value.responsable !== undefined) {
+    params.push({
+      key: 'responsible',
+      value: data.value.responsable
+    })
+  }
+  console.log("🚀 ~ file: ListForms.vue:10 ~ search ~ params:", params)
   const dataForList = await databaseAdmin.getForms(params)
   data.value.paginatedItems = dataForList
 }

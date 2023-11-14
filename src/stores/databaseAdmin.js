@@ -21,6 +21,7 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
 
       if (params.length > 0) {
         params.forEach((param) => {
+          console.log(param)
           queryRef = query(queryRef, where(param.key, '==', param.value))
         })
       } else {
