@@ -205,6 +205,15 @@ const sendForm = async () => {
   }
 
   if (
+    !validate.value.data.practices['Consulta en Domicilio'] &&
+    !validate.value.data.practices['Consulta de Urgencia'] &&
+    !validate.value.data.practices['Consulta en Clínica']
+  ) {
+    alert('Debe seleccionar un tipo de consulta')
+    return
+  }
+
+  if (
     validate.value.data.practices['Consulta en Domicilio'] ||
     validate.value.data.practices['Consulta de Urgencia']
   ) {
