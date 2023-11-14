@@ -223,6 +223,8 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
           account: user.uid
         }
         await setDoc(doc(db, 'users', user.uid), vetObj)
+        location.reload()
+
       } catch (error) {
         console.log(error)
       } finally {

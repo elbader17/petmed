@@ -19,7 +19,7 @@ const vet = ref({
 
 const handleSubmit = () => {
   try {
-    databaseVetStore.addVet(vet.value).then(userStore.logoutUser());
+    databaseVetStore.addVet(vet.value);
   } catch (error) {
     console.log(error);
   }
