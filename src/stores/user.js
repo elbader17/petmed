@@ -128,7 +128,6 @@ export const useUserStore = defineStore('userStore', {
         const codeQuery = query(collection(db, 'codes'), where('code', '==', code))
         const codeSnapshot = await getDocs(codeQuery)
         if (codeSnapshot.empty) {
-          console.log('test 1')
           return [false, null, null]
         }
 
@@ -136,7 +135,6 @@ export const useUserStore = defineStore('userStore', {
         const expiration = codeDoc.data().expiration.toDate()
         const currentTime = new Date()
         if (currentTime > expiration) {
-          console.log('test 2')
           return [false, null, null]
         }
 
@@ -147,7 +145,6 @@ export const useUserStore = defineStore('userStore', {
         const petSnapshot = await getDocs(petQuery)
 
         if (petSnapshot.empty) {
-          console.log('test 3')
           return [false, null, null]
         }
 
@@ -160,19 +157,18 @@ export const useUserStore = defineStore('userStore', {
         const userSnapshot = await getDocs(userQuery)
 
         if (userSnapshot.empty) {
-          console.log('test 4')
           return [false, null, null]
         }
         const userName = userSnapshot.docs[0].data().name
-        const thirtyDaysAgo = new Date()
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+        const firstDayOfMonth = new Date()
+        firstDayOfMonth.setDate(1)
+        firstDayOfMonth.setHours(0, 0, 0, 0)
 
         const formsQuery = query(
           collection(db, 'forms'),
           where('account', '==', account),
-          where('date', '>=', thirtyDaysAgo)
+          where('date', '>=', firstDayOfMonth)
         )
-
         function searchValue(object, searchedValue) {
           return Object.values(object).some((value) => {
             if (typeof value === 'object') {
@@ -227,9 +223,7 @@ export const useUserStore = defineStore('userStore', {
         return [false, null, null]
       }
     },
-    async getFormsForAccountLast30Days(account) {
-      return formsData
-    },
+
 
     async expirationCode(code) {
       const queryCode = query(collection(db, 'codes'), where('code', '==', parseInt(code)))
