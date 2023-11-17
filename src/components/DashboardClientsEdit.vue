@@ -14,7 +14,8 @@ const client = ref({
   birthdate: '',
   phone: '',
   address: '',
-  city: ''
+  city: '',
+  registration_date: '',
 });
 
 const handleSubmit = () => {
@@ -53,6 +54,8 @@ onMounted(async () => {
       <label class="form-title" for="edit-city">Ciudad:</label>
       <input class="form-input" type="text" id="edit-city" name="edit-city" v-model="client.city">
 
+      <label class="form-title" for="edit-registration_date">Fecha de registro:</label>
+      <input class="form-input" placeholder="01/01/2020" type="text" id="edit-registration_date" name="edit-registration_date" v-model="client.registration_date" pattern="\d{1,2}/\d{1,2}/\d{4}">
       <button class="form-button" type="submit">Editar</button>
     </form>
   </section>
