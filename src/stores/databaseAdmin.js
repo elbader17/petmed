@@ -1,20 +1,4 @@
-import {
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  query,
-  updateDoc,
-  orderBy,
-  limit,
-  limitToLast,
-  startAfter,
-  endBefore,
-  getDoc,
-  setDoc,
-  where,
-  addDoc
-} from 'firebase/firestore/lite'
+import { collection, getDocs, query, orderBy, limit, where } from 'firebase/firestore/lite'
 import { db, auth } from '@/firebaseConfig'
 import { defineStore } from 'pinia'
 
@@ -37,6 +21,7 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
 
       if (params.length > 0) {
         params.forEach((param) => {
+          console.log(param)
           queryRef = query(queryRef, where(param.key, '==', param.value))
         })
       } else {
@@ -46,20 +31,22 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
       const querySnapshot = await getDocs(queryRef)
       const dataForList = []
       querySnapshot.forEach((doc) => {
-        const keysTrue = []
-
-        for (const key in doc.data()) {
-          if (doc.data().hasOwnProperty(key) && doc.data()[key] === true) {
-            keysTrue.push(key)
+        const practices = []
+        Object.keys(doc.data()).forEach((key) => {
+          if (Number.isInteger(parseInt(key))) {
+            practices.push(doc.data()[key])
           }
-        }
+        })
+
 
         dataForList.push({
           name: doc.data().socio,
           id: doc.id,
+          responsable: doc.data().responsible,
+          numAffiliate: doc.data().numAffiliate,
           plan: doc.data().plan,
           date: formatDate(doc.data().date),
-          practices: keysTrue.join(', '),
+          practices: practices,
           abdomen: doc.data().abdomen,
           anamnesis: doc.data().anamnesis,
           complementaryStudies: doc.data().complementaryStudies,
@@ -71,6 +58,12 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
           hindLimbs: doc.data().hindLimbs,
           mainGanglia: doc.data().mainGanglia,
           mucousMembrane: doc.data().mucousMembrane,
+          diagnosis: doc.data().diagnosis,
+          differentialDiagnosis: doc.data().differentialDiagnosis,
+          treatment: doc.data().treatment,
+          odontology: doc.data()?.audit?.odontology,
+          noAudit: doc.data()?.audit?.noAudit,
+          surgery: doc.data()?.audit?.surgery,
           observations: doc.data().observations,
           petId: doc.data().petId,
           responsible: doc.data().responsible,
@@ -78,6 +71,9 @@ export const useDatabaseAdminStore = defineStore('databaseAdminStore', {
           temp: doc.data().temp,
           torax: doc.data().torax,
           vet: doc.data().vet,
+          countVacunas: doc.data().countVacunas || 0,
+          countRadiografias: doc.data().countRadiografias || 0,
+          countAplicaciones: doc.data().countAplicaciones || 0,
         })
       })
 

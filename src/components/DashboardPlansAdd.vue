@@ -25,6 +25,8 @@ const plan = ref({
   16: { amount: null, coverage: null, gracetime: null },
   17: { amount: null, coverage: null, gracetime: null },
   18: { amount: null, coverage: null, gracetime: null },
+  19: { amount: null, coverage: null, gracetime: null },
+  20: { amount: null, coverage: null, gracetime: null },
 })
 
 const handleSubmit = () => {
@@ -50,6 +52,8 @@ const handleSubmit = () => {
     16: { amount: null, coverage: null, gracetime: null },
     17: { amount: null, coverage: null, gracetime: null },
     18: { amount: null, coverage: null, gracetime: null },
+    19: { amount: null, coverage: null, gracetime: null },
+    20: { amount: null, coverage: null, gracetime: null },
   };
 }
 </script>

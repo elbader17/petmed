@@ -3,14 +3,14 @@ import { ref } from 'vue';
 import { useUserStore } from '@/stores/user';
 
 const isExpanded = ref(true);
-const databaseUserStore = useUserStore();
 
 const toggleMenu = () => {
   isExpanded.value = !isExpanded.value;
 }
 
 const renderByType = (type) => {
-  if (type === databaseUserStore.typeUser) return true;
+  const userType = localStorage.getItem('userType');
+  if (type === userType) return true;
   return false;
 }
 </script>
@@ -34,16 +34,16 @@ const renderByType = (type) => {
       </router-link>
       <router-link class="button" v-if="renderByType('admin')" :to="{ name: 'dashboard-clients-plans' }">
         <font-awesome-icon icon="fa-solid fa-receipt" class="icon" size="xl" />
-        <h4 class="text" v-if="isExpanded">Planes de Clientes</h4>
+        <h4 class="text" v-if="isExpanded">Mascotas</h4>
       </router-link>
       <router-link class="button" v-if="renderByType('client')" :to="{ name: 'dashboard-pets' }">
         <font-awesome-icon icon="fa-solid fa-cat" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Mascotas</h4>
       </router-link>
-      <router-link class="button" v-if="renderByType('client')" :to="{ name: 'dashboard-code' }">
+      <!-- <router-link class="button" v-if="renderByType('client')" :to="{ name: 'dashboard-code' }">
         <font-awesome-icon icon="fa-solid fa-barcode" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Código</h4>
-      </router-link>
+      </router-link> -->
       <router-link class="button" v-if="renderByType('admin')" :to="{ name: 'dashboard-forms' }">
         <font-awesome-icon icon="fa-solid fa-file-medical" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Planillas</h4>
@@ -56,10 +56,14 @@ const renderByType = (type) => {
         <font-awesome-icon icon="fa-solid fa-clipboard" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Formulario</h4>
       </router-link>
-      <router-link class="button" v-if="renderByType('vet')" :to="{ name: 'dashboard-authorization' }">
+      <!-- <router-link class="button" v-if="renderByType('vet')" :to="{ name: 'dashboard-authorization' }">
         <font-awesome-icon icon="fa-solid fa-clipboard" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Autorización</h4>
-      </router-link>
+      </router-link> -->
+      <a class="button" v-if="renderByType('vet')">
+        <font-awesome-icon icon="fa-solid fa-clipboard" class="icon" size="xl" />
+        <h4 class="text" v-if="isExpanded">Derivaciones</h4>
+      </a>
       <router-link class="button" v-if="renderByType('admin')" :to="{ name: 'dashboard-plans' }">
         <font-awesome-icon icon="fa-solid fa-money-check-dollar" class="icon" size="xl" />
         <h4 class="text" v-if="isExpanded">Planes</h4>

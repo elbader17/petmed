@@ -1,12 +1,16 @@
-import { defineStore } from 'pinia';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
-import { addDoc, collection, getDocs, query, where, updateDoc } from 'firebase/firestore/lite'
-import { db, auth } from '@/firebaseConfig';
-import { useDatabaseUserStore } from './databaseUser';
-import { useDatabaseVetStore } from './databaseVets';
-import { useDatabasePetStore } from './databasePet';
-import router from '@/router/index';
-
+import { defineStore } from 'pinia'
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  sendPasswordResetEmail
+} from 'firebase/auth'
+import { addDoc, collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore/lite'
+import { db, auth } from '@/firebaseConfig'
+import { useDatabaseUserStore } from './databaseUser'
+import { useDatabaseVetStore } from './databaseVets'
+import { useDatabasePetStore } from './databasePet'
+import router from '@/router/index'
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
@@ -15,7 +19,8 @@ export const useUserStore = defineStore('userStore', {
     loadingUser: false,
     loadingSession: false,
     typeUser: 'client',
-    errorMessage: null
+    errorMessage: null,
+    user: {}
   }),
   actions: {
     async loginUser(email, password) {
@@ -23,125 +28,202 @@ export const useUserStore = defineStore('userStore', {
       try {
         const { user } = await signInWithEmailAndPassword(auth, email, password)
         this.userData = { email: user.email, uid: user.uid }
-        const queryUser = query(collection(db, 'users'), where('account', '==', auth.currentUser.uid))
+        const queryUser = query(
+          collection(db, 'users'),
+          where('account', '==', auth.currentUser.uid)
+        )
         const queryUserSnap = await getDocs(queryUser)
-        this.typeUser = queryUserSnap.docs[0].data().type
-        this.errorMessage = null;
+        localStorage.setItem('userType', queryUserSnap.docs[0].data().type)
+        this.user = queryUserSnap.docs[0].data()
+        this.errorMessage = null
         router.push({ name: 'dashboard-home' })
       } catch (error) {
         switch (error.code) {
           case 'auth/invalid-email':
-            this.errorMessage = 'Email no válido';
-            break;
+            this.errorMessage = 'Email no válido'
+            break
           case 'auth/user-not-found':
-            this.errorMessage = 'Email inexistente';
-            break;
+            this.errorMessage = 'Email inexistente'
+            break
           case 'auth/wrong-password':
-            this.errorMessage = 'Contraseña incorrecta';
-            break;
+            this.errorMessage = 'Contraseña incorrecta'
+            break
           default:
-            this.errorMessage = 'Email o contraseña incorrecto';
-            break;
+            this.errorMessage = 'Email o contraseña incorrecto'
+            break
         }
       } finally {
-        this.loadingUser = false;
+        this.loadingUser = false
       }
     },
-    async logoutUser() {
+    async updateUser() {
+      const user = this.user
+      const queryUser = query(collection(db, 'users'), where('account', '==', auth.currentUser.uid))
+      const queryUserSnap = await getDocs(queryUser)
+      const id = queryUserSnap.docs[0].id
+      const userRef = doc(db, 'users', id)
+      await updateDoc(userRef, user)
+    },
+    async logoutUser(redirect = true) {
       const databaseUserStore = useDatabaseUserStore()
       databaseUserStore.$reset()
       try {
         await signOut(auth)
         this.userData = null
-        router.push({ name: 'home' })
+        if (redirect) router.push({ name: 'home' })
       } catch (error) {
         console.log(error)
       }
     },
     async resetUserPassword(email) {
       try {
-        await sendPasswordResetEmail(auth, email);
+        await sendPasswordResetEmail(auth, email)
       } catch (error) {
         console.log(error)
       }
     },
 
-    async createCode() {
+    async createCode(afiliate) {
       const code = Math.floor(100000 + Math.random() * 900000)
       const expiration = new Date()
       expiration.setMinutes(expiration.getMinutes() + 5)
-      this.userCode = code;
+      this.userCode = code
 
-      const queryUser = query(collection(db, 'users'), where('account', '==', auth.currentUser.uid))
-      const queryUserSnap = await getDocs(queryUser)
-
-      let user = null
-      queryUserSnap.forEach((document) => {
-        user = document.id
-      })
-
-      const queryRef = query(collection(db, 'pets'), where('client', '==', user))
+      const queryRef = query(collection(db, 'pets'), where('numAffiliate', '==', afiliate))
       const querySnapshot = await getDocs(queryRef)
+
       const pets = []
+      const dataPet = []
       querySnapshot.forEach((document) => {
         pets.push(document.id)
+        dataPet.push(document.data())
       })
-
+      if (dataPet[0]) {
+        const userQuery = query(collection(db, 'users'), where('__name__', '==', dataPet[0].client))
+        const userSnapshot = await getDocs(userQuery)
+        const userData = userSnapshot.docs[0].data()
+        if (userData.banned) {
+          return 'blocked'
+        }
+        const lastPayDate = new Date(userData.lastPay.split('/').reverse().join('-'))
+        const currentDate = new Date()
+        const oneMonthInMs = 1000 * 60 * 60 * 24 * 30
+        const timeDiff = currentDate.getTime() - lastPayDate.getTime()
+        if (timeDiff > oneMonthInMs) {
+          return 'blocked'
+        }
+      }
       await addDoc(collection(db, 'codes'), {
         code,
         account: auth.currentUser.uid,
         expiration,
-        pet: pets[0]
+        pet: pets[0],
+        afiliate
       })
+      return code
     },
 
     async validateCode(code) {
-      const queryCode = query(collection(db, 'codes'), where('code', '==', code))
-      const querySnapshot = await getDocs(queryCode)
-      if (querySnapshot.empty) {
+      try {
+        const codeQuery = query(collection(db, 'codes'), where('code', '==', code))
+        const codeSnapshot = await getDocs(codeQuery)
+        if (codeSnapshot.empty) {
+          return [false, null, null]
+        }
+
+        const codeDoc = codeSnapshot.docs[0]
+        const expiration = codeDoc.data().expiration.toDate()
+        const currentTime = new Date()
+        if (currentTime > expiration) {
+          return [false, null, null]
+        }
+
+        const account = codeDoc.data().account
+        const petId = codeDoc.data().pet
+
+        const petQuery = query(collection(db, 'pets'), where('__name__', '==', petId))
+        const petSnapshot = await getDocs(petQuery)
+
+        if (petSnapshot.empty) {
+          return [false, null, null]
+        }
+
+        const petName = petSnapshot.docs[0].data().name
+        const petPlan = petSnapshot.docs[0].data().plan
+        const petClient = petSnapshot.docs[0].data().client
+        const numAffiliate = petSnapshot.docs[0].data().numAffiliate
+
+        const userQuery = query(collection(db, 'users'), where('__name__', '==', petClient))
+        const userSnapshot = await getDocs(userQuery)
+
+        if (userSnapshot.empty) {
+          return [false, null, null]
+        }
+        const userName = userSnapshot.docs[0].data().name
+        const firstDayOfMonth = new Date()
+        firstDayOfMonth.setDate(1)
+        firstDayOfMonth.setHours(0, 0, 0, 0)
+
+        const formsQuery = query(
+          collection(db, 'forms'),
+          where('account', '==', account),
+          where('date', '>=', firstDayOfMonth)
+        )
+        function searchValue(object, searchedValue) {
+          return Object.values(object).some((value) => {
+            if (typeof value === 'object') {
+              return searchValue(value, searchedValue)
+            }
+            return value === searchedValue
+          })
+        }
+
+        const formsSnapshot = await getDocs(formsQuery)
+        const formsData = []
+        const petData = {
+          name: petName,
+          client: userName,
+          id: petId,
+          plan: petPlan,
+          numAffiliate: numAffiliate
+        }
+
+        formsSnapshot.forEach((doc) => {
+          const formData = doc.data()
+          formsData.push(formData)
+        })
+        if (formsData.length > 0) {
+          const formsWithConsults = []
+          for (const form of formsData) {
+            if (searchValue(form, 'Consulta en Clínica') && form.petId === petId) {
+              formsWithConsults.push(form)
+            }
+          }
+
+          if (petPlan === 'Plan 1005') {
+            if (formsWithConsults.length >= 1) {
+              return [true, account, petData, true]
+            }
+          }
+          if (petPlan === 'Plan 2010') {
+            if (formsWithConsults.length >= 2) {
+              return [true, account, petData, true]
+            }
+          }
+          if (petPlan === 'Plan 3015') {
+            if (formsWithConsults.length >= 3) {
+              return [true, account, petData, true]
+            }
+          }
+        }
+
+        return [true, account, petData]
+      } catch (error) {
+        console.log('test 5', error)
         return [false, null, null]
       }
-
-      const codeDoc = querySnapshot.docs[0]
-      const expiration = codeDoc.data().expiration.toDate()
-      const currentTime = new Date()
-
-      if (currentTime > expiration) {
-        return [false, null, null]
-      }
-
-      const account = codeDoc.data().account
-      const petId = codeDoc.data().pet
-
-      const queryPet = query(collection(db, `pets`), where('__name__', '==', petId))
-      const petSnapshot = await getDocs(queryPet)
-
-      if (petSnapshot.empty) {
-        return [false, null, null]
-      }
-
-      const petName = petSnapshot.docs[0].data().name
-      const petPlan = petSnapshot.docs[0].data().plan
-      const petClient = petSnapshot.docs[0].data().client
-
-      const queryUser = query(collection(db, `users`), where('__name__', '==', petClient))
-      const userSnapshot = await getDocs(queryUser)
-
-      if (userSnapshot.empty) {
-        return [false, null, null]
-      }
-
-      const userName = userSnapshot.docs[0].data().name
-
-      const petData = {
-        name: petName,
-        client: userName,
-        id: petId,
-        plan: petPlan
-      }
-
-      return [true, account, petData]
     },
+
 
     async expirationCode(code) {
       const queryCode = query(collection(db, 'codes'), where('code', '==', parseInt(code)))
@@ -149,9 +231,6 @@ export const useUserStore = defineStore('userStore', {
       const codeDoc = querySnapshot.docs[0]
       const expiration = new Date()
       await updateDoc(codeDoc.ref, { expiration })
-
-
-
     },
 
     currentUser() {
@@ -163,12 +242,12 @@ export const useUserStore = defineStore('userStore', {
               this.userData = { email: user.email, uid: user.uid }
             } else {
               this.userData = null
-              const databaseUserStore = useDatabaseUserStore();
-              const databaseVetStore = useDatabaseVetStore();
-              const databasePetStore = useDatabasePetStore();
-              databaseUserStore.$reset();
-              databaseVetStore.$reset();
-              databasePetStore.$reset();
+              const databaseUserStore = useDatabaseUserStore()
+              const databaseVetStore = useDatabaseVetStore()
+              const databasePetStore = useDatabasePetStore()
+              databaseUserStore.$reset()
+              databaseVetStore.$reset()
+              databasePetStore.$reset()
             }
             resolve(user)
           },
