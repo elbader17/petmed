@@ -7,6 +7,7 @@ const affiliatePet = ref({
   animal: '',
   breed: '',
   sex: '',
+  color: '',
   castrated: '',
   plan: '',
   pathologies: '',
@@ -52,6 +53,10 @@ const affiliatePet = ref({
       </div>
 
       <div class="form-row">
+        <div class="row-input">
+          <label class="form-label" for="color">Color:</label>
+          <input class="form-input" type="string" id="color" v-model="affiliatePet.color" name="color" />
+        </div>
         <div class="row-input">
           <label class="form-label" for="castrated">Castrado:</label>
           <select class="form-input" id="castrated" v-model="affiliatePet.castrated" name="castrated">
