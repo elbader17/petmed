@@ -213,6 +213,33 @@ const sendForm = async () => {
     return
   }
 
+  const practicesList = validate.value.data.practices;
+  const practiceKeys = [
+    'Farmacia Veterinaria',
+    'Vacunas',
+    'Aplicaciones (Inyectables)',
+    'Oftalmología y Cardiología',
+    'Kinesiología y Fisioterapia',
+    'Análisis clínicos no específicos',
+    'Radiografías',
+    'Ecografías',
+    'Electrocardiogramas',
+    'Enfermería en Clínica',
+    'Internaciones',
+    'Cirugías (Castraciones)',
+    'Análisis clínicos específico',
+    'Certificados de Salud',
+    'Odontología',
+    'Obs. Antir. en Cónsul. con Certif.',
+    'Ecocardiograma',
+    'Acupuntura'
+  ];
+
+  if (!practiceKeys.some(key => practicesList[key])) {
+    alert('Debe seleccionar un tipo de practica');
+    return;
+  }
+
   if (
     validate.value.data.practices['Consulta en Domicilio'] ||
     validate.value.data.practices['Consulta de Urgencia']
