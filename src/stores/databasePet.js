@@ -67,26 +67,26 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
       this.loadingDoc = true
       try {
         const petQuery = query(collection(db, 'pets'), where('numAffiliate', '==', numAffiliate))
-        const [petDoc] = await getDocs(petQuery)
-        const pet = {
-          name: petDoc.data().name,
-          birthdate: petDoc.data().birthdate,
-          animal: petDoc.data().animal,
-          breed: petDoc.data().breed,
-          sex: petDoc.data().sex,
-          color: petDoc.data().color,
-          plan: petDoc.data().plan,
-          photo
+        const petSnapshot = await getDocs(petQuery)
+
+        if (!petSnapshot.empty) {
+          const petDoc = petSnapshot.docs[0]
+          const pet = {
+            ...petDoc.data(),
+            photo
+          }
+          await this.updatePet(petDoc.id, pet)
+          this.pets = this.pets.map((item) =>
+            item.numAffiliate === numAffiliate
+              ? {
+                  ...item,
+                  photo
+                }
+              : item
+          )
+        } else {
+          console.log(`No pet found with numAffiliate: ${numAffiliate}`)
         }
-        await this.updatePet(petDoc.id, pet)
-        this.pets = this.pets.map((item) =>
-          item.numAffiliate === numAffiliate
-            ? {
-                ...item,
-                photo
-              }
-            : item
-        )
       } catch (error) {
         console.log(error)
       } finally {

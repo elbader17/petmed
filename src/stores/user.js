@@ -109,7 +109,7 @@ export const useUserStore = defineStore('userStore', {
         const lastPayDate = new Date(userData.lastPay.split('/').reverse().join('-'))
         const currentDate = new Date()
 
-        const registrationParts = userData.registration_date.split('/')
+        const registrationParts = (userData.registration_date || '01/01/2023').split('/')
         const registration = new Date(
           parseInt(registrationParts[2], 10),
           parseInt(registrationParts[1], 10) - 1,

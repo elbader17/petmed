@@ -70,7 +70,7 @@ const pet = ref({
           </div>
           <div class="pet-photo-container">
             <img
-              src="https://s3.ppllstatics.com/laverdad/www/multimedia/202211/23/media/cortadas/como-saber-cuanto-frio-soportar-perro-kpaB-U180813416069owF-1248x770@La%20Verdad.jpg"
+              :src="pet.photo ? pet.photo : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxURgBlcgpQeFnrvpwTytcHOYZ-lv63ssimQ&usqp=CAU'"
               alt="Pet Photo"
               class="pet-photo"
             />

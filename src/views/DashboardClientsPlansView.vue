@@ -23,7 +23,7 @@
         <td class="body-buttons">
           <button class="button-edit" @click="toggleModalIndexed(index)">
             <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
-            <p v-show="!mobile">In process</p>
+            <p v-show="!mobile">Editar</p>
           </button>
           <button
             class="button-edit"
