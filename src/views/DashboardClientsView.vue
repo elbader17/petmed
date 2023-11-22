@@ -6,8 +6,7 @@ import ModalReusable from '../components/ModalReusable.vue'
 import DashboardClientsAdd from '../components/DashboardClientsAdd.vue'
 import DashboardClientsEdit from '../components/DashboardClientsEdit.vue'
 import LoadingAnimation from '../components/LoadingAnimation.vue'
-import DashboardClientsAddPet from '../components/DashboardClientsAddPet.vue';
-
+import DashboardClientsAddPet from '../components/DashboardClientsAddPet.vue'
 
 const databaseUserStore = useDatabaseUserStore()
 
@@ -39,27 +38,21 @@ const toggleModalIndexed = (index, type) => {
 
 const calculatePayment = (lastPay, registrationDate) => {
   const today = new Date()
-  const lastPaymentDateParts = lastPay.split('/');
+  const lastPaymentDateParts = lastPay.split('/')
   const lastPaymentDate = new Date(
     parseInt(lastPaymentDateParts[2], 10),
     parseInt(lastPaymentDateParts[1], 10) - 1,
     parseInt(lastPaymentDateParts[0], 10)
   )
 
-  const registrationParts = registrationDate.split('/');
+  const registrationParts = registrationDate.split('/')
   const registration = new Date(
     parseInt(registrationParts[2], 10),
     parseInt(registrationParts[1], 10) - 1,
     parseInt(registrationParts[0], 10)
-  );
+  )
 
   let dueDay = registration.getDate()
-
-  const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate()
-
-  if (dueDay > daysInMonth) {
-    dueDay = daysInMonth
-  }
 
   const lastPaymentYear = lastPaymentDate.getFullYear()
   const lastPaymentMonth = lastPaymentDate.getMonth()
@@ -72,13 +65,19 @@ const calculatePayment = (lastPay, registrationDate) => {
     nextPaymentYear++
   }
 
+  const daysInMonth = new Date(nextPaymentYear, nextPaymentMonth + 1, 0).getDate()
+
+  if (dueDay > daysInMonth) {
+    dueDay = daysInMonth
+  }
+
   const dueDate = new Date(nextPaymentYear, nextPaymentMonth, dueDay)
 
   const daysRemaining = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24))
   if (today > dueDate) {
     return 'Falta pago'
   } else if (daysRemaining <= 4) {
-    return 'Vence en '  + daysRemaining + ' dias'
+    return 'Vence en ' + daysRemaining + ' dias'
   } else {
     return 'Al dia'
   }
@@ -95,7 +94,7 @@ const nextPage = async () => {
 }
 
 const isBanned = (isBan) => {
-  if(isBan.banned) return '/ Bloqueado'
+  if (isBan.banned) return '/ Bloqueado'
   return ''
 }
 
@@ -111,7 +110,6 @@ const findClient = async () => {
 
 const inputFindWhitEmail = ref('')
 const inputFindWhitCuit = ref('')
-
 </script>
 
 <template>
@@ -119,8 +117,8 @@ const inputFindWhitCuit = ref('')
     <h1 class="clients-title">Clientes</h1>
     <div>
       <button class="button-add" @click="toggleModal">Agregar</button>
-      <input type="text" placeholder="Email" v-model="inputFindWhitEmail">
-      <input type="text" placeholder="Cuit" v-model="inputFindWhitCuit">
+      <input type="text" placeholder="Email" v-model="inputFindWhitEmail" />
+      <input type="text" placeholder="Cuit" v-model="inputFindWhitCuit" />
       <button class="button-add" @click="findClient()">Buscar</button>
     </div>
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
@@ -138,7 +136,14 @@ const inputFindWhitCuit = ref('')
       <tbody class="table-body" v-for="(item, index) of databaseUserStore.clients" :key="item.id">
         <td class="body-item">{{ item.name }} {{ item.surname }} {{ item.email }}</td>
         <td class="body-item">
-          {{ calculatePayment(item.lastPay, item.registration_date ? item.registration_date : "01/01/2022", item.name) }} {{ isBanned(item) }}
+          {{
+            calculatePayment(
+              item.lastPay,
+              item.registration_date ? item.registration_date : '01/01/2022',
+              item.name
+            )
+          }}
+          {{ isBanned(item) }}
         </td>
         <td class="body-buttons">
           <button class="button-pay" @click="databaseUserStore.updateClientPay(item.id)">
@@ -166,7 +171,7 @@ const inputFindWhitCuit = ref('')
           @closeModal="toggleModalIndexed(index)"
           :modalActive="modalActiveIndexed(index)"
         >
-          <DashboardClientsEdit v-if="typeModal =='edit'" :item="item" />
+          <DashboardClientsEdit v-if="typeModal == 'edit'" :item="item" />
           <DashboardClientsAddPet v-if="typeModal == 'add'" :item="item" />
         </ModalReusable>
       </tbody>
