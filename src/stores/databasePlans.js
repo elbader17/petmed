@@ -15,7 +15,7 @@ export const useDatabasePlansStore = defineStore('databasePlansStore', {
       }
       this.loadingDoc = true;
       try {
-        const docRef = doc(collection(db, "configs"), "plans");
+        const docRef = await doc(collection(db, "configs"), "plans");
         const docSnapshot = await getDoc(docRef)
         this.plan = docSnapshot.data()[name];
         return true
