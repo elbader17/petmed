@@ -28,7 +28,6 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
   }),
   actions: {
     async getPetsByPage(page = 1, numAffiliate = null, name = null) {
-      console.log(page, numAffiliate, name)
       const start = (page - 1) * this.perPage
       const lastVisible = this.lastVisible
       if (lastVisible && start <= lastVisible.data().index) {
@@ -56,7 +55,6 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
             ...doc.data()
           })
         })
-        console.log('🚀 ~ file: databasePet.js:56 ~ getPetsByPage ~ pets:', this.pets)
       } catch (error) {
         console.log(error)
       } finally {
@@ -99,18 +97,16 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
       }
       this.loadingDoc = true
       try {
-        const queryRef = query(
-          collection(db, 'pets'),
-          limit(this.perPage),
-          where('client', '==', id)
-        )
+        let queryRef = query(collection(db, 'pets'), limit(this.perPage), where('client', '==', id))
         const querySnapshot = await getDocs(queryRef)
         querySnapshot.forEach((doc) => {
-          this.pets.push({
-            id: doc.id,
-            ...doc.data(),
-            responsable: name
-          })
+          if (doc.data().deleted !== true) {
+            this.pets.push({
+              id: doc.id,
+              ...doc.data(),
+              responsable: name
+            })
+          }
         })
       } catch (error) {
         console.log(error)
@@ -201,6 +197,28 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
       } /*  finally {
         
       } */
+    },
+    async softDeletePet(id) {
+      try {
+        const petRef = doc(db, 'pets', id)
+        await updateDoc(petRef, {
+          deleted: true
+        })
+        this.pets = this.pets.filter((item) => item.id !== id)
+      } catch (error) {
+        console.log(id, error)
+      }
+    },
+    async restorePet(id) {
+      try {
+        const petRef = doc(db, 'pets', id)
+        await updateDoc(petRef, {
+          deleted: false
+        })
+        this.pets = this.pets.filter((item) => item.id !== id)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 })
