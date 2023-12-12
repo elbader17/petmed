@@ -1,12 +1,11 @@
 <script setup>
-import { ref } from 'vue'
-import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan'
+import { ref, computed } from 'vue'
+import { useDatabasePetStore } from '../stores/databasePet'
 import { useCheckScreen } from '@/composables/checkScreen'
 import ModalReusable from '../components/ModalReusable.vue'
 import DashboardClientsPlansOneEdit from '../components/DashboardClientsPlansOneEdit.vue'
 
-const databaseClientPlanStore = useDatabaseClientPlanStore()
-
+const databasePetStore = useDatabasePetStore()
 const { mobile } = useCheckScreen()
 
 const props = defineProps(['item'])
@@ -15,6 +14,15 @@ const openModal = ref(false)
 
 const toggleModal = () => {
   openModal.value = !openModal.value
+}
+
+function checkDeleted(stateOfPet) {
+  console.log("🚀 ~ file: DashboardClientsPlansEdit.vue:20 ~ checkDeleted ~ stateOfPet:", stateOfPet)
+  if (stateOfPet) {
+    return true
+  } else {
+    return false
+  }
 }
 </script>
 
@@ -32,12 +40,13 @@ const toggleModal = () => {
         <td class="body-item" v-show="!mobile">{{ props.item.plan }}</td>
         <td class="body-item">{{ props.item.name }}</td>
         <td class="body-buttons">
-          <button
-            class="button-delete"
-            @click="databaseClientPlanStore.deleteClientPlan(props.item.id, props.item.plan)"
-          >
+          <button v-if="!checkDeleted(props.item?.deleted)" class="button-delete" @click="databasePetStore.softDeletePet(props.item.id)">
             <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
-            <p v-show="!mobile">Eliminar</p>
+            <p v-show="!mobile">Dar de Baja</p>
+          </button>
+          <button v-else class="button-add" @click="databasePetStore.restorePet(props.item.id)">
+            <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
+            <p v-show="!mobile">Dar de Alta</p>
           </button>
           <button class="button-edit" @click="toggleModal">
             <font-awesome-icon icon="fa-solid fa-edit" v-show="mobile" />
@@ -130,4 +139,5 @@ section {
 .button-delete:hover {
   background-color: #f14313;
 }
+
 </style>
