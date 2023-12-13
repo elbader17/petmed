@@ -28,7 +28,6 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
   }),
   actions: {
     async getPetsByPage(page = 1, numAffiliate = null, name = null) {
-      console.log(page, numAffiliate, name)
       const start = (page - 1) * this.perPage
       const lastVisible = this.lastVisible
       if (lastVisible && start <= lastVisible.data().index) {
@@ -111,6 +110,59 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
             ...doc.data(),
             responsable: name
           })
+        })
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingDoc = false
+      }
+    },
+    async updatePhotoOfPet(numAffiliate, photo) {
+      this.loadingDoc = true
+      try {
+        const petQuery = query(collection(db, 'pets'), where('numAffiliate', '==', numAffiliate))
+        const petSnapshot = await getDocs(petQuery)
+
+        if (!petSnapshot.empty) {
+          const petDoc = petSnapshot.docs[0]
+          const pet = {
+            ...petDoc.data(),
+            photo
+          }
+          await this.updatePet(petDoc.id, pet)
+          this.pets = this.pets.map((item) =>
+            item.numAffiliate === numAffiliate
+              ? {
+                ...item,
+                photo
+              }
+              : item
+          )
+        } else {
+          console.log(`No pet found with numAffiliate: ${numAffiliate}`)
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingDoc = false
+      }
+    },
+    async getPets(id, name) {
+      if (this.pets.length !== 0) {
+        return
+      }
+      this.loadingDoc = true
+      try {
+        let queryRef = query(collection(db, 'pets'), limit(this.perPage), where('client', '==', id))
+        const querySnapshot = await getDocs(queryRef)
+        querySnapshot.forEach((doc) => {
+          if (doc.data().deleted !== true) {
+            this.pets.push({
+              id: doc.id,
+              ...doc.data(),
+              responsable: name
+            })
+          }
         })
       } catch (error) {
         console.log(error)
@@ -201,6 +253,28 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
       } /*  finally {
         
       } */
+    },
+    async softDeletePet(id) {
+      try {
+        const petRef = doc(db, 'pets', id)
+        await updateDoc(petRef, {
+          deleted: true
+        })
+        this.pets = this.pets.filter((item) => item.id !== id)
+      } catch (error) {
+        console.log(id, error)
+      }
+    },
+    async restorePet(id) {
+      try {
+        const petRef = doc(db, 'pets', id)
+        await updateDoc(petRef, {
+          deleted: false
+        })
+        this.pets = this.pets.filter((item) => item.id !== id)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 })

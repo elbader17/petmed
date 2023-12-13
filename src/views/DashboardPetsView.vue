@@ -66,13 +66,10 @@ const modalActiveIndexed = (index) => {
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
       <DashboardPetsAdd :plans="databaseClientPlanStore.plansClient" />
     </ModalReusable>
-    <p
-      v-if="
-        databaseUserStore.loadingDoc ||
-        databasePetStore.loadingDoc ||
-        databaseClientPlanStore.loadingDoc
-      "
-    >
+    <p v-if="databaseUserStore.loadingDoc ||
+      databasePetStore.loadingDoc ||
+      databaseClientPlanStore.loadingDoc
+      ">
       <LoadingAnimation />
     </p>
     <table v-else class="table">
@@ -87,15 +84,8 @@ const modalActiveIndexed = (index) => {
             <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
             <p class="button-label" v-show="!mobile">Ver</p>
           </button>
-          <!-- <button class="button-delete" @click="databasePetStore.deletePet(item.id)">
-            <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
-            <p v-show="!mobile">Eliminar</p>
-          </button> -->
         </td>
-        <ModalReusable
-          @closeModal="toggleModalIndexed(index)"
-          :modalActive="modalActiveIndexed(index)"
-        >
+        <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
           <DashboardPetsEdit :item="item" :plans="databaseClientPlanStore.plansClient" />
         </ModalReusable>
       </tbody>
@@ -107,6 +97,7 @@ const modalActiveIndexed = (index) => {
 .button-label {
   margin: 0;
 }
+
 .dashboard-pets {
   display: flex;
   flex-direction: column;
@@ -148,7 +139,8 @@ const modalActiveIndexed = (index) => {
 .body-buttons {
   display: flex;
   align-items: center;
-  justify-content: center; /* Centrar horizontalmente */
+  justify-content: center;
+  /* Centrar horizontalmente */
   padding: 0.75rem;
   border-top: 1px solid #cacaca;
 }

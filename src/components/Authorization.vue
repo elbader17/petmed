@@ -53,6 +53,18 @@ body {
 h1 {
   text-align: center;
 }
+.practice-item {
+  margin-bottom: 10px;
+}
+
+.practice-name {
+  font-weight: bold;
+}
+
+.practice-info {
+  margin-top: 5px;
+  color: #555;
+}
 
 .practice-item {
   margin-bottom: 10px;

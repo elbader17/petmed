@@ -105,11 +105,41 @@ export const useUserStore = defineStore('userStore', {
         if (userData.banned) {
           return 'blocked'
         }
+
         const lastPayDate = new Date(userData.lastPay.split('/').reverse().join('-'))
         const currentDate = new Date()
-        const oneMonthInMs = 1000 * 60 * 60 * 24 * 30
-        const timeDiff = currentDate.getTime() - lastPayDate.getTime()
-        if (timeDiff > oneMonthInMs) {
+
+        const registrationParts = (userData.registration_date || '01/01/2023').split('/')
+        const registration = new Date(
+          parseInt(registrationParts[2], 10),
+          parseInt(registrationParts[1], 10) - 1,
+          parseInt(registrationParts[0], 10)
+        )
+
+        let dueDay = registration.getDate()
+
+        let nextPaymentYear = registration.getFullYear()
+        let nextPaymentMonth = registration.getMonth() + 1
+
+        if (lastPayDate > registration) {
+          nextPaymentYear = lastPayDate.getFullYear()
+          nextPaymentMonth = lastPayDate.getMonth() + 1
+        }
+
+        if (nextPaymentMonth > 11) {
+          nextPaymentMonth = 0
+          nextPaymentYear++
+        }
+
+        const daysInMonth = new Date(nextPaymentYear, nextPaymentMonth + 1, 0).getDate()
+
+        if (dueDay > daysInMonth) {
+          dueDay = daysInMonth
+        }
+
+        const dueDate = new Date(nextPaymentYear, nextPaymentMonth, dueDay)
+
+        if (currentDate > dueDate) {
           return 'blocked'
         }
       }

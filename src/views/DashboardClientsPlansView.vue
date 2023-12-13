@@ -36,6 +36,17 @@
             <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
             <p v-show="!mobile">Foto</p>
           </button>
+          <button
+            class="button-edit"
+            @click="databaseUserStore.getClientWithAfiliateNum(item.numAffiliate)"
+          >
+            <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
+            <p v-show="!mobile">{{ getClientByAffiliationNumber(item.numAffiliate) }}</p>
+          </button>
+          <button class="button-edit" @click="toggleModalPhotoIndexed(index)">
+            <font-awesome-icon icon="fa-solid fa-pen-to-square" v-show="mobile" />
+            <p v-show="!mobile">Foto</p>
+          </button>
         </td>
         <ModalReusable
           @closeModal="toggleModalIndexed(index)"

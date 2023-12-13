@@ -194,6 +194,37 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         this.loadingDoc = false
       }
     },
+    async editClientPlan(data) {
+      const clientPlanRef = doc(db, 'pets', data.id)
+
+      await updateDoc(clientPlanRef, {
+        name: data.name,
+        plan: data.plan
+      })
+
+      const plansCollection = collection(db, 'plans');
+      const querySnapshot = await getDocs(plansCollection);
+
+      const planDoc = querySnapshot.docs.find(doc => {
+        const planData = doc.data();
+        return planData.plans.some(plan => plan.petId === data.id);
+      });
+
+      if (!planDoc) {
+        console.log(`No plan found with petId: ${data.id}`);
+        return null;
+      } else {
+        const planData = planDoc.data();
+        const planIndex = planData.plans.findIndex(plan => plan.petId === data.id);
+
+        if (planIndex !== -1) {
+          planData.plans.splice(planIndex, 1);
+          await updateDoc(planDoc.ref, { plans: planData.plans });
+        }
+
+        return planData;
+      }
+    },
     createAllPlans() {
       // obtener el Id de todos los clientes desde la base de datos y guardarlos en un array
       const clients = []
@@ -243,9 +274,9 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         this.plans = this.plans.map((item) =>
           item.id === id
             ? {
-                ...item,
-                plans: item.plans.filter((value) => value !== plan)
-              }
+              ...item,
+              plans: item.plans.filter((value) => value !== plan)
+            }
             : item
         )
       } catch (error) {

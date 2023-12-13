@@ -1,20 +1,28 @@
 <script setup>
-import { ref } from 'vue';
-import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan';
-import { useCheckScreen } from '@/composables/checkScreen';
-import ModalReusable from '../components/ModalReusable.vue';
-import DashboardClientsOnePlanAdd from '../components/DashboardClientsOnePlanAdd.vue';
+import { ref, computed } from 'vue'
+import { useDatabasePetStore } from '../stores/databasePet'
+import { useCheckScreen } from '@/composables/checkScreen'
+import ModalReusable from '../components/ModalReusable.vue'
+import DashboardClientsPlansOneEdit from '../components/DashboardClientsPlansOneEdit.vue'
 
-const databaseClientPlanStore = useDatabaseClientPlanStore();
+const databasePetStore = useDatabasePetStore()
+const { mobile } = useCheckScreen()
 
-const { mobile } = useCheckScreen();
+const props = defineProps(['item'])
 
-const props = defineProps(['item']);
-
-const openModal = ref(false);
+const openModal = ref(false)
 
 const toggleModal = () => {
-  openModal.value = !openModal.value;
+  openModal.value = !openModal.value
+}
+
+function checkDeleted(stateOfPet) {
+  console.log("🚀 ~ file: DashboardClientsPlansEdit.vue:20 ~ checkDeleted ~ stateOfPet:", stateOfPet)
+  if (stateOfPet) {
+    return true
+  } else {
+    return false
+  }
 }
 </script>
 
@@ -27,21 +35,28 @@ const toggleModal = () => {
         <th class="head-item">Mascota</th>
         <th class="head-item">Acciones</th>
       </thead>
-      <tbody class="table-body" v-for="(plan, index) of props.item.plans" :key="plan.id">
-        <td class="body-item" v-show="!mobile">{{ index + 1 }}</td>
-        <td class="body-item" v-show="!mobile">{{ plan.plan }}</td>
-        <td class="body-item">{{ plan.petName }}</td>
+      <tbody class="table-body">
+        <td class="body-item" v-show="!mobile">{{ props.item.numAffiliate }}</td>
+        <td class="body-item" v-show="!mobile">{{ props.item.plan }}</td>
+        <td class="body-item">{{ props.item.name }}</td>
         <td class="body-buttons">
-          <button class="button-delete" @click="databaseClientPlanStore.deleteClientPlan(props.item.id, plan)">
+          <button v-if="!checkDeleted(props.item?.deleted)" class="button-delete" @click="databasePetStore.softDeletePet(props.item.id)">
             <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
-            <p v-show="!mobile">Eliminar</p>
+            <p v-show="!mobile">Dar de Baja</p>
+          </button>
+          <button v-else class="button-add" @click="databasePetStore.restorePet(props.item.id)">
+            <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
+            <p v-show="!mobile">Dar de Alta</p>
+          </button>
+          <button class="button-edit" @click="toggleModal">
+            <font-awesome-icon icon="fa-solid fa-edit" v-show="mobile" />
+            <p v-show="!mobile">Editar</p>
           </button>
         </td>
       </tbody>
     </table>
-    <button class="button-add" @click="toggleModal">Agregar</button>
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
-      <DashboardClientsOnePlanAdd :id="props.item.id" />
+      <DashboardClientsPlansOneEdit :item="props.item" />
     </ModalReusable>
   </section>
 </template>
@@ -51,7 +66,13 @@ section {
   display: flex;
   flex-direction: column;
 }
+.button-edit {
+  background-color: #3cbeb4;
+}
 
+.button-edit:hover {
+  background-color: #33a198;
+}
 .table {
   width: 100%;
   padding: 0.5rem;
@@ -96,7 +117,7 @@ section {
 }
 
 .button-add {
-  background-color: #8D57B0;
+  background-color: #8d57b0;
 }
 
 .button-add:hover {
@@ -104,18 +125,19 @@ section {
 }
 
 .button-edit {
-  background-color: #3CBEB4;
+  background-color: #3cbeb4;
 }
 
 .button-edit:hover {
-  background-color: #33A198;
+  background-color: #33a198;
 }
 
 .button-delete {
-  background-color: #F4643C;
+  background-color: #f4643c;
 }
 
 .button-delete:hover {
-  background-color: #F14313;
+  background-color: #f14313;
 }
+
 </style>
