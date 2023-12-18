@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { getAuth } from 'firebase/auth'
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -154,6 +155,14 @@ export const useUserStore = defineStore('userStore', {
     },
 
     async validateCode(code) {
+      const auth = getAuth()
+      const accountVet = auth.currentUser.uid
+
+      const q = query(collection(db, 'users'), where('account', '==', accountVet))
+      const querySnap = await getDocs(q)
+      const res = querySnap['_docs'][0].data()
+      console.log('🚀 ~ file: user.js:164 ~ validateCode ~ querySnap:', res)
+
       try {
         const codeQuery = query(collection(db, 'codes'), where('code', '==', code))
         const codeSnapshot = await getDocs(codeQuery)
@@ -208,6 +217,13 @@ export const useUserStore = defineStore('userStore', {
           })
         }
 
+        const auth = getAuth()
+        const accountVet = auth.currentUser.uid
+
+        const q = query(collection(db, 'users'), where('account', '==', accountVet))
+        const querySnap = await getDocs(q)
+        const res = querySnap['_docs'][0].data()
+
         const formsSnapshot = await getDocs(formsQuery)
         const formsData = []
         const petData = {
@@ -215,7 +231,8 @@ export const useUserStore = defineStore('userStore', {
           client: userName,
           id: petId,
           plan: petPlan,
-          numAffiliate: numAffiliate
+          numAffiliate: numAffiliate,
+          vet: res
         }
 
         formsSnapshot.forEach((doc) => {

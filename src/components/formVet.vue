@@ -102,6 +102,7 @@ const ok = async () => {
       validate.value.data.responsible = pet.client
       validate.value.data.numAffiliate = pet.numAffiliate
       validate.value.textButton = 'Verificar'
+      validate.value.data.vet = pet.vet.name + ' ' + pet.vet.surname + ' (' + pet.vet.email + ')'
     } else {
       print(validationResponse)
       errorCode()
@@ -428,8 +429,8 @@ const renderCoverage = (data) => {
       <label for="fecha">Fecha:</label>
       <input type="date" id="fecha" v-model="validate.data.date" name="fecha" disabled />
 
-      <label for="veterinaria">Veterinaria:</label>
-      <input type="text" id="veterinaria" v-model="validate.data.vet" name="veterinaria" />
+      <label for="veterinaria">Veterinaria/Veterinario:</label>
+      <input type="text" id="veterinaria" disabled v-model="validate.data.vet" name="veterinaria" />
     </section>
 
     <section>
