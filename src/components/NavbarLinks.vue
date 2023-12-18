@@ -14,7 +14,7 @@ import { RouterLink } from 'vue-router';
       <RouterLink :to="{ name: 'planes' }" class="nav-link">Planes</RouterLink>
     </li>
     <li class="nav-item">
-      <RouterLink :to="{ name: 'afiliaciones' }" class="nav-link">Afiliaciones</RouterLink>
+      <a href="https://petmed.ar/afiliaciones/" class="nav-link">Afiliaciones</a>
     </li>
     <li class="nav-item">
       <RouterLink :to="{ name: 'cartilla-de-prestadores' }" class="nav-link">Cartilla de prestadores</RouterLink>
