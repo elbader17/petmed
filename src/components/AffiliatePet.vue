@@ -1,5 +1,20 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useDatabaseUserStore } from '@/stores/databaseUser';
+import { useDatabasePetStore } from '@/stores/databasePet';
+import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan';
+
+const databaseUserStore = useDatabaseUserStore();
+const databasePetStore = useDatabasePetStore();
+const databaseClientPlanStore = useDatabaseClientPlanStore();
+
+const props = defineProps(['plans']);
+
+const options = ref([]);
+
+onMounted(async () => {
+  options.value = props.plans;
+});
 
 const affiliatePet = ref({
   name: '',
@@ -13,12 +28,31 @@ const affiliatePet = ref({
   pathologies: '',
   photo: ''
 })
+
+const handleSubmit = async () => {
+  try {
+    affiliatePet.value.client = databaseUserStore.client.id
+    await databasePetStore.addPet(affiliatePet.value);
+    await databaseClientPlanStore.addClientPlanPet(affiliatePet.value, databasePetStore.newPetRef)
+  } catch (error) {
+    console.log(error);
+  } finally {
+    affiliatePet.value.name = '';
+    affiliatePet.value.birthdate = '';
+    affiliatePet.value.animal = '';
+    affiliatePet.value.breed = '';
+    affiliatePet.value.sex = '';
+    affiliatePet.value.color = '';
+    affiliatePet.value.plan = '';
+    affiliatePet.value.numAffiliate = '';
+  }
+}
 </script>
 
 <template>
   <section class="affiliate-pet">
     <h2 class="affiliate-title">Detalles de la mascota</h2>
-    <form class="affiliate-form">
+    <form class="affiliate-form" @submit.prevent="handleSubmit">
 
       <div class="form-row">
         <div class="row-input">

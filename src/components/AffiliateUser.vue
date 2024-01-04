@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue';
+import { useDatabaseUserStore } from '@/stores/databaseUser';
+
+const databaseUserStore = useDatabaseUserStore();
 
 const affiliateUser = ref({
   name: '',
@@ -10,13 +13,36 @@ const affiliateUser = ref({
   address: '',
   city: '',
   phone: ''
-})
+});
+
+const resetForm = () => {
+  affiliateUser.value = {
+    name: '',
+    surname: '',
+    cuit: '',
+    birthdate: '',
+    email: '',
+    address: '',
+    city: '',
+    phone: ''
+  };
+};
+
+const handleSubmit = () => {
+  try {
+    databaseUserStore.addClient(affiliateUser.value).then(() => {
+      resetForm()
+    })
+  } catch (error) {
+    console.log(error)
+  };
+};
 </script>
 
 <template>
   <section class="affiliate-user">
     <h2 class="affiliate-title">Detalles del cliente</h2>
-    <form class="affiliate-form">
+    <form class="affiliate-form" @submit.prevent="handleSubmit">
 
       <div class="form-row">
         <div class="row-input">

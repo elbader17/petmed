@@ -1,9 +1,10 @@
 <script setup>
-import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation'
-import AffiliationItem from './AffiliationItem.vue'
-import AffiliationFooter from './AffiliationFooter.vue'
+import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation';
+import AffiliationItem from './AffiliationItem.vue';
+import AffiliationFooter from './AffiliationFooter.vue';
 
-const databaseAffiliationStore = useDatabaseAffiliationStore()
+const databaseAffiliationStore = useDatabaseAffiliationStore();
+
 </script>
 
 <template>
@@ -43,9 +44,8 @@ const databaseAffiliationStore = useDatabaseAffiliationStore()
           <AffiliationFooter v-else />
         </tbody>
         <tfoot>
-          <RouterLink :to="{ name: 'afiliacion-usuario' }" class="info-link">
-            <button>Finalizar compra</button>
-          </RouterLink>
+          <button>Pagar con Mercado Pago</button>
+          <iframe src="/new/mercadoPago.html" width="60%" height="100%" frameborder="0"></iframe>
         </tfoot>
       </table>
     </div>
