@@ -18,10 +18,8 @@
     "@mercadopago/sdk-js": "^0.0.3",
     "axios": "^1.6.2",
     "firebase": "^9.19.1",
-    "mercadopago": "^2.0.5",
     "pinia": "^2.0.34",
     "vue": "^3.2.47",
-    "vue-recaptcha": "^3.0.0-alpha.2",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
