@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation'
+import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation';
 
-const databaseAffiliationStore = useDatabaseAffiliationStore()
+const databaseAffiliationStore = useDatabaseAffiliationStore();
 
 const props = defineProps(['item'])
 
@@ -21,13 +21,13 @@ const removeItem = (productId) => {
 
 <template>
   <tr>
-    <td>{{ props.item.image }}</td>
-    <td>{{ props.item.name }}</td>
+    <td><img :src="props.item.img" :alt="props.item.name" class="plan-img"></td>
+    <td>Plan {{ props.item.name }}</td>
     <td>${{ props.item.price }}</td>
     <td><input type="number" min="1" v-model="itemQuantity" @input="updateQuantity"></td>
     <td>${{ itemSubtotal }}</td>
     <td><font-awesome-icon icon="fa-solid fa-circle-xmark" size="lg" class="item-icon"
-        @click="removeItem(props.item.id)" /></td>
+        @click="removeItem(props.item.name)" /></td>
   </tr>
 </template>
 
@@ -57,5 +57,10 @@ input {
   color: #9e63c4;
   cursor: pointer;
   transition: all 0.3s ease-out 0s;
+}
+
+.plan-img {
+  width: 3.125rem;
+  height: 3.125rem;
 }
 </style>

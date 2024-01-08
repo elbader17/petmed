@@ -29,8 +29,8 @@ const planColor = computed(() => {
       <tbody class="table-body" v-for="item in props.data" :key="item.id">
         <td class="body-item">{{ item.benefits }}</td>
         <td class="body-item">{{ item.coverage }}</td>
-        <td class="body-item">{{ item.waitingPeriod }}</td>
-        <td class="body-item">{{ item.quantity }}</td>
+        <td class="body-item">{{ item.gracetime }}</td>
+        <td class="body-item">{{ item.amount }}</td>
       </tbody>
     </table>
   </section>

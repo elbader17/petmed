@@ -1,8 +1,9 @@
 <script setup>
 import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation';
 import { loadMercadoPago } from "@mercadopago/sdk-js";
-import AffiliationItem from '../components/AffiliationItem.vue';
-import AffiliationFooter from '../components/AffiliationFooter.vue';
+import { onBeforeMount } from 'vue';
+import AffiliationItem from '@/components/AffiliationItem.vue';
+import AffiliationFooter from '@/components/AffiliationFooter.vue';
 
 const databaseAffiliationStore = useDatabaseAffiliationStore();
 
@@ -61,7 +62,9 @@ const createCheckoutButton = async (preferenceId) => {
   }
 }
 
-initMercadoPago();
+onBeforeMount(async () => {
+  await initMercadoPago();
+});
 </script>
 
 <template>

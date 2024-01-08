@@ -1,12 +1,13 @@
 <script setup>
 import { useCheckScreen } from '@/composables/checkScreen';
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onBeforeMount } from 'vue';
+import { useDatabasePlansStore } from '@/stores/databasePlans';
+import LoadingAnimation from '../components/LoadingAnimation.vue';
 import ContentBanner from '../components/ContentBanner.vue';
 import ContentSeparator from '../components/icons/ContentSeparator.vue';
 import PlansTable from '../components/PlansTable.vue';
 import imageBanner from '@/assets/img/plans-banner.jpg';
 import imageTitle from '@/assets/img/planes.png';
-import plans from '@/data/plans.json';
 
 import title1005 from '@/assets/img/TITU1005.png';
 import title2010 from '@/assets/img/TITU2010.png';
@@ -16,7 +17,15 @@ import plan2010 from '@/assets/img/2010-Plan.png';
 import plan3015 from '@/assets/img/3015-Plan.png';
 
 const { mobile } = useCheckScreen();
-const data = plans;
+const databasePlansStore = useDatabasePlansStore();
+
+onBeforeMount(async () => {
+  await databasePlansStore.getPlans();
+});
+
+const servicesArray = computed(() => Object.values(databasePlansStore.plans));
+
+const currentServices = computed(() => servicesArray.value[currentPlan.value]);
 
 const currentPlan = ref(0);
 
@@ -38,22 +47,19 @@ const planes = [
     id: 1,
     title: title1005,
     image: plan1005,
-    name: "Plan 1005",
-    link: "/contacto"
+    name: "Plan 1005"
   },
   {
     id: 2,
     title: title2010,
     image: plan2010,
-    name: "Plan 2010",
-    link: "/contacto"
+    name: "Plan 2010"
   },
   {
     id: 3,
     title: title3015,
     image: plan3015,
-    name: "Plan 3015",
-    link: "/contacto"
+    name: "Plan 3015"
   }
 ];
 
@@ -71,15 +77,20 @@ watch(currentPlan, (val, old) => {
       <img class="plan-img" v-for="(plan, index) in planes" :key="plan.id" :src="plan.title"
         @click="currentPlan = index" />
     </div>
-    <section v-show="!mobile">
-      <Transition :name="transitionName" mode="out-in">
-        <PlansTable :key="currentPlan" :data="data[currentPlan].services" :currentPlan="currentPlan" />
-      </Transition>
+    <section v-if="databasePlansStore.loadingDoc">
+      <LoadingAnimation />
     </section>
-    <section class="plans-mobile" v-show="mobile">
-      <Transition :name="transitionName" mode="out-in">
-        <img class="mobile-img" :key="currentPlan" :src="planes[currentPlan].image" />
-      </Transition>
+    <section v-else>
+      <section v-show="!mobile">
+        <Transition :name="transitionName" mode="out-in">
+          <PlansTable :key="currentPlan" :data="currentServices" :currentPlan="currentPlan" />
+        </Transition>
+      </section>
+      <section class="plans-mobile" v-show="mobile">
+        <Transition :name="transitionName" mode="out-in">
+          <img class="mobile-img" :key="currentPlan" :src="planes[currentPlan].image" />
+        </Transition>
+      </section>
     </section>
     <section class="plans-info">
       <div class="info-button">

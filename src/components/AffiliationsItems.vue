@@ -1,22 +1,22 @@
 <script setup>
-import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation'
+import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation';
 
-const databaseAffiliationStore = useDatabaseAffiliationStore()
+const databaseAffiliationStore = useDatabaseAffiliationStore();
 
-defineProps(['plan'])
+defineProps(['plan']);
 </script>
 
 <template>
   <section class="affiliations-item">
-    <img class="affiliations-img" :src="plan.image" :alt="plan.name">
+    <img class="affiliations-img" :src="plan.img" :alt="plan.name">
     <div class="affiliations-info">
       <h3 class="info-subtitle">Valor Mensual</h3>
-      <h1 class="info-title">{{ plan.name }}</h1>
+      <h1 class="info-title">Plan {{ plan.name }}</h1>
       <div class="info-price">
-        <h2 class="info-discount" v-if="!(plan.discount == 0)">${{ new Intl.NumberFormat('es-ar').format(plan.price) }}
+        <h2 class="info-discount" v-if="!(plan.discount == 0)">${{ new Intl.NumberFormat('es-ar').format(plan.price) }},00
         </h2>
         <h2 class="info-total">${{ new Intl.NumberFormat('es-ar').format(plan.price - (plan.price * (plan.discount /
-          100))) }}</h2>
+          100))) }},00</h2>
       </div>
       <RouterLink :to="{ name: 'pre-afiliacion' }" class="info-link" @click="databaseAffiliationStore.addToCart(plan)">
         <font-awesome-icon icon="fa-solid fa-paw" />
