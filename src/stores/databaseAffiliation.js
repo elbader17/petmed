@@ -9,6 +9,9 @@ export const useDatabaseAffiliationStore = defineStore('databaseAffiliationStore
       Object.prototype.hasOwnProperty.call(this.cart, product.id)
         ? this.cart[product.id].quantity++
         : this.cart[product.id] = { quantity: 1, ...product };
+    },
+    removeFromCart(productId) {
+      delete this.cart[productId];
     }
   },
   getters: {

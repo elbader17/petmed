@@ -83,7 +83,7 @@ watch(currentPlan, (val, old) => {
     </section>
     <section class="plans-info">
       <div class="info-button">
-        <RouterLink :to="planes[currentPlan].link" :style="{ backgroundColor: planColor }" class="info-link">
+        <RouterLink :to="{ name: 'afiliaciones' }" :style="{ backgroundColor: planColor }" class="info-link">
           <font-awesome-icon icon="fa-solid fa-paw" />
           Quiero este plan
         </RouterLink>

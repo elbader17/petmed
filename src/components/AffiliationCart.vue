@@ -1,24 +1,31 @@
 <script setup>
 import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation';
 import { loadMercadoPago } from "@mercadopago/sdk-js";
-import AffiliationItem from './AffiliationItem.vue';
-import AffiliationFooter from './AffiliationFooter.vue';
+import AffiliationItem from '../components/AffiliationItem.vue';
+import AffiliationFooter from '../components/AffiliationFooter.vue';
 
 const databaseAffiliationStore = useDatabaseAffiliationStore();
 
+const MERCADOPAGO_ID = 'TEST-cbd9ce79-f60c-4933-b05f-ea930c3f7c8f';
+const SERVER_URL = 'http://localhost:8082/create_preference';
+
+let mp;
+
 const initMercadoPago = async () => {
   await loadMercadoPago();
-  const mp = new window.MercadoPago('TEST-cbd9ce79-f60c-4933-b05f-ea930c3f7c8f', { locale: 'es-AR' });
+  mp = new window.MercadoPago(MERCADOPAGO_ID, { locale: 'es-AR' });
+}
 
-  document.getElementById('checkout-btn').addEventListener('click', async () => {
+const checkout = async () => {
 
-    const orderData = {
-      title: 'Afiliación PetMed',
-      quantity: Number(1),
-      price: Number(databaseAffiliationStore.totalPrice)
-    }
+  const orderData = {
+    title: 'Afiliación PetMed',
+    quantity: Number(1),
+    price: Number(databaseAffiliationStore.totalPrice)
+  }
 
-    const response = await fetch('http://localhost:8082/create_preference', {
+  try {
+    const response = await fetch(SERVER_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -29,22 +36,29 @@ const initMercadoPago = async () => {
     const preference = await response.json();
 
     createCheckoutButton(preference.id);
+  } catch (error) {
+    console.error('Error during checkout:', error);
+  }
+}
 
-  });
+const createCheckoutButton = async (preferenceId) => {
+  const bricksBuilder = mp.bricks();
 
-  const createCheckoutButton = (preferenceId) => {
-    const bricksBuilder = mp.bricks();
+  const newContainer = document.createElement('div');
+  newContainer.id = 'wallet_container';
 
-    const renderComponent = async () => {
-      if (window.checkoutButton) window.checkoutButton.unmount();
-      await bricksBuilder.create("wallet", "wallet_container", {
-        initialization: {
-          preferenceId: preferenceId,
-        },
-      });
-    };
-    renderComponent();
-  };
+  const oldContainer = document.getElementById('wallet_container');
+  oldContainer.parentNode.replaceChild(newContainer, oldContainer);
+
+  try {
+    await bricksBuilder.create("wallet", "wallet_container", {
+      initialization: {
+        preferenceId: preferenceId,
+      },
+    });
+  } catch (error) {
+    console.error('Error creating checkout button:', error);
+  }
 }
 
 initMercadoPago();
@@ -64,7 +78,10 @@ initMercadoPago();
         </tr>
       </thead>
       <tbody>
-        <AffiliationItem v-for="item in databaseAffiliationStore.cart" :key="item.id" :item="item" />
+        <th v-if="Object.keys(databaseAffiliationStore.cart).length === 0">
+          No tienes ningún producto agregado
+        </th>
+        <AffiliationItem v-else v-for="item in databaseAffiliationStore.cart" :key="item.id" :item="item" />
       </tbody>
       <tfoot>
         <input type="text" placeholder="Código del cupón">
@@ -87,8 +104,11 @@ initMercadoPago();
           <AffiliationFooter v-else />
         </tbody>
         <tfoot>
-          <button id="checkout-btn">Pagar con Mercado Pago</button>
-          <div id="wallet_container"></div>
+          <th>
+            <button @click="checkout">Finalizar Compra</button>
+            <div id="wallet_container"></div>
+          </th>
+
         </tfoot>
       </table>
     </div>

@@ -13,6 +13,10 @@ const updateQuantity = (event) => {
   databaseAffiliationStore.cart[props.item.id].quantity = event.target.value;
   itemSubtotal.value = props.item.price * itemQuantity.value;
 }
+
+const removeItem = (productId) => {
+  databaseAffiliationStore.removeFromCart(productId);
+}
 </script>
 
 <template>
@@ -22,7 +26,8 @@ const updateQuantity = (event) => {
     <td>${{ props.item.price }}</td>
     <td><input type="number" min="1" v-model="itemQuantity" @input="updateQuantity"></td>
     <td>${{ itemSubtotal }}</td>
-    <td><font-awesome-icon icon="fa-solid fa-circle-xmark" size="lg" class="item-icon" /></td>
+    <td><font-awesome-icon icon="fa-solid fa-circle-xmark" size="lg" class="item-icon"
+        @click="removeItem(props.item.id)" /></td>
   </tr>
 </template>
 

@@ -66,61 +66,6 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
       this.loadingDoc = true
       try {
         const petQuery = query(collection(db, 'pets'), where('numAffiliate', '==', numAffiliate))
-        const [petDoc] = await getDocs(petQuery)
-        const pet = {
-          name: petDoc.data().name,
-          birthdate: petDoc.data().birthdate,
-          animal: petDoc.data().animal,
-          breed: petDoc.data().breed,
-          sex: petDoc.data().sex,
-          color: petDoc.data().color,
-          plan: petDoc.data().plan,
-          photo
-        }
-        await this.updatePet(petDoc.id, pet)
-        this.pets = this.pets.map((item) =>
-          item.numAffiliate === numAffiliate
-            ? {
-              ...item,
-              photo
-            }
-            : item
-        )
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.loadingDoc = false
-      }
-    },
-    async getPets(id, name) {
-      if (this.pets.length !== 0) {
-        return
-      }
-      this.loadingDoc = true
-      try {
-        const queryRef = query(
-          collection(db, 'pets'),
-          limit(this.perPage),
-          where('client', '==', id)
-        )
-        const querySnapshot = await getDocs(queryRef)
-        querySnapshot.forEach((doc) => {
-          this.pets.push({
-            id: doc.id,
-            ...doc.data(),
-            responsable: name
-          })
-        })
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.loadingDoc = false
-      }
-    },
-    async updatePhotoOfPet(numAffiliate, photo) {
-      this.loadingDoc = true
-      try {
-        const petQuery = query(collection(db, 'pets'), where('numAffiliate', '==', numAffiliate))
         const petSnapshot = await getDocs(petQuery)
 
         if (!petSnapshot.empty) {
