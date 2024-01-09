@@ -10,12 +10,12 @@ const itemQuantity = ref(props.item.quantity);
 const itemSubtotal = ref(props.item.price * itemQuantity.value);
 
 const updateQuantity = (event) => {
-  databaseAffiliationStore.cart[props.item.id].quantity = event.target.value;
+  databaseAffiliationStore.cart[props.item.name].quantity = event.target.value;
   itemSubtotal.value = props.item.price * itemQuantity.value;
 }
 
-const removeItem = (productId) => {
-  databaseAffiliationStore.removeFromCart(productId);
+const removeItem = (productName) => {
+  databaseAffiliationStore.removeFromCart(productName);
 }
 </script>
 

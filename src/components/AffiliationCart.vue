@@ -111,7 +111,6 @@ onBeforeMount(async () => {
             <button @click="checkout">Finalizar Compra</button>
             <div id="wallet_container"></div>
           </th>
-
         </tfoot>
       </table>
     </div>
