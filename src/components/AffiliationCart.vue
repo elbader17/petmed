@@ -7,8 +7,8 @@ import AffiliationFooter from '@/components/AffiliationFooter.vue';
 
 const databaseAffiliationStore = useDatabaseAffiliationStore();
 
-const MERCADOPAGO_ID = 'TEST-cbd9ce79-f60c-4933-b05f-ea930c3f7c8f';
-const SERVER_URL = 'http://localhost:8082/create_preference';
+const MERCADOPAGO_ID = import.meta.env.VITE_APP_MERCADOPAGO_ID;
+const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL;
 
 let mp;
 
