@@ -133,7 +133,7 @@ onBeforeMount(async () => {
         </tr>
         <AffiliationFooter v-else v-bind:cart="databaseAffiliationStore.cart" />
       </tbody>
-      <tfoot>
+      <tfoot v-if="Object.keys(databaseAffiliationStore.cart).length !== 0">
         <tr v-if="!isMercadoPagoLoaded">
           <th>
             <div class="table-payment">
