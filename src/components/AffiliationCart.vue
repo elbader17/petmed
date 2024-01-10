@@ -1,8 +1,8 @@
 <script setup>
+import { onBeforeMount, watch, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation';
 import { loadMercadoPago } from "@mercadopago/sdk-js";
-import { onBeforeMount, watch } from 'vue';
 import AffiliationItem from '@/components/AffiliationItem.vue';
 import AffiliationFooter from '@/components/AffiliationFooter.vue';
 
@@ -12,7 +12,8 @@ const MERCADOPAGO_ID = import.meta.env.VITE_APP_MERCADOPAGO_ID;
 const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL;
 
 let mp;
-let paymentMethod = null;
+const paymentMethod = ref('MercadoPago');
+const isMercadoPagoLoaded = ref(false);
 const router = useRouter();
 
 const initMercadoPago = async () => {
@@ -39,6 +40,7 @@ const checkout = async () => {
 
     const preference = await response.json();
 
+    switchMPLoaded();
     createCheckoutButton(preference.id);
   } catch (error) {
     console.error('Error during checkout:', error);
@@ -65,18 +67,23 @@ const createCheckoutButton = async (preferenceId) => {
   }
 }
 
-const handlePayment = () => {
-  if (paymentMethod === 'MercadoPago') {
-    checkout();
-  } else if (paymentMethod === 'Cash') {
+const handlePayment = async () => {
+  if (paymentMethod.value === 'MercadoPago') {
+    await checkout();
+  } else if (paymentMethod.value === 'Cash') {
     router.push({ name: 'afiliacion-usuario' });
   }
+}
+
+const switchMPLoaded = () => {
+  return isMercadoPagoLoaded.value = !isMercadoPagoLoaded.value;
 }
 
 watch(() => databaseAffiliationStore.totalPrice, () => {
   const walletContainer = document.getElementById('wallet_container');
   if (walletContainer) {
     walletContainer.innerHTML = '';
+    switchMPLoaded();
   }
 });
 
@@ -127,7 +134,7 @@ onBeforeMount(async () => {
         <AffiliationFooter v-else v-bind:cart="databaseAffiliationStore.cart" />
       </tbody>
       <tfoot>
-        <tr>
+        <tr v-if="!isMercadoPagoLoaded">
           <th>
             <div class="table-payment">
               <div class="table-payment-select">
@@ -142,6 +149,11 @@ onBeforeMount(async () => {
           </th>
           <td colspan="2">
             <button @click="handlePayment">Finalizar Compra</button>
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="3">
             <div id="wallet_container"></div>
           </td>
         </tr>
