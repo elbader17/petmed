@@ -1,4 +1,5 @@
 <script setup>
+import { useRouter } from 'vue-router';
 import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation';
 import { loadMercadoPago } from "@mercadopago/sdk-js";
 import { onBeforeMount, watch } from 'vue';
@@ -11,6 +12,8 @@ const MERCADOPAGO_ID = import.meta.env.VITE_APP_MERCADOPAGO_ID;
 const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL;
 
 let mp;
+let paymentMethod = null;
+const router = useRouter();
 
 const initMercadoPago = async () => {
   await loadMercadoPago();
@@ -62,6 +65,14 @@ const createCheckoutButton = async (preferenceId) => {
   }
 }
 
+const handlePayment = () => {
+  if (paymentMethod === 'MercadoPago') {
+    checkout();
+  } else if (paymentMethod === 'Cash') {
+    router.push({ name: 'afiliacion-usuario' });
+  }
+}
+
 watch(() => databaseAffiliationStore.totalPrice, () => {
   const walletContainer = document.getElementById('wallet_container');
   if (walletContainer) {
@@ -76,7 +87,7 @@ onBeforeMount(async () => {
 
 <template>
   <div>
-    <table class="table">
+    <table class="table-list">
       <thead class="table-header">
         <tr>
           <th class="column-producto" colspan="2">Producto</th>
@@ -103,7 +114,7 @@ onBeforeMount(async () => {
         </tr>
       </tfoot>
     </table>
-    <table class="table small-table">
+    <table class="table-checkout small-table">
       <thead class="table-header">
         <tr>
           <td colspan="3">Total del carrito</td>
@@ -117,8 +128,20 @@ onBeforeMount(async () => {
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="3">
-            <button @click="checkout">Finalizar Compra</button>
+          <th>
+            <div class="table-payment">
+              <div class="table-payment-select">
+                <input type="radio" id="cash" value="Cash" name="payment" v-model="paymentMethod">
+                <label for="cash">Efectivo</label>
+              </div>
+              <div class="table-payment-select">
+                <input type="radio" id="mercadopago" value="MercadoPago" name="payment" checked v-model="paymentMethod">
+                <label for="mercadopago">Mercado Pago</label>
+              </div>
+            </div>
+          </th>
+          <td colspan="2">
+            <button @click="handlePayment">Finalizar Compra</button>
             <div id="wallet_container"></div>
           </td>
         </tr>
@@ -128,7 +151,8 @@ onBeforeMount(async () => {
 </template>
 
 <style scoped>
-.table {
+.table-list,
+.table-checkout {
   margin-top: 2rem;
   margin-bottom: 2rem;
   border: 0.065rem solid #ebebeb;
@@ -146,6 +170,16 @@ onBeforeMount(async () => {
 .table-cupon {
   display: flex;
   align-items: flex-start;
+}
+
+.table-payment {
+  display: flex;
+  flex-direction: row;
+  font-weight: 300;
+}
+
+.table-payment-select {
+  margin-left: 1rem;
 }
 
 th,
@@ -177,33 +211,38 @@ button {
 }
 
 @media (max-width: 600px) {
-  .table {
+  .table-list {
     width: 100%;
     display: block;
   }
 
-  .table thead {
+  .table-payment {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .table-list thead {
     display: none;
   }
 
-  .table tr {
+  .table-list tr {
     display: block;
     margin-bottom: 10px;
   }
 
-  .table td {
+  .table-list td {
     display: block;
     text-align: right;
   }
 
-  .table td::before {
+  .table-list td::before {
     content: attr(data-label);
     float: left;
     text-transform: uppercase;
     font-weight: bold;
   }
 
-  .table td:last-child {
+  .table-list td:last-child {
     border-bottom: 2px solid #ddd;
   }
 
