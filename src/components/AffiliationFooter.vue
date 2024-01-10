@@ -9,7 +9,7 @@ const vaciar = () => { databaseAffiliationStore.cart = {} }
 <template>
   <tr>
     <th>Total productos</th>
-    <td>$ <span>{{ databaseAffiliationStore.totalPrice }}</span></td>
+    <td><strong>${{ databaseAffiliationStore.totalPrice }}</strong></td>
     <td>
       <button @click="vaciar">
         Vaciar todo
@@ -31,11 +31,16 @@ td {
 
 button {
   font-weight: 600;
-  margin: 1.25rem;
   padding: 0.5rem 2.5rem;
   color: #ffffff;
   background-color: #9e63c4;
   border: 0;
   cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  button {
+    padding: 0.5rem .75rem;
+  }
 }
 </style>

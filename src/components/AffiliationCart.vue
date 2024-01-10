@@ -1,7 +1,7 @@
 <script setup>
 import { useDatabaseAffiliationStore } from '@/stores/databaseAffiliation';
 import { loadMercadoPago } from "@mercadopago/sdk-js";
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, watch } from 'vue';
 import AffiliationItem from '@/components/AffiliationItem.vue';
 import AffiliationFooter from '@/components/AffiliationFooter.vue';
 
@@ -62,6 +62,13 @@ const createCheckoutButton = async (preferenceId) => {
   }
 }
 
+watch(() => databaseAffiliationStore.totalPrice, () => {
+  const walletContainer = document.getElementById('wallet_container');
+  if (walletContainer) {
+    walletContainer.innerHTML = '';
+  }
+});
+
 onBeforeMount(async () => {
   await initMercadoPago();
 });
@@ -72,54 +79,58 @@ onBeforeMount(async () => {
     <table class="table">
       <thead class="table-header">
         <tr>
-          <th></th>
-          <th>Producto</th>
-          <th>Precio</th>
-          <th>Cantidad</th>
-          <th>Subtotal</th>
+          <th class="column-producto" colspan="2">Producto</th>
+          <th class="column-precio">Precio</th>
+          <th class="column-cantidad">Cantidad</th>
+          <th class="column-subtotal">Subtotal</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <th v-if="Object.keys(databaseAffiliationStore.cart).length === 0">
-          No tienes ningún producto agregado
-        </th>
-        <AffiliationItem v-else v-for="item in databaseAffiliationStore.cart" :key="item.id" :item="item" />
+        <tr v-if="Object.keys(databaseAffiliationStore.cart).length === 0">
+          <td colspan="6">No tienes ningún producto agregado</td>
+        </tr>
+        <AffiliationItem v-else v-for="item in databaseAffiliationStore.cart" v-bind:key="item.id" v-bind:item="item" />
       </tbody>
       <tfoot>
-        <input type="text" placeholder="Código del cupón">
-        <button>Aplicar cupón</button>
+        <tr>
+          <td colspan="6">
+            <div class="table-cupon">
+              <input type="text" v-model="couponCode" placeholder="Código del cupón">
+              <button>Aplicar cupón</button>
+            </div>
+          </td>
+        </tr>
       </tfoot>
     </table>
-    <div class="affiliation-total">
-      <table class="table">
-        <thead class="table-header">
-          <tr>
-            <td>Total del carrito</td>
-            <td></td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          <th v-if="Object.keys(databaseAffiliationStore.cart).length === 0">
-            Tu carrito está vacío
-          </th>
-          <AffiliationFooter v-else />
-        </tbody>
-        <tfoot>
-          <th>
+    <table class="table small-table">
+      <thead class="table-header">
+        <tr>
+          <td colspan="3">Total del carrito</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-if="Object.keys(databaseAffiliationStore.cart).length === 0">
+          <td colspan="3">Tu carrito está vacío</td>
+        </tr>
+        <AffiliationFooter v-else v-bind:cart="databaseAffiliationStore.cart" />
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">
             <button @click="checkout">Finalizar Compra</button>
             <div id="wallet_container"></div>
-          </th>
-        </tfoot>
-      </table>
-    </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </template>
 
 <style scoped>
 .table {
   margin-top: 2rem;
+  margin-bottom: 2rem;
   border: 0.065rem solid #ebebeb;
   background-color: #fff;
   border-spacing: 0;
@@ -132,21 +143,25 @@ onBeforeMount(async () => {
   padding: 0.75rem 1rem;
 }
 
+.table-cupon {
+  display: flex;
+  align-items: flex-start;
+}
+
 th,
 td {
   padding: 1.25rem;
   color: #444;
-  ;
 }
 
 input {
+  margin-right: .5rem;
   padding: .5em .75em;
   border: 0.065rem solid #ebebeb;
 }
 
 button {
   font-weight: 600;
-  margin: 1.25rem;
   padding: 0.5rem 2.5rem;
   color: #ffffff;
   background-color: #9e63c4;
@@ -154,8 +169,46 @@ button {
   cursor: pointer;
 }
 
-.affiliation-total {
-  display: flex;
-  justify-content: flex-end;
+@media (min-width: 601px) {
+  .small-table {
+    width: 50%;
+    float: right;
+  }
+}
+
+@media (max-width: 600px) {
+  .table {
+    width: 100%;
+    display: block;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tr {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .table td {
+    display: block;
+    text-align: right;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    float: left;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  .table td:last-child {
+    border-bottom: 2px solid #ddd;
+  }
+
+  button {
+    padding: 0.5rem .75rem;
+  }
 }
 </style>

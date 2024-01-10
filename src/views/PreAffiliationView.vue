@@ -23,7 +23,6 @@ div {
   margin: 0 auto;
   margin-top: 2rem;
   text-align: center;
-  padding: 3.125rem;
 }
 
 h2 {

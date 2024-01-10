@@ -21,12 +21,12 @@ const removeItem = (productName) => {
 
 <template>
   <tr>
-    <td><img :src="props.item.img" :alt="props.item.name" class="plan-img"></td>
-    <td>Plan {{ props.item.name }}</td>
-    <td>${{ props.item.price }}</td>
-    <td><input type="number" min="1" v-model="itemQuantity" @input="updateQuantity"></td>
-    <td>${{ itemSubtotal }}</td>
-    <td><font-awesome-icon icon="fa-solid fa-circle-xmark" size="lg" class="item-icon"
+    <td class="column-img"><img :src="props.item.img" :alt="props.item.name" class="plan-img"></td>
+    <td class="column-name">Plan {{ props.item.name }}</td>
+    <td class="column-price">${{ props.item.price }}</td>
+    <td class="column-quantity"><input type="number" min="1" v-model="itemQuantity" @input="updateQuantity"></td>
+    <td class="column-subtotal">${{ itemSubtotal }}</td>
+    <td class="column-remove"><font-awesome-icon icon="fa-solid fa-circle-xmark" size="lg" class="item-icon"
         @click="removeItem(props.item.name)" /></td>
   </tr>
 </template>
@@ -63,4 +63,50 @@ input {
   width: 3.125rem;
   height: 3.125rem;
 }
-</style>
+
+@media (max-width: 600px) {
+  tr {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  td {
+    display: block;
+    text-align: right;
+  }
+
+  td::before {
+    content: attr(data-label);
+    float: left;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  td:last-child {
+    border-bottom: 2px solid #ddd;
+  }
+
+  .column-img::before {
+    content: "Imagen";
+  }
+
+  .column-name::before {
+    content: "Nombre";
+  }
+
+  .column-price::before {
+    content: "Precio";
+  }
+
+  .column-quantity::before {
+    content: "Cantidad";
+  }
+
+  .column-subtotal::before {
+    content: "Subtotal";
+  }
+
+  .column-remove::before {
+    content: "Eliminar";
+  }
+}</style>
