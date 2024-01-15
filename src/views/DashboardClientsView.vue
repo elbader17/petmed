@@ -1,5 +1,7 @@
 <script setup>
 import { useDatabaseUserStore } from '@/stores/databaseUser'
+import { useDatabasePlansStore } from '@/stores/databasePlans'
+import { useDatabaseClientPlanStore } from '@/stores/databaseClientPlan'
 import { useCheckScreen } from '@/composables/checkScreen'
 import { ref, onBeforeMount } from 'vue'
 import ModalReusable from '../components/ModalReusable.vue'
@@ -9,7 +11,8 @@ import LoadingAnimation from '../components/LoadingAnimation.vue'
 import DashboardClientsAddPet from '../components/DashboardClientsAddPet.vue'
 
 const databaseUserStore = useDatabaseUserStore()
-
+const databasePlansStore = useDatabasePlansStore()
+const databaseClientPlanStore = useDatabaseClientPlanStore()
 const { mobile } = useCheckScreen()
 
 onBeforeMount(async () => {
@@ -105,7 +108,21 @@ const previousPage = async () => {
 }
 
 const findClient = async () => {
-  await databaseUserStore.getClients(inputFindWhitEmail.value, inputFindWhitCuit.value)
+  // await databaseUserStore.getClients(inputFindWhitEmail.value, inputFindWhitCuit.value)
+  const consults = await databasePlansStore.updatePlansFromJson()
+
+  for (const consult of consults) {
+    const [plan, id] = await databaseClientPlanStore.findPlanByPetId(consult.petId)
+    console.log("🚀 ~ file: DashboardClientsView.vue:116 ~ findClient ~ id:", id)
+    await databaseClientPlanStore.updatePlan(
+      id,
+      [consult.Prestacion],
+      consult.NumForm.toString()
+    )
+  }
+
+
+  // await databaseClientPlanStore.createAllPlans() // ESTO ES PARA CREAR TODOS LOS PLANES, SE USA PARA TEST, NO BORRAR NI DESCOMENTAR, ENTENDISTE BOLUDO? 
 }
 
 const inputFindWhitEmail = ref('')

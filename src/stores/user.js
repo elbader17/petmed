@@ -13,6 +13,7 @@ import { useDatabaseVetStore } from './databaseVets'
 import { useDatabasePetStore } from './databasePet'
 import router from '@/router/index'
 
+
 export const useUserStore = defineStore('userStore', {
   state: () => ({
     userData: null,
@@ -100,7 +101,7 @@ export const useUserStore = defineStore('userStore', {
         dataPet.push(document.data())
       })
       if (dataPet[0]) {
-        const userQuery = query(collection(db, 'users'), where('__name__', '==', dataPet[0].client))
+        const userQuery = await query(collection(db, 'users'), where('__name__', '==', dataPet[0].client))
         const userSnapshot = await getDocs(userQuery)
         const userData = userSnapshot.docs[0].data()
         if (userData.banned) {

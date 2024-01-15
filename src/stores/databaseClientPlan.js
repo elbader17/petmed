@@ -196,50 +196,51 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
     },
     async editClientPlan(data) {
       const clientPlanRef = doc(db, 'pets', data.id)
-    
+
       await updateDoc(clientPlanRef, {
         name: data.name,
         plan: data.plan
       })
-    
-      const plansCollection = collection(db, 'plans');
-      const querySnapshot = await getDocs(plansCollection);
-    
-      const planDoc = querySnapshot.docs.find(doc => {
-        const planData = doc.data();
-        return planData.plans.some(plan => plan.petId === data.id);
-      });
-    
+
+      const plansCollection = collection(db, 'plans')
+      const querySnapshot = await getDocs(plansCollection)
+
+      const planDoc = querySnapshot.docs.find((doc) => {
+        const planData = doc.data()
+        return planData.plans.some((plan) => plan.petId === data.id)
+      })
+
       if (!planDoc) {
-        console.log(`No plan found with petId: ${data.id}`);
-        return null;
+        console.log(`No plan found with petId: ${data.id}`)
+        return null
       } else {
-        const planData = planDoc.data();
-        const planIndex = planData.plans.findIndex(plan => plan.petId === data.id);
-    
+        const planData = planDoc.data()
+        const planIndex = planData.plans.findIndex((plan) => plan.petId === data.id)
+
         if (planIndex !== -1) {
-          planData.plans.splice(planIndex, 1);
-          await updateDoc(planDoc.ref, { plans: planData.plans });
+          planData.plans.splice(planIndex, 1)
+          await updateDoc(planDoc.ref, { plans: planData.plans })
         }
-    
-        return planData;
+
+        return planData
       }
     },
-    createAllPlans() {
-      // obtener el Id de todos los clientes desde la base de datos y guardarlos en un array
-      const clients = []
-      const queryRef = query(collection(db, 'clients'))
-      getDocs(queryRef).then((querySnapshot) => {
+    async createAllPlans() {
+      try {
+        console.log('test')
+        // obtener el Id de todos los clientes desde la base de datos y guardarlos en un array
+        const clients = []
+        const queryRef = query(collection(db, 'users'))
+        const querySnapshot = await getDocs(queryRef)
         querySnapshot.forEach((doc) => {
           clients.push(doc.id)
         })
-      })
-      const pets = []
-      clients.forEach((client) => {
-        const queryRef = query(collection(db, 'pets'), where('client', '==', client))
-        getDocs(queryRef).then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            const date = doc.data().registration_code || null
+        const pets = []
+        for (const client of clients) {
+          const queryRef = query(collection(db, 'pets'), where('client', '==', client))
+          const petSnapshot = await getDocs(queryRef)
+          petSnapshot.forEach((doc) => {
+            const date = doc.data().registration_code || '01/01/2022'
             const partesFecha = date.split('/')
             const dia = partesFecha[0]
             const mes = partesFecha[1]
@@ -258,12 +259,14 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
               numAffiliate: doc.data().numAffiliate
             })
           })
-        })
-      })
-      pets.forEach((pet) => {
-        this.addClientPlan(pet)
-        console.log('🚀 plan creado')
-      })
+        }
+        for (const pet of pets) {
+          await this.addClientPlan(pet)
+          console.log('🚀 plan creado')
+        }
+      } catch (error) {
+        console.log(error)
+      }
     },
 
     async deleteClientPlan(id, plan) {

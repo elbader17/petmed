@@ -102,7 +102,7 @@ export const useDatabaseVetStore = defineStore('databaseVetStore', {
       delete data.practices
       const dataParse = { ...data, ...practices }
       dataParse.date = new Date()
-      const res = await addDoc(collection(db, 'forms'), dataParse)
+      await addDoc(collection(db, 'forms'), dataParse)
     },
 
     async validateCode(code) {
