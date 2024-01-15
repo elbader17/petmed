@@ -8,6 +8,7 @@ import {
   where,
   query
 } from 'firebase/firestore/lite'
+
 import { db } from '@/firebaseConfig'
 import { defineStore } from 'pinia'
 import plans from '@/plans.json'
@@ -167,6 +168,22 @@ export const useDatabasePlansStore = defineStore('databasePlansStore', {
         console.log(error)
       }
     },
+    async getJsonPlans() {
+      const q = query(collection(db, 'plans'))
+      const querySnapshot = await getDocs(q)
+      const plans = []
+      querySnapshot.docs.forEach((doc) => {
+        doc.data().plans.forEach((plan) => {
+          const planObj = {
+            numeroAfiliado: plan.numAffiliate,
+            practicas: plan.practices
+          }
+          plans.push(planObj)
+        })
+      })
+
+      return plans
+    },
     async deletePlan(name) {
       try {
         const docRef = doc(db, 'configs', 'plans')
@@ -181,3 +198,4 @@ export const useDatabasePlansStore = defineStore('databasePlansStore', {
     }
   }
 })
+

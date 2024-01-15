@@ -108,22 +108,23 @@ const previousPage = async () => {
 }
 
 const findClient = async () => {
-  // await databaseUserStore.getClients(inputFindWhitEmail.value, inputFindWhitCuit.value)
+  await databaseUserStore.getClients(inputFindWhitEmail.value, inputFindWhitCuit.value)
+}
+
+const resetPlans = async () => {
+  // const consults = await databasePlansStore.getJsonPlans()
+  // console.log("🚀 ~ file: DashboardClientsView.vue:116 ~ resetPlans ~ consults:", consults)
+
   const consults = await databasePlansStore.updatePlansFromJson()
 
   for (const consult of consults) {
     const [plan, id] = await databaseClientPlanStore.findPlanByPetId(consult.petId)
-    console.log("🚀 ~ file: DashboardClientsView.vue:116 ~ findClient ~ id:", id)
-    await databaseClientPlanStore.updatePlan(
-      id,
-      [consult.Prestacion],
-      consult.NumForm.toString()
-    )
+    await databaseClientPlanStore.updatePlan(id, [consult.Prestacion], consult.NumForm.toString())
   }
 
-
-  // await databaseClientPlanStore.createAllPlans() // ESTO ES PARA CREAR TODOS LOS PLANES, SE USA PARA TEST, NO BORRAR NI DESCOMENTAR, ENTENDISTE BOLUDO? 
-}
+   await databaseClientPlanStore.createAllPlans() // ESTO ES PARA CREAR TODOS LOS PLANES, SE USA PARA TEST, NO BORRAR NI DESCOMENTAR, ENTENDISTE BOLUDO?
+    alert('Planes reseteados')
+  }
 
 const inputFindWhitEmail = ref('')
 const inputFindWhitCuit = ref('')
@@ -137,6 +138,7 @@ const inputFindWhitCuit = ref('')
       <input type="text" placeholder="Email" v-model="inputFindWhitEmail" />
       <input type="text" placeholder="Cuit" v-model="inputFindWhitCuit" />
       <button class="button-add" @click="findClient()">Buscar</button>
+      <button class="button-add" @click="resetPlans()">Resetear planes</button>
     </div>
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
       <DashboardClientsAdd />
