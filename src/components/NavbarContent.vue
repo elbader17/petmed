@@ -104,6 +104,10 @@ onBeforeUnmount(() => {
 }
 
 .toggle-btn {
+  position: relative;
+  left: 0;
+  right: 0;
+  margin: auto;
   border: none;
   color: #FFFFFF;
   background-color: #9E63C4;
