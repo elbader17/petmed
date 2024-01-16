@@ -1,26 +1,33 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+
+const emit = defineEmits(['link-clicked']);
+
+const handleLinkClick = () => {
+  emit('link-clicked');
+};
 </script>
 
 <template>
   <ul class="navbar-nav">
     <li class="nav-item">
-      <RouterLink :to="{ name: 'home' }" class="nav-link">Home</RouterLink>
+      <RouterLink :to="{ name: 'home' }" @click="handleLinkClick" class="nav-link">Home</RouterLink>
     </li>
     <li class="nav-item">
-      <RouterLink :to="{ name: 'nosotros' }" class="nav-link">Nosotros</RouterLink>
+      <RouterLink :to="{ name: 'nosotros' }" @click="handleLinkClick" class="nav-link">Nosotros</RouterLink>
     </li>
     <!-- <li class="nav-item">
-      <RouterLink :to="{ name: 'planes' }" class="nav-link">Planes</RouterLink>
+      <RouterLink :to="{ name: 'planes' }" @click="handleLinkClick" class="nav-link">Planes</RouterLink>
     </li> -->
     <li class="nav-item">
-      <a href="https://petmed.ar/afiliaciones/" class="nav-link">Afiliaciones</a>
+      <a href="https://petmed.ar/afiliaciones/" @click="handleLinkClick" class="nav-link">Afiliaciones</a>
     </li>
     <li class="nav-item">
-      <RouterLink :to="{ name: 'cartilla-de-prestadores' }" class="nav-link">Cartilla de prestadores</RouterLink>
+      <RouterLink :to="{ name: 'cartilla-de-prestadores' }" @click="handleLinkClick" class="nav-link">Cartilla de
+        prestadores</RouterLink>
     </li>
     <li class="nav-item">
-      <RouterLink :to="{ name: 'contacto' }" class="nav-link">Contacto</RouterLink>
+      <RouterLink :to="{ name: 'contacto' }" @click="handleLinkClick" class="nav-link">Contacto</RouterLink>
     </li>
   </ul>
 </template>

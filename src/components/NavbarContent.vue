@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router';
-import { ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useCheckScreen } from '@/composables/checkScreen';
 import { useUserStore } from '@/stores/user';
 import NavbarLinks from './NavbarLinks.vue';
@@ -22,16 +22,32 @@ const showLogin = ref(true)
 const toggleShowLogin = () => {
   showLogin.value = !showLogin.value
 }
+
+const navbarRef = ref(null);
+
+const handleClickOutside = (event) => {
+  if (navbarRef.value && !navbarRef.value.contains(event.target)) {
+    toggleMobileNav();
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('mousedown', handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('mousedown', handleClickOutside);
+});
 </script>
 
 <template>
   <section class="header">
-    <nav class="header-container">
+    <nav class="header-container" ref="navbarRef">
       <RouterLink :to="{ name: 'home' }" class="logo">
         <img class="logo-img" src="../assets/img/l1.png" alt="PetMed logo" />
       </RouterLink>
       <div v-show="!mobileL || mobileNav" :class="mobileNav ? 'dropdown-navbar' : 'navbar'">
-        <NavbarLinks />
+        <NavbarLinks @link-clicked="toggleMobileNav" />
       </div>
       <div @click="toggleMobileNav" v-show="mobileL" class="toggle-btn" :class="{ 'icon-active': mobileNav }">
         <font-awesome-icon icon="fa-solid fa-bars" size="xl" />
