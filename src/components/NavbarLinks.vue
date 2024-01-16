@@ -2,9 +2,14 @@
 import { RouterLink } from 'vue-router';
 
 const emit = defineEmits(['link-clicked']);
+const props = defineProps({
+  mobile: Boolean
+});
 
 const handleLinkClick = () => {
-  emit('link-clicked');
+  if (props.mobile) {
+    emit('link-clicked');
+  }
 };
 </script>
 

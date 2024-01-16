@@ -47,7 +47,7 @@ onBeforeUnmount(() => {
         <img class="logo-img" src="../assets/img/l1.png" alt="PetMed logo" />
       </RouterLink>
       <div v-show="!mobileL || mobileNav" :class="mobileNav ? 'dropdown-navbar' : 'navbar'">
-        <NavbarLinks @link-clicked="toggleMobileNav" />
+        <NavbarLinks @link-clicked="toggleMobileNav" :mobile="mobileL" />
       </div>
       <div @click="toggleMobileNav" v-show="mobileL" class="toggle-btn" :class="{ 'icon-active': mobileNav }">
         <font-awesome-icon icon="fa-solid fa-bars" size="xl" />
