@@ -10,9 +10,9 @@ import { RouterLink } from 'vue-router';
     <li class="nav-item">
       <RouterLink :to="{ name: 'nosotros' }" class="nav-link">Nosotros</RouterLink>
     </li>
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <RouterLink :to="{ name: 'planes' }" class="nav-link">Planes</RouterLink>
-    </li>
+    </li> -->
     <li class="nav-item">
       <a href="https://petmed.ar/afiliaciones/" class="nav-link">Afiliaciones</a>
     </li>

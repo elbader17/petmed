@@ -112,8 +112,8 @@ const findClient = async () => {
 }
 
 const resetPlans = async () => {
-  // const consults = await databasePlansStore.getJsonPlans()
-  // console.log("🚀 ~ file: DashboardClientsView.vue:116 ~ resetPlans ~ consults:", consults)
+  // const consult = await databasePlansStore.getJsonPlans()
+  // console.log("🚀 ~ file: DashboardClientsView.vue:116 ~ resetPlans ~ consults:", consult)
 
   const consults = await databasePlansStore.updatePlansFromJson()
 
@@ -122,9 +122,9 @@ const resetPlans = async () => {
     await databaseClientPlanStore.updatePlan(id, [consult.Prestacion], consult.NumForm.toString())
   }
 
-   await databaseClientPlanStore.createAllPlans() // ESTO ES PARA CREAR TODOS LOS PLANES, SE USA PARA TEST, NO BORRAR NI DESCOMENTAR, ENTENDISTE BOLUDO?
-    alert('Planes reseteados')
-  }
+  await databaseClientPlanStore.createAllPlans() // ESTO ES PARA CREAR TODOS LOS PLANES, SE USA PARA TEST, NO BORRAR NI DESCOMENTAR, ENTENDISTE BOLUDO?
+  alert('Planes reseteados')
+}
 
 const inputFindWhitEmail = ref('')
 const inputFindWhitCuit = ref('')
@@ -186,31 +186,20 @@ const inputFindWhitCuit = ref('')
             <p v-show="!mobile">Eliminar</p>
           </button>
         </td>
-        <ModalReusable
-          @closeModal="toggleModalIndexed(index)"
-          :modalActive="modalActiveIndexed(index)"
-        >
+        <ModalReusable @closeModal="toggleModalIndexed(index)" :modalActive="modalActiveIndexed(index)">
           <DashboardClientsEdit v-if="typeModal == 'edit'" :item="item" />
           <DashboardClientsAddPet v-if="typeModal == 'add'" :item="item" />
         </ModalReusable>
       </tbody>
     </table>
     <div class="pagination">
-      <button
-        class="pagination-button"
-        :disabled="databaseUserStore.page === 1"
-        @click="previousPage"
-      >
+      <button class="pagination-button" :disabled="databaseUserStore.page === 1" @click="previousPage">
         Anterior
       </button>
       <div class="pagination-pages">
         {{ databaseUserStore.page }} / {{ databaseUserStore.pages }}
       </div>
-      <button
-        class="pagination-button"
-        :disabled="databaseUserStore.page === databaseUserStore.pages"
-        @click="nextPage"
-      >
+      <button class="pagination-button" :disabled="databaseUserStore.page === databaseUserStore.pages" @click="nextPage">
         Siguiente
       </button>
     </div>
@@ -224,6 +213,7 @@ const inputFindWhitCuit = ref('')
   max-width: 860px;
   margin: 0 auto;
 }
+
 input {
   padding: 0.5rem;
   margin: 1rem 0.25rem;
@@ -231,6 +221,7 @@ input {
   border-radius: 1.25rem;
   background-color: #fafafa;
 }
+
 .clients-title {
   padding: 0.5rem;
   font-weight: 700;
@@ -318,9 +309,11 @@ input {
 .button-block {
   background-color: #ff5100;
 }
+
 .button-pay {
   background-color: #8ccf35;
 }
+
 .button-edit:hover {
   background-color: #33a198;
 }
@@ -328,6 +321,7 @@ input {
 .button-block:hover {
   background-color: #a13342;
 }
+
 .button-delete {
   background-color: #f4643c;
 }
