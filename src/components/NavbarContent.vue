@@ -9,6 +9,7 @@ import AccountLogin from '../components/AccountLogin.vue';
 import AccountForgot from '../components/AccountForgot.vue';
 
 const { mobile, mobileL, mobileNav, toggleMobileNav } = useCheckScreen();
+
 const userStore = useUserStore();
 
 const openModal = ref(false);
@@ -26,7 +27,7 @@ const toggleShowLogin = () => {
 const navbarRef = ref(null);
 
 const handleClickOutside = (event) => {
-  if (navbarRef.value && !navbarRef.value.contains(event.target)) {
+  if (navbarRef.value && !navbarRef.value.contains(event.target) && mobileNav.value) {
     toggleMobileNav();
   }
 }
