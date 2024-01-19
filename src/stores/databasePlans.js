@@ -11,7 +11,11 @@ import {
 
 import { db } from '@/firebaseConfig'
 import { defineStore } from 'pinia'
+import { useFormatDate } from '@/composables/formatDate';
 import plans from '@/plans.json'
+
+const { formatDate } = useFormatDate()
+
 export const useDatabasePlansStore = defineStore('databasePlansStore', {
   state: () => ({
     loadingDoc: false,
@@ -146,12 +150,9 @@ export const useDatabasePlansStore = defineStore('databasePlansStore', {
             continue
           }
           const pet = querySnapshot.docs[0].data()
-
-          let dateOfRegister = new Date(pet.registration_code)
-          dateOfRegister.setFullYear(2023)
-          const partesFecha = plan.Fecha.split('/')
-          const fechaReorganizada = `${partesFecha[1]}/${partesFecha[0]}/${partesFecha[2]}`
-          const dateOfConsult = new Date(fechaReorganizada)
+          const dateOfRegister = pet.registration_code || null;
+          const dateOfConsult = formatDate(dateOfRegister);
+          console.log("🚀 ~ updatePlansFromJson ~ dateOfConsult:", dateOfConsult)
 
           plan.pet = pet
           plan.petId = querySnapshot.docs[0].id

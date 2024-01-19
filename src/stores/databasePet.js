@@ -77,9 +77,9 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
           this.pets = this.pets.map((item) =>
             item.numAffiliate === numAffiliate
               ? {
-                  ...item,
-                  photo
-                }
+                ...item,
+                photo
+              }
               : item
           )
         } else {
@@ -151,11 +151,8 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
         if (!petSnapshot.exists()) {
           throw new Error('No existe la mascota')
         }
-        if (petSnapshot.data().user === auth.currentUser.uid) {
-          return petSnapshot.data()
-        } else {
-          throw new Error('No tienes permiso')
-        }
+        return petSnapshot.data()
+
       } catch (error) {
         console.log(error.message)
       } finally {
@@ -170,15 +167,15 @@ export const useDatabasePetStore = defineStore('databasePetStore', {
         this.pets = this.pets.map((item) =>
           item.id === id
             ? {
-                ...item,
-                name: pet.name,
-                birthdate: pet.birthdate,
-                animal: pet.animal,
-                breed: pet.breed,
-                sex: pet.sex,
-                color: pet.color,
-                plan: pet.plan
-              }
+              ...item,
+              name: pet.name,
+              birthdate: pet.birthdate,
+              animal: pet.animal,
+              breed: pet.breed,
+              sex: pet.sex,
+              color: pet.color,
+              plan: pet.plan
+            }
             : item
         )
       } catch (error) {

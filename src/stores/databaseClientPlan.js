@@ -17,8 +17,10 @@ import {
 import { db } from '@/firebaseConfig'
 import { defineStore } from 'pinia'
 import { useDatabasePlansStore } from '@/stores/databasePlans'
+import { useFormatDate } from '@/composables/formatDate';
 
 const databasePlansStore = useDatabasePlansStore()
+const { formatDate } = useFormatDate()
 
 export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore', {
   state: () => ({
@@ -156,16 +158,9 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           querySnapshot.forEach((doc) => {
             plan.petId = doc.id
             plan.petName = doc.data().name
-            const date = doc.data().registration_code || null
-            const partesFecha = date.split('/')
-            const dia = partesFecha[0]
-            const mes = partesFecha[1]
-            const año = partesFecha[2]
-
-            const fechaEnFormatoDate = new Date(`${mes}/${dia}/${año}`)
-
-            const fechaEnFormatoISO = fechaEnFormatoDate.toISOString()
-            plan.date = fechaEnFormatoISO
+            const date = doc.data().registration_code || null;
+            const fechaEnFormatoISO = formatDate(date);
+            plan.date = fechaEnFormatoISO;
           })
         }
         const planObj = {
@@ -242,8 +237,8 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           petSnapshot.forEach((doc) => {
             const date = doc.data().registration_code || '01/01/2022'
             const partesFecha = date.split('/')
-            const dia = partesFecha[0]
-            const mes = partesFecha[1]
+            const dia = partesFecha[0].padStart(2, '0');
+            const mes = partesFecha[1].padStart(2, '0');
             const año = partesFecha[2]
 
             const fechaEnFormatoDate = new Date(`${mes}/${dia}/${año}`)
@@ -277,9 +272,9 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         this.plans = this.plans.map((item) =>
           item.id === id
             ? {
-                ...item,
-                plans: item.plans.filter((value) => value !== plan)
-              }
+              ...item,
+              plans: item.plans.filter((value) => value !== plan)
+            }
             : item
         )
       } catch (error) {
@@ -414,6 +409,8 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
 
             if (yearDiff >= 1) {
               await this.updateAmountsDefault(docRef, plans, plans[i], plans[i].plan, date)
+            } else {
+              console.log('No pasó un año')
             }
           }
         } else {

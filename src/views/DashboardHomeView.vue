@@ -42,40 +42,47 @@ onMounted(async () => {
     }
     const plansUser = databaseClientPlanStore.plansClient
 
-    if (Object.keys(plansUser).length !== 0) {
-      console.log('Ya posee planes')
-      return
-    } else {
-      pets.forEach(async (pet) => {
+    const createPlanForPet = async (pet) => {
+      try {
+        const currentDate = new Date()
+        const date = currentDate.toISOString().slice(0, 16)
+
+        const planNameMappings = {
+          'Plan 1005': '1005',
+          'Plan 2010': '2010',
+          'Plan 3015': '3015'
+        }
+
+        const planName = planNameMappings[pet.plan] || pet.plan
+        const clientObj = {
+          client: client.id,
+          plan: planName,
+          date: date,
+          paid: true,
+          petId: pet.id,
+          petName: pet.name,
+          numAffiliate: pet.numAffiliate
+        }
+
         try {
-          const currentDate = new Date()
-          const date = currentDate.toISOString().slice(0, 16)
-
-          const planNameMappings = {
-            'Plan 1005': '1005',
-            'Plan 2010': '2010',
-            'Plan 3015': '3015'
-          }
-
-          const planName = planNameMappings[pet.plan] || pet.plan
-          const clientObj = {
-            client: client.id,
-            plan: planName,
-            date: date,
-            paid: true,
-            petId: pet.id,
-            petName: pet.name,
-            numAffiliate: pet.numAffiliate
-          }
-          console.log('🚀 ~ file: DashboardHomeView.vue:79 ~ pets.forEach ~ clientObj:', clientObj)
-
-          try {
-            await databaseClientPlanStore.addClientPlan(clientObj)
-          } catch (error) {
-            console.log(error)
-          }
+          await databaseClientPlanStore.addClientPlan(clientObj)
         } catch (error) {
           console.log(error)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    if (Object.keys(plansUser).length === 0) {
+      pets.forEach(async (pet) => {
+        await createPlanForPet(pet)
+      })
+    } else {
+      pets.forEach(async (pet) => {
+        const planExists = plansUser.some(plan => plan.petId === pet.id)
+        if (!planExists) {
+          await createPlanForPet(pet)
         }
       })
     }
@@ -93,7 +100,7 @@ const sendData = async () => {
 }
 const renderByType = (type) => {
   const userType = localStorage.getItem('userType');
-  if (type ===userType) return true;
+  if (type === userType) return true;
   return false;
 }
 </script>
@@ -150,21 +157,25 @@ const renderByType = (type) => {
 .form-container {
   background-color: #f5f5f5;
   padding: 40px;
-  border-radius: 10px; /* Aumenta el radio del borde */
+  border-radius: 10px;
+  /* Aumenta el radio del borde */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 .title {
   font-weight: bold;
   font-size: 30px;
   margin-bottom: 10px;
 }
+
 form {
   display: flex;
   flex-direction: column;
 }
 
 .form-group {
-  margin-bottom: 20px; /* Aumenta el espacio entre grupos de campo y etiqueta */
+  margin-bottom: 20px;
+  /* Aumenta el espacio entre grupos de campo y etiqueta */
 }
 
 label {
@@ -174,7 +185,8 @@ label {
 }
 
 input {
-  padding: 8px; /* Reduce el espacio interior de los campos de entrada */
+  padding: 8px;
+  /* Reduce el espacio interior de los campos de entrada */
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;

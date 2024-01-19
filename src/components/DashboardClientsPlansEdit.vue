@@ -17,7 +17,7 @@ const toggleModal = () => {
 }
 
 function checkDeleted(stateOfPet) {
-  console.log("🚀 ~ file: DashboardClientsPlansEdit.vue:20 ~ checkDeleted ~ stateOfPet:", stateOfPet)
+  /* console.log("🚀 ~ file: DashboardClientsPlansEdit.vue:20 ~ checkDeleted ~ stateOfPet:", stateOfPet) */
   if (stateOfPet) {
     return true
   } else {
@@ -40,7 +40,8 @@ function checkDeleted(stateOfPet) {
         <td class="body-item" v-show="!mobile">{{ props.item.plan }}</td>
         <td class="body-item">{{ props.item.name }}</td>
         <td class="body-buttons">
-          <button v-if="!checkDeleted(props.item?.deleted)" class="button-delete" @click="databasePetStore.softDeletePet(props.item.id)">
+          <button v-if="!checkDeleted(props.item?.deleted)" class="button-delete"
+            @click="databasePetStore.softDeletePet(props.item.id)">
             <font-awesome-icon icon="fa-solid fa-trash" v-show="mobile" />
             <p v-show="!mobile">Dar de Baja</p>
           </button>
@@ -66,6 +67,7 @@ section {
   display: flex;
   flex-direction: column;
 }
+
 .button-edit {
   background-color: #3cbeb4;
 }
@@ -73,6 +75,7 @@ section {
 .button-edit:hover {
   background-color: #33a198;
 }
+
 .table {
   width: 100%;
   padding: 0.5rem;
@@ -139,5 +142,4 @@ section {
 .button-delete:hover {
   background-color: #f14313;
 }
-
 </style>

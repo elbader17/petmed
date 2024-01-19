@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink } from 'vue-router';
+/* import { RouterLink } from 'vue-router'; */
 import ContentSeparator from './icons/ContentSeparator.vue';
 </script>
 
@@ -10,7 +10,7 @@ import ContentSeparator from './icons/ContentSeparator.vue';
     </video>
     <div class="hero-content">
       <img class="content-image" src="../assets/img/img_ban.png" alt="Somos el mimo que se merece">
-      <RouterLink to="/planes"><button class="hero-button">Consultar planes</button></RouterLink>
+      <a href="https://petmed.ar/afiliaciones/"><button class="hero-button">Consultar planes</button></a>
     </div>
     <ContentSeparator class="separator-top" />
   </section>
