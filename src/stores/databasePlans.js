@@ -140,7 +140,6 @@ export const useDatabasePlansStore = defineStore('databasePlansStore', {
         const consults = []
         for (let i = plans.length - 1; i >= 0; i--) {
           let plan = plans[i] // PLAN EXAMPLE{ IdReg: 3722, NumForm: 280002, "Plan Obra": 2010, Prestacion: "Consulta en Clinica", Fecha: "14/6/2019", Prestador: "Nadia Hernadez Veterinaria" }
-          console.log('🚀 ~ file: databasePlans.js:138 ~ updatePlansFromJson ~ plan:', plan)
           const q = query(
             collection(db, 'pets'),
             where('numAffiliate', '==', plan.NumForm.toString())
@@ -152,7 +151,6 @@ export const useDatabasePlansStore = defineStore('databasePlansStore', {
           const pet = querySnapshot.docs[0].data()
           const dateOfRegister = pet.registration_code || null;
           const dateOfConsult = formatDate(dateOfRegister);
-          console.log("🚀 ~ updatePlansFromJson ~ dateOfConsult:", dateOfConsult)
 
           plan.pet = pet
           plan.petId = querySnapshot.docs[0].id

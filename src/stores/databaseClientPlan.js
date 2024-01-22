@@ -160,6 +160,8 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
             plan.petName = doc.data().name
             const date = doc.data().registration_code || null;
             const fechaEnFormatoISO = formatDate(date);
+            console.log("🚀 ~ file: databaseClientPlan.js:163 ~ querySnapshot.forEach ~ fechaEnFormatoISO:", fechaEnFormatoISO);
+
             plan.date = fechaEnFormatoISO;
           })
         }
@@ -339,8 +341,13 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
     },
     async findPlanByPetId(petId) {
       try {
-        const queryRef = query(collection(db, 'plans'))
-        const querySnapshot = await getDocs(queryRef)
+        let querySnapshot
+        try {
+          const queryRef = query(collection(db, 'plans'))
+          querySnapshot = await getDocs(queryRef)
+        } catch (error) {
+          console.log(error)
+        }
 
         const plans = []
         querySnapshot.forEach((doc) => {
@@ -424,9 +431,9 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
     },
     async updatePlan(planId, formPractices, numAffiliate) {
       console.log(
-        '🚀 ~ file: plans.js ~ line 208 ~ PlansStore ~ updatePlan ~ formPractices',
-        formPractices,
+        '🚀 ~ file: plans.js ~ line 427 ~ PlansStore ~ updatePlan ~ formPractices',
         planId,
+        formPractices,
         numAffiliate
       )
       this.loadingDoc = true
@@ -436,7 +443,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         const practiceIndexes = formPractices.map((practiceName) => {
           return practices.indexOf(practiceName)
         })
-        console.log(practiceIndexes)
+        console.log("🚀 ~ file: plans.js ~ line 439 ~ PlansStore ~ updatePlan ~ practiceIndexes:", practiceIndexes)
         const docRef = doc(db, 'plans', planId)
         const planDoc = await getDoc(docRef)
         const planData = planDoc.data()

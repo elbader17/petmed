@@ -7,8 +7,8 @@ export const useFormatDate = () => {
     const separator = date.includes('/') ? '/' : '-';
     const dateParts = date.split(separator);
     let day = dateParts[separator === '/' ? 0 : 2];
-    let month = dateParts[1];
-    const year = dateParts[separator === '/' ? 2 : 0];
+    let month = dateParts[separator === '/' ? 0 : 2];
+    const year = dateParts[2];
 
     day = day.length === 1 ? '0' + day : day;
     month = month.length === 1 ? '0' + month : month;
