@@ -6,15 +6,9 @@ export const useFormatDate = () => {
 
     const separator = date.includes('/') ? '/' : '-';
     const dateParts = date.split(separator);
-    let day, month;
 
-    if (separator === '/') {
-      month = dateParts[0];
-      day = dateParts[1];
-    } else {
-      day = dateParts[0];
-      month = dateParts[1];
-    }
+    let day = dateParts[separator === '/' ? 0 : 1];
+    let month = dateParts[separator === '/' ? 1 : 0];
 
     const year = dateParts[2];
 

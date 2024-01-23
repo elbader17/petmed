@@ -234,7 +234,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         })
         const pets = []
         for (const client of clients) {
-          const queryRef = query(collection(db, 'pets'), where('client', '==', client))
+          const queryRef = query(collection(db, 'pets'), where('client', '==', client), where('deleted', '!=', 'true'))
           const petSnapshot = await getDocs(queryRef)
           petSnapshot.forEach((doc) => {
             const date = doc.data().registration_code || '01/01/2022'
