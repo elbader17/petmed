@@ -311,34 +311,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         this.loadingDoc = false
       }
     },
-    async updateAmountsDefault(docRef, plans, plan, planName, date) {
-      this.loadingDoc = true
-      try {
-        const defaultDocRef = doc(db, 'configs', 'plans')
-        const defaultDocSnap = await getDoc(defaultDocRef)
 
-        if (defaultDocSnap.exists()) {
-          const defaultData = defaultDocSnap.data()
-          const practicesDefault = defaultData[planName]
-          const practices = plan.practices
-
-          for (const key in practices) {
-            practices[key].amount = practicesDefault[key].amount
-          }
-
-          date.setFullYear(date.getFullYear() + 1)
-          plan.date = date.toISOString().slice(0, 16)
-
-          await updateDoc(docRef, { plans: plans })
-        } else {
-          console.log('No existe el plan por default')
-        }
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.loadingDoc = false
-      }
-    },
     async findPlanByPetId(petId) {
       try {
         let querySnapshot
@@ -398,6 +371,35 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
       }
     },
 
+    async updateAmountsDefault(docRef, plans, plan, planName, date) {
+      this.loadingDoc = true
+      try {
+        const defaultDocRef = doc(db, 'configs', 'plans')
+        const defaultDocSnap = await getDoc(defaultDocRef)
+
+        if (defaultDocSnap.exists()) {
+          const defaultData = defaultDocSnap.data()
+          const practicesDefault = defaultData[planName]
+          const practices = plan.practices
+
+          for (const key in practices) {
+            practices[key].amount = practicesDefault[key].amount
+          }
+
+          date.setFullYear(date.getFullYear() + 1)
+          plan.date = date.toISOString().slice(0, 16)
+
+          await updateDoc(docRef, { plans: plans })
+        } else {
+          console.log('No existe el plan por default')
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingDoc = false
+      }
+    },
+
     async updateAmountsIfYearPassed(id) {
       this.loadingDoc = true
       try {
@@ -429,6 +431,72 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         this.loadingDoc = false
       }
     },
+
+    async updateAmountsIfMonthPassed(id) {
+      this.loadingDoc = true
+      try {
+        const defaultDocRef = doc(db, 'configs', 'plans');
+        const defaultDocSnap = await getDoc(defaultDocRef);
+        const defaultData = defaultDocSnap.data();
+
+        const valuesToUpdate = {};
+
+        for (let key in defaultData) {
+          let subObject = defaultData[key];
+          let subKeys = Object.keys(subObject);
+          valuesToUpdate[key] = {};
+
+          for (let i = 0; i < 2 && i < subKeys.length; i++) {
+            valuesToUpdate[key][subKeys[i]] = subObject[subKeys[i]];
+          }
+        };
+        console.log("🚀 ~ file: databaseClientPlan.js:443 ~ updateAmountsIfMonthPassed ~ valuesToUpdate:", valuesToUpdate);
+
+
+        const docRef = doc(db, 'plans', id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          const plans = data.plans;
+
+          for (let i = 0; i < plans.length; i++) {
+            let dateStr = plans[i].dateMonth ? plans[i].dateMonth : plans[i].date;
+            const date = new Date(dateStr);
+            const currentDate = new Date();
+
+            const years = currentDate.getFullYear() - date.getFullYear();
+            const months = currentDate.getMonth() - date.getMonth();
+            const days = currentDate.getDate() - date.getDate();
+
+            let monthDiff = years * 12 + months;
+            if (days < 0) {
+              monthDiff--;
+            }
+
+            if (monthDiff >= 1) {
+              let plan = plans[i].plan;
+
+              if (Object.prototype.hasOwnProperty.call(valuesToUpdate, plan)) {
+                plans[i].practices = { ...plans[i].practices, ...valuesToUpdate[plan] };
+              }
+
+              await updateDoc(docRef, { [`plans`]: plans[i] });
+              date.setMonth(date.getMonth() + 2);
+              date.setDate(0);
+              plans[i].dateMonth = date.toISOString();
+            } else if (!plans[i].dateMonth) {
+              plans[i].dateMonth = plans[i].date;
+            }
+          }
+          await updateDoc(docRef, { plans: plans });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false
+      }
+    },
+
     async updatePlan(planId, formPractices, numAffiliate) {
       console.log(
         '🚀 ~ file: plans.js ~ line 427 ~ PlansStore ~ updatePlan ~ formPractices',
