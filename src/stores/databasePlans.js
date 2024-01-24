@@ -149,8 +149,9 @@ export const useDatabasePlansStore = defineStore('databasePlansStore', {
             continue
           }
           const pet = querySnapshot.docs[0].data()
-          const dateOfRegister = pet.registration_code || null;
-          const dateOfConsult = formatDate(dateOfRegister);
+
+          const dateOfRegister = formatDate(pet.registration_code) || null;
+          const dateOfConsult = formatDate(plan.Fecha);
 
           plan.pet = pet
           plan.petId = querySnapshot.docs[0].id

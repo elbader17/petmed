@@ -139,6 +139,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         this.loadingDoc = false
       }
     },
+
     async addClientPlan(plan) {
       this.loadingDoc = true
       try {
@@ -149,22 +150,29 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
 
         const practices = JSON.parse(JSON.stringify(databasePlansStore.plan))
 
+        if (typeof practices === 'object' && Object.prototype.hasOwnProperty.call(practices, '0')) {
+          practices['0'].amount = String(Number(practices['0'].amount) / 12);
+        }
+
         if (plan.numAffiliate) {
           const queryRef = query(
             collection(db, 'pets'),
             where('numAffiliate', '==', plan.numAffiliate)
           )
           const querySnapshot = await getDocs(queryRef)
-          querySnapshot.forEach((doc) => {
+          querySnapshot.forEach(async (doc) => {
             plan.petId = doc.id
             plan.petName = doc.data().name
-            const date = doc.data().registration_code || null;
-            const fechaEnFormatoISO = formatDate(date);
-            console.log("🚀 ~ file: databaseClientPlan.js:163 ~ querySnapshot.forEach ~ fechaEnFormatoISO:", fechaEnFormatoISO);
+            let date = doc.data().registration_code || null;
 
-            plan.date = fechaEnFormatoISO;
+            if (date && !date.includes('T')) {
+              date = formatDate(date);
+            }
+
+            plan.date = date;
           })
         }
+
         const planObj = {
           plan: plan.plan,
           date: plan.date,
@@ -174,9 +182,11 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           numAffiliate: plan.numAffiliate || null,
           practices
         }
+
         const planRef = doc(db, 'plans', plan.client)
         await setDoc(planRef, { ['plans']: arrayUnion(planObj) }, { merge: true })
         const index = this.plans.findIndex((item) => item.id === plan.client)
+
         if (index !== -1) {
           this.plans[index].plans.push(planObj)
         } else {
@@ -191,6 +201,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         this.loadingDoc = false
       }
     },
+
     async editClientPlan(data) {
       const clientPlanRef = doc(db, 'pets', data.id)
 
@@ -238,14 +249,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           const petSnapshot = await getDocs(queryRef)
           petSnapshot.forEach((doc) => {
             const date = doc.data().registration_code || '01/01/2022'
-            const partesFecha = date.split('/')
-            const dia = partesFecha[0].padStart(2, '0');
-            const mes = partesFecha[1].padStart(2, '0');
-            const año = partesFecha[2]
-
-            const fechaEnFormatoDate = new Date(`${mes}/${dia}/${año}`)
-
-            const fechaEnFormatoISO = fechaEnFormatoDate.toISOString()
+            const fechaEnFormatoISO = formatDate(date)
             pets.push({
               client,
               plan: doc.data().plan.slice(-4),
@@ -443,15 +447,19 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
 
         for (let key in defaultData) {
           let subObject = defaultData[key];
-          let subKeys = Object.keys(subObject);
+
           valuesToUpdate[key] = {};
 
-          for (let i = 0; i < 2 && i < subKeys.length; i++) {
-            valuesToUpdate[key][subKeys[i]] = subObject[subKeys[i]];
+          let subKeys = Object.keys(subObject);
+          let firstSubKey = subKeys[0];
+
+          if (Object.prototype.hasOwnProperty.call(subObject[firstSubKey], 'amount')) {
+            valuesToUpdate[key][firstSubKey] = { ...subObject[firstSubKey] };
+            valuesToUpdate[key][firstSubKey]['amount'] = (Number(subObject[firstSubKey]['amount']) / 12).toString();
+          } else {
+            valuesToUpdate[key][firstSubKey] = subObject[firstSubKey];
           }
         };
-        console.log("🚀 ~ file: databaseClientPlan.js:443 ~ updateAmountsIfMonthPassed ~ valuesToUpdate:", valuesToUpdate);
-
 
         const docRef = doc(db, 'plans', id);
         const docSnap = await getDoc(docRef);
@@ -460,20 +468,18 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           const plans = data.plans;
 
           for (let i = 0; i < plans.length; i++) {
-            let dateStr = plans[i].dateMonth ? plans[i].dateMonth : plans[i].date;
-            const date = new Date(dateStr);
+            const planDate = new Date(plans[i].date);
             const currentDate = new Date();
 
-            const years = currentDate.getFullYear() - date.getFullYear();
-            const months = currentDate.getMonth() - date.getMonth();
-            const days = currentDate.getDate() - date.getDate();
+            planDate.setHours(0, 0, 0, 0);
+            currentDate.setHours(0, 0, 0, 0);
 
-            let monthDiff = years * 12 + months;
-            if (days < 0) {
-              monthDiff--;
+            currentDate.setMonth(planDate.getMonth());
+            if (currentDate.getDate() > planDate.getDate()) {
+              currentDate.setDate(planDate.getDate());
             }
 
-            if (monthDiff >= 1) {
+            if (currentDate > planDate) {
               let plan = plans[i].plan;
 
               if (Object.prototype.hasOwnProperty.call(valuesToUpdate, plan)) {
@@ -481,11 +487,6 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
               }
 
               await updateDoc(docRef, { [`plans`]: plans[i] });
-              date.setMonth(date.getMonth() + 2);
-              date.setDate(0);
-              plans[i].dateMonth = date.toISOString();
-            } else if (!plans[i].dateMonth) {
-              plans[i].dateMonth = plans[i].date;
             }
           }
           await updateDoc(docRef, { plans: plans });
