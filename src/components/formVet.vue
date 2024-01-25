@@ -97,11 +97,12 @@ const ok = async () => {
   }
 
   try {
-    const { client } = await databasePetStore.readPet(pet.id)
-    console.log("🚀 ~ ok ~ petId:", client)
-    await databaseClientPlanStore.updateAmountsIfYearPassed(client)
+    const { client } = await databasePetStore.readPet(pet.id);
+    console.log("🚀 ~ ok ~ petId:", client);
+    await databaseClientPlanStore.updateAmountsIfYearPassed(client);
+    await databaseClientPlanStore.updateAmountsIfMonthPassed(client);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 
   try {

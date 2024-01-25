@@ -112,6 +112,8 @@ const findClient = async () => {
 }
 
 const resetPlans = async () => {
+  console.log('Reset Plans');
+
   // const consult = await databasePlansStore.getJsonPlans()
   // console.log("🚀 ~ file: DashboardClientsView.vue:116 ~ resetPlans ~ consults:", consult)
 
