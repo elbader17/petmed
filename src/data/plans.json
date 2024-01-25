@@ -14,14 +14,14 @@
         "id": 2,
         "benefits": "Consulta en Domicilio",
         "coverage": "100%",
-        "waitingPeriod": "120 días",
+        "waitingPeriod": "1 al año a los 120 días ",
         "quantity": 1
       },
       {
         "id": 3,
         "benefits": "Consulta de Urgencia",
         "coverage": "100%",
-        "waitingPeriod": "180 días",
+        "waitingPeriod": "1 al año a los 180 días",
         "quantity": 1
       },
       {
@@ -34,8 +34,8 @@
       {
         "id": 5,
         "benefits": "Vacunas",
-        "coverage": "100%",
-        "waitingPeriod": "60 días",
+        "coverage": "CC",
+        "waitingPeriod": "0 días",
         "quantity": 4
       },
       {
@@ -48,13 +48,6 @@
       {
         "id": 7,
         "benefits": "Oftalmología y Cardiología (*)",
-        "coverage": "20%",
-        "waitingPeriod": "90 días",
-        "quantity": "-"
-      },
-      {
-        "id": 8,
-        "benefits": "Kinesiología y Fisioterapia",
         "coverage": "20%",
         "waitingPeriod": "90 días",
         "quantity": "-"
@@ -133,7 +126,7 @@
         "id": 19,
         "benefits": "Obs. Antir en Cónsul con Certi",
         "coverage": "100%",
-        "waitingPeriod": "365 días",
+        "waitingPeriod": "DESP AÑO 1 x año ",
         "quantity": 1
       }
     ]
@@ -153,14 +146,14 @@
         "id": 2,
         "benefits": "Consulta en Domicilio",
         "coverage": "100%",
-        "waitingPeriod": "90 días",
+        "waitingPeriod": "2 x año a los 90 días",
         "quantity": 2
       },
       {
         "id": 3,
         "benefits": "Consulta de Urgencia",
         "coverage": "100%",
-        "waitingPeriod": "120 días",
+        "waitingPeriod": "2 x año a los 120 días",
         "quantity": 2
       },
       {
@@ -173,7 +166,7 @@
       {
         "id": 5,
         "benefits": "Vacunas",
-        "coverage": "100%",
+        "coverage": "CC",
         "waitingPeriod": "60 días",
         "quantity": 4
       },
@@ -187,13 +180,6 @@
       {
         "id": 7,
         "benefits": "Oftalmología y Cardiología (*)",
-        "coverage": "25%",
-        "waitingPeriod": "60 días",
-        "quantity": "-"
-      },
-      {
-        "id": 8,
-        "benefits": "Kinesiología y Fisioterapia",
         "coverage": "25%",
         "waitingPeriod": "60 días",
         "quantity": "-"
@@ -331,13 +317,6 @@
         "quantity": "-"
       },
       {
-        "id": 8,
-        "benefits": "Kinesiología y Fisioterapia",
-        "coverage": "30%",
-        "waitingPeriod": "30 días",
-        "quantity": "-"
-      },
-      {
         "id": 9,
         "benefits": "Análisis clínicos no específicos",
         "coverage": "100%",
@@ -412,6 +391,13 @@
         "benefits": "Obs. Antir en Cónsul con Certi",
         "coverage": "100%",
         "waitingPeriod": "330 días",
+        "quantity": 1
+      },
+      {
+        "id": 20,
+        "benefits": "Electrocardiograma",
+        "coverage": "100%",
+        "waitingPeriod": "1 vez x año",
         "quantity": 1
       }
     ]

@@ -64,14 +64,6 @@
     "specialty": "Clínica en General/ Acupuntura / Kinesiología y Fisioterapia"
   },
   {
-    "id": 9,
-    "name": "Mascotas & Co.",
-    "address": "San Martin 1634",
-    "phone": "0358-4631433",
-    "location": "Rio Cuarto",
-    "specialty": "Clínica en General"
-  },
-  {
     "id": 10,
     "name": "Agroveterinaria Liniers",
     "address": "Liniers 337",
@@ -118,14 +110,6 @@
     "phone": "0358-155073118",
     "location": "Rio Cuarto",
     "specialty": "Clínica en General / Med. Felina"
-  },
-  {
-    "id": 16,
-    "name": "Veterinaria Mozart",
-    "address": "Amadeo Mozart 304",
-    "phone": "0358-155025064",
-    "location": "Rio Cuarto",
-    "specialty": "Clínica en General"
   },
   {
     "id": 17,
@@ -208,14 +192,6 @@
     "specialty": "Laboratorio"
   },
   {
-    "id": 27,
-    "name": "Viassolo, Nicolás",
-    "address": "–",
-    "phone": "0358-154186712",
-    "location": "Rio Cuarto",
-    "specialty": "Radiología a Domicilio"
-  },
-  {
     "id": 28,
     "name": "Scheurer, Facundo",
     "address": "–",
@@ -232,19 +208,19 @@
     "specialty": "Electrocardiograma y Ecografía a Domicilio"
   },
   {
-    "id": 30,
-    "name": "Centro de Fisioterapia Veterinaria",
-    "address": "Luis Reinaudi 2197",
-    "phone": "0358-154305327",
-    "location": "Rio Cuarto",
-    "specialty": "Kinesiología y Fisioterapia"
-  },
-  {
     "id": 31,
     "name": "Veterinaria Mi Vet",
     "address": "Sadi Carnot 598",
     "phone": "0358-156008629",
     "location": "Rio Cuarto",
     "specialty": "Clínica en General"
+  },
+  {
+    "id": 32,
+    "name": "Casas Emilio",
+    "address": "'",
+    "phone": "0358-154399007",
+    "location": "Rio Cuarto",
+    "specialty": "Radiología a Domicilio"
   }
 ]
