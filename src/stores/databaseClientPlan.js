@@ -352,13 +352,13 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
 
         for (const practiceId in plan.practices) {
           const practice = plan.practices[practiceId]
+
           if (!practice.gracetime || practice.gracetime === '-') {
             practices[practiceId] = practice
             continue
           }
 
-          const graceTimeInDays = parseInt(practice.gracetime)
-          const graceTimeInMillis = graceTimeInDays * 24 * 60 * 60 * 1000
+          const graceTimeInMillis = parseInt(practice.gracetime)
           const activationDateInMillis = dateOfActivation.getTime()
 
           if (currentDate.getTime() - activationDateInMillis >= graceTimeInMillis) {

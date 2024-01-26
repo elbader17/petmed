@@ -108,7 +108,6 @@ const ok = async () => {
   try {
     const [plan, id] = await databaseClientPlanStore.findPlanByPetId(pet.id)
     validate.value.data.practicesOfPet = plan
-    console.log(validate.value.data.practicesOfPet)
     validate.value.data.planId = id
     if (validationResponse) {
       console.log('verificado')
@@ -324,13 +323,14 @@ const sendForm = async () => {
   resetStates()
 }
 
-const consitionalRender = (data) => {
+const conditionalRender = (data) => {
   if (!validate.value.data.practicesOfPet.practices) return false
   if (data == 0 && validate.value.exededLimit) return false
   if (data == 16 && validate.value.data.plan !== 'Plan 3015') return false
   if (data == 19 && validate.value.data.plan !== 'Plan 3015') return false
   if (validate.value.data.practicesOfPet.practices[data.toString()]) {
     const value = validate.value.data.practicesOfPet.practices[data.toString()]
+
     if ((!isNaN(value.amount) && parseInt(value.amount) > 0) || value.amount === '-') {
       return value.coverage
     }
@@ -369,10 +369,10 @@ const renderCoverage = (data) => {
           ">
           <label style="display: inline-block">
             {{ practice }}
-            <input :disabled="!consitionalRender(index)" type="checkbox" :id="practice" :name="practice" :value="practice"
+            <input :disabled="!conditionalRender(index)" type="checkbox" :id="practice" :name="practice" :value="practice"
               v-model="validate.data.practices[practice]" style="display: inline-block" />
-            <span :style="{ color: consitionalRender(index) ? 'green' : 'black' }">
-              {{ renderCoverage(consitionalRender(index)) }}
+            <span :style="{ color: conditionalRender(index) ? 'green' : 'black' }">
+              {{ renderCoverage(conditionalRender(index)) }}
             </span>
           </label>
         </div>
