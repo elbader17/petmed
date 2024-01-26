@@ -111,7 +111,7 @@ export const useUserStore = defineStore('userStore', {
         const lastPayDate = new Date(userData.lastPay.split('/').reverse().join('-'))
         const currentDate = new Date()
 
-        const registrationParts = (userData.registration_code || '01/01/2023').split('/')
+        const registrationParts = (userData.registration_date || '01/01/2023').split('/')
         const registration = new Date(
           parseInt(registrationParts[2], 10),
           parseInt(registrationParts[1], 10) - 1,
@@ -119,6 +119,7 @@ export const useUserStore = defineStore('userStore', {
         )
 
         let dueDay = registration.getDate()
+
 
         let nextPaymentYear = registration.getFullYear()
         let nextPaymentMonth = registration.getMonth() + 1
@@ -173,7 +174,9 @@ export const useUserStore = defineStore('userStore', {
 
         const codeDoc = codeSnapshot.docs[0]
         const expiration = codeDoc.data().expiration.toDate()
+
         const currentTime = new Date()
+
         if (currentTime > expiration) {
           return [false, null, null]
         }
