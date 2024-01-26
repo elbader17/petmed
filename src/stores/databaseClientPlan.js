@@ -16,10 +16,12 @@ import {
 } from 'firebase/firestore/lite'
 import { db } from '@/firebaseConfig'
 import { defineStore } from 'pinia'
-import { useDatabasePlansStore } from '@/stores/databasePlans'
+import { useDatabasePlansStore } from '@/stores/databasePlans';
+import { useDatabaseUserStore } from './databaseUser';
 import { useFormatDate } from '@/composables/formatDate';
 
 const databasePlansStore = useDatabasePlansStore()
+const databaseUserStore = useDatabaseUserStore()
 const { formatDate } = useFormatDate()
 
 export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore', {
@@ -317,6 +319,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
     },
 
     async findPlanByPetId(petId) {
+
       try {
         let querySnapshot
         try {
@@ -346,7 +349,16 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           }
         })
 
-        const dateOfActivation = new Date(plan.date)
+        const petsRef = query(collection(db, 'pets'), where('numAffiliate', '==', plan.numAffiliate));
+        const petsSnapshot = await getDocs(petsRef);
+        const petsData = petsSnapshot.docs[0].data();
+
+        const usersRef = query(collection(db, 'users'), where('id', '==', petsData.client));
+        const usersSnapshot = await getDocs(usersRef);
+        const userData = usersSnapshot.docs[0].data();
+
+        const dateOfActivationISO = formatDate(userData.registration_date)
+        const dateOfActivation = new Date(dateOfActivationISO)
         const currentDate = new Date()
         const practices = {}
 
@@ -358,7 +370,8 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
             continue
           }
 
-          const graceTimeInMillis = parseInt(practice.gracetime)
+          const graceTimeInDays = parseInt(practice.gracetime)
+          const graceTimeInMillis = graceTimeInDays * 24 * 60 * 60 * 1000
           const activationDateInMillis = dateOfActivation.getTime()
 
           if (currentDate.getTime() - activationDateInMillis >= graceTimeInMillis) {

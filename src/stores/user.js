@@ -108,31 +108,43 @@ export const useUserStore = defineStore('userStore', {
           return 'blocked'
         }
 
-        const lastPayDate = new Date(userData.lastPay.split('/').reverse().join('-'));
-        const currentDate = new Date();
+        const lastPayDate = new Date(userData.lastPay.split('/').reverse().join('-'))
+        const currentDate = new Date()
 
-        const registrationParts = (userData.registration_date || '01/01/2023').split('/');
+        const registrationParts = (userData.registration_date || '01/01/2023').split('/')
         const registration = new Date(
           parseInt(registrationParts[2], 10),
           parseInt(registrationParts[1], 10) - 1,
           parseInt(registrationParts[0], 10)
-        );
+        )
 
-        let [dueDay, nextPaymentYear, nextPaymentMonth] = [registration.getDate(), registration.getFullYear(), registration.getMonth()];
+        let dueDay = registration.getDate()
+
+
+        let nextPaymentYear = registration.getFullYear()
+        let nextPaymentMonth = registration.getMonth() + 1
 
         if (lastPayDate > registration) {
-          [nextPaymentYear, nextPaymentMonth] = [lastPayDate.getFullYear(), lastPayDate.getMonth() + 1];
+          nextPaymentYear = lastPayDate.getFullYear()
+          nextPaymentMonth = lastPayDate.getMonth() + 1
         }
 
         if (nextPaymentMonth > 11) {
-          [nextPaymentYear, nextPaymentMonth] = [nextPaymentYear + 1, 0];
+          nextPaymentMonth = 0
+          nextPaymentYear++
         }
 
-        const daysInMonth = new Date(nextPaymentYear, nextPaymentMonth + 1, 0).getDate();
-        dueDay = dueDay > daysInMonth ? daysInMonth : dueDay;
+        const daysInMonth = new Date(nextPaymentYear, nextPaymentMonth + 1, 0).getDate()
 
-        const dueDate = new Date(nextPaymentYear, nextPaymentMonth, dueDay);
-        if (currentDate > dueDate) return 'blocked';
+        if (dueDay > daysInMonth) {
+          dueDay = daysInMonth
+        }
+
+        const dueDate = new Date(nextPaymentYear, nextPaymentMonth, dueDay)
+
+        if (currentDate > dueDate) {
+          return 'blocked'
+        }
       }
       await addDoc(collection(db, 'codes'), {
         code,
