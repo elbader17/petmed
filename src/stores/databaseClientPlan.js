@@ -16,9 +16,9 @@ import {
 } from 'firebase/firestore/lite'
 import { db } from '@/firebaseConfig'
 import { defineStore } from 'pinia'
-import { useDatabasePlansStore } from '@/stores/databasePlans';
-import { useDatabaseUserStore } from './databaseUser';
-import { useFormatDate } from '@/composables/formatDate';
+import { useDatabasePlansStore } from '@/stores/databasePlans'
+import { useDatabaseUserStore } from './databaseUser'
+import { useFormatDate } from '@/composables/formatDate'
 
 const databasePlansStore = useDatabasePlansStore()
 const databaseUserStore = useDatabaseUserStore()
@@ -153,7 +153,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         const practices = JSON.parse(JSON.stringify(databasePlansStore.plan))
 
         if (typeof practices === 'object' && Object.prototype.hasOwnProperty.call(practices, '0')) {
-          practices['0'].amount = String(Number(practices['0'].amount) / 12);
+          practices['0'].amount = String(Number(practices['0'].amount) / 12)
         }
 
         if (plan.numAffiliate) {
@@ -165,13 +165,13 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           querySnapshot.forEach(async (doc) => {
             plan.petId = doc.id
             plan.petName = doc.data().name
-            let date = doc.data().registration_code || null;
+            let date = doc.data().registration_code || null
 
             if (date && !date.includes('T')) {
-              date = formatDate(date);
+              date = formatDate(date)
             }
 
-            plan.date = date;
+            plan.date = date
           })
         }
 
@@ -280,9 +280,9 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         this.plans = this.plans.map((item) =>
           item.id === id
             ? {
-              ...item,
-              plans: item.plans.filter((value) => value !== plan)
-            }
+                ...item,
+                plans: item.plans.filter((value) => value !== plan)
+              }
             : item
         )
       } catch (error) {
@@ -319,7 +319,6 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
     },
 
     async findPlanByPetId(petId) {
-
       try {
         let querySnapshot
         try {
@@ -349,15 +348,18 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           }
         })
 
-        const petsRef = query(collection(db, 'pets'), where('numAffiliate', '==', plan.numAffiliate));
-        const petsSnapshot = await getDocs(petsRef);
-        const petsData = petsSnapshot.docs[0].data();
+        const petsRef = query(
+          collection(db, 'pets'),
+          where('numAffiliate', '==', plan.numAffiliate)
+        )
+        const petsSnapshot = await getDocs(petsRef)
+        const petsData = petsSnapshot.docs[0].data()
 
-        const usersRef = query(collection(db, 'users'), where('id', '==', petsData.client));
-        const usersSnapshot = await getDocs(usersRef);
-        const userData = usersSnapshot.docs[0].data();
+        const usersRef = query(collection(db, 'users'), where('id', '==', petsData.client))
+        const usersSnapshot = await getDocs(usersRef)
+        const userData = usersSnapshot.docs[0].data()
 
-        const dateOfActivationISO = formatDate(userData.registration_date)
+        const dateOfActivationISO = formatDate(petsData.registration_code)
         const dateOfActivation = new Date(dateOfActivationISO)
         const currentDate = new Date()
         const practices = {}
@@ -365,7 +367,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         for (const practiceId in plan.practices) {
           const practice = plan.practices[practiceId]
 
-          if (!practice.gracetime || practice.gracetime === '-') {
+          if (!practice.gracetime || practice.gracetime === '-' || practice.gracetime === '0') {
             practices[practiceId] = practice
             continue
           }
@@ -452,60 +454,62 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
     async updateAmountsIfMonthPassed(id) {
       this.loadingDoc = true
       try {
-        const defaultDocRef = doc(db, 'configs', 'plans');
-        const defaultDocSnap = await getDoc(defaultDocRef);
-        const defaultData = defaultDocSnap.data();
+        const defaultDocRef = doc(db, 'configs', 'plans')
+        const defaultDocSnap = await getDoc(defaultDocRef)
+        const defaultData = defaultDocSnap.data()
 
-        const valuesToUpdate = {};
+        const valuesToUpdate = {}
 
         for (let key in defaultData) {
-          let subObject = defaultData[key];
+          let subObject = defaultData[key]
 
-          valuesToUpdate[key] = {};
+          valuesToUpdate[key] = {}
 
-          let subKeys = Object.keys(subObject);
-          let firstSubKey = subKeys[0];
+          let subKeys = Object.keys(subObject)
+          let firstSubKey = subKeys[0]
 
           if (Object.prototype.hasOwnProperty.call(subObject[firstSubKey], 'amount')) {
-            valuesToUpdate[key][firstSubKey] = { ...subObject[firstSubKey] };
-            valuesToUpdate[key][firstSubKey]['amount'] = (Number(subObject[firstSubKey]['amount']) / 12).toString();
+            valuesToUpdate[key][firstSubKey] = { ...subObject[firstSubKey] }
+            valuesToUpdate[key][firstSubKey]['amount'] = (
+              Number(subObject[firstSubKey]['amount']) / 12
+            ).toString()
           } else {
-            valuesToUpdate[key][firstSubKey] = subObject[firstSubKey];
+            valuesToUpdate[key][firstSubKey] = subObject[firstSubKey]
           }
-        };
+        }
 
-        const docRef = doc(db, 'plans', id);
-        const docSnap = await getDoc(docRef);
+        const docRef = doc(db, 'plans', id)
+        const docSnap = await getDoc(docRef)
         if (docSnap.exists()) {
-          const data = docSnap.data();
-          const plans = data.plans;
+          const data = docSnap.data()
+          const plans = data.plans
 
           for (let i = 0; i < plans.length; i++) {
-            const planDate = new Date(plans[i].date);
-            const currentDate = new Date();
+            const planDate = new Date(plans[i].date)
+            const currentDate = new Date()
 
-            planDate.setHours(0, 0, 0, 0);
-            currentDate.setHours(0, 0, 0, 0);
+            planDate.setHours(0, 0, 0, 0)
+            currentDate.setHours(0, 0, 0, 0)
 
-            currentDate.setMonth(planDate.getMonth());
+            currentDate.setMonth(planDate.getMonth())
             if (currentDate.getDate() > planDate.getDate()) {
-              currentDate.setDate(planDate.getDate());
+              currentDate.setDate(planDate.getDate())
             }
 
             if (currentDate > planDate) {
-              let plan = plans[i].plan;
+              let plan = plans[i].plan
 
               if (Object.prototype.hasOwnProperty.call(valuesToUpdate, plan)) {
-                plans[i].practices = { ...plans[i].practices, ...valuesToUpdate[plan] };
+                plans[i].practices = { ...plans[i].practices, ...valuesToUpdate[plan] }
               }
 
-              await updateDoc(docRef, { [`plans`]: plans[i] });
+              await updateDoc(docRef, { [`plans`]: plans[i] })
             }
           }
-          await updateDoc(docRef, { plans: plans });
+          await updateDoc(docRef, { plans: plans })
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
       } finally {
         this.loadingDoc = false
       }
@@ -525,7 +529,10 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         const practiceIndexes = formPractices.map((practiceName) => {
           return practices.indexOf(practiceName)
         })
-        console.log("🚀 ~ file: plans.js ~ line 439 ~ PlansStore ~ updatePlan ~ practiceIndexes:", practiceIndexes)
+        console.log(
+          '🚀 ~ file: plans.js ~ line 439 ~ PlansStore ~ updatePlan ~ practiceIndexes:',
+          practiceIndexes
+        )
         const docRef = doc(db, 'plans', planId)
         const planDoc = await getDoc(docRef)
         const planData = planDoc.data()
