@@ -251,6 +251,7 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           const petSnapshot = await getDocs(queryRef)
           petSnapshot.forEach((doc) => {
             const date = doc.data().registration_code || '01/01/2022'
+            console.log("🚀 ~ file: databaseClientPlan.js:254 ~ petSnapshot.forEach ~ date:", date)
             const fechaEnFormatoISO = formatDate(date)
             pets.push({
               client,

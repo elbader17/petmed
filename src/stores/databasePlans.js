@@ -110,6 +110,7 @@ export const useDatabasePlansStore = defineStore('databasePlansStore', {
             continue
           }
           consults.push(plan)
+          console.log("🚀 ~ file: databasePlans.js:113 ~ updatePlansFromJson ~ plan:", plan)
 
           counter++
         }

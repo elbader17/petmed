@@ -116,6 +116,7 @@ const resetPlans = async () => {
 
   // const consult = await databasePlansStore.getJsonPlans()
   // console.log("🚀 ~ file: DashboardClientsView.vue:116 ~ resetPlans ~ consults:", consult)
+  await databaseClientPlanStore.createAllPlans() // ESTO ES PARA CREAR TODOS LOS PLANES, SE USA PARA TEST, NO BORRAR NI DESCOMENTAR, ENTENDISTE BOLUDO?
 
   const consults = await databasePlansStore.updatePlansFromJson()
 
@@ -124,7 +125,6 @@ const resetPlans = async () => {
     await databaseClientPlanStore.updatePlan(id, [consult.Prestacion], consult.NumForm.toString())
   }
 
-  await databaseClientPlanStore.createAllPlans() // ESTO ES PARA CREAR TODOS LOS PLANES, SE USA PARA TEST, NO BORRAR NI DESCOMENTAR, ENTENDISTE BOLUDO?
   alert('Planes reseteados')
 }
 
@@ -140,7 +140,7 @@ const inputFindWhitCuit = ref('')
       <input type="text" placeholder="Email" v-model="inputFindWhitEmail" />
       <input type="text" placeholder="Cuit" v-model="inputFindWhitCuit" />
       <button class="button-add" @click="findClient()">Buscar</button>
-      <button class="button-add" @click="resetPlans()">Resetear planes</button>
+      <button class="button-add" v-if="false" @click="resetPlans()">Resetear planes</button>
     </div>
     <ModalReusable @closeModal="toggleModal" :modalActive="openModal">
       <DashboardClientsAdd />
