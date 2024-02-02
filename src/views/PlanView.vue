@@ -11,8 +11,8 @@ import plans from '@/data/plans.json';
 import title1005 from '@/assets/img/TITU1005.png';
 import title2010 from '@/assets/img/TITU2010.png';
 import title3015 from '@/assets/img/TITU3015.png';
-import plan1005 from '@/assets/img/1005-Plan.png';
-import plan2010 from '@/assets/img/2010-Plan.png';
+import plan1005 from '@/assets/img/1005-Plan.jpeg';
+import plan2010 from '@/assets/img/2010-Plan.jpeg';
 import plan3015 from '@/assets/img/3015-Plan.png';
 
 const { mobile } = useCheckScreen();
