@@ -321,6 +321,7 @@ const sendForm = async () => {
   databaseUserStore.expirationCode(validate.value.code)
 
   resetStates()
+  location.reload()
 }
 
 const conditionalRender = (data) => {
