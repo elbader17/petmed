@@ -58,6 +58,7 @@ const state = reactive({
   noAudit: false
 })
 
+const componentKey = ref(0)
 watch(
   [() => state.surgery, () => state.odontology, () => state.noAudit],
   ([surgery, odontology, noAudit]) => {
@@ -321,7 +322,7 @@ const sendForm = async () => {
   databaseUserStore.expirationCode(validate.value.code)
 
   resetStates()
-  location.reload()
+  componentKey.value += 1
 }
 
 const conditionalRender = (data) => {
@@ -353,7 +354,7 @@ const renderCoverage = (data) => {
 </script>
 
 <template>
-  <form>
+  <form :key='componentKey'>
     <section style="margin-bottom: 90px; margin-top: 30px">
       <h2>Verificación</h2>
       <label for="codigo">Código de Verificación del Socio:</label>
