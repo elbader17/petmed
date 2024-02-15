@@ -24,14 +24,6 @@
     "specialty": "Clínica en General"
   },
   {
-    "id": 4,
-    "name": "Clínica Veterinaria Dr. Mazzanti",
-    "address": "J M Estrada 1305",
-    "phone": "0358-156002225",
-    "location": "Rio Cuarto",
-    "specialty": "Clínica en General / Traumatología / Radiología"
-  },
-  {
     "id": 5,
     "name": "Veterinaria Shulkan",
     "address": "Córdoba 895",
@@ -149,14 +141,6 @@
     "address": "Newbery 85",
     "phone": "0358-154189870",
     "location": "Las Higueras",
-    "specialty": "Clínica en General"
-  },
-  {
-    "id": 22,
-    "name": "Veterinaria Sobremonte",
-    "address": "Sobremonte 613",
-    "phone": "0358-156002225",
-    "location": "Rio Cuarto",
     "specialty": "Clínica en General"
   },
   {

@@ -12,6 +12,8 @@ import { useDatabaseUserStore } from './databaseUser'
 import { useDatabaseVetStore } from './databaseVets'
 import { useDatabasePetStore } from './databasePet'
 import router from '@/router/index'
+import moment from 'moment';
+
 
 
 export const useUserStore = defineStore('userStore', {
@@ -85,10 +87,10 @@ export const useUserStore = defineStore('userStore', {
       }
     },
 
+
     async createCode(afiliate) {
       const code = Math.floor(100000 + Math.random() * 900000)
-      const expiration = new Date()
-      expiration.setMinutes(expiration.getMinutes() + 5)
+      const expiration = moment().add(5, 'minutes').toDate()
       this.userCode = code
 
       const queryRef = query(collection(db, 'pets'), where('numAffiliate', '==', afiliate))
@@ -108,18 +110,12 @@ export const useUserStore = defineStore('userStore', {
           return 'blocked'
         }
 
-        const lastPayDate = new Date(userData.lastPay.split('/').reverse().join('-'))
-        const currentDate = new Date()
+        const lastPayDate = moment(userData.lastPay, 'DD/MM/YYYY').toDate()
+        const currentDate = moment().toDate()
 
-        const registrationParts = (userData.registration_date || '01/01/2023').split('/')
-        const registration = new Date(
-          parseInt(registrationParts[2], 10),
-          parseInt(registrationParts[1], 10) - 1,
-          parseInt(registrationParts[0], 10)
-        )
+        const registration = moment(userData.registration_date || '01/01/2023', 'DD/MM/YYYY').toDate()
 
         let dueDay = registration.getDate()
-
 
         let nextPaymentYear = registration.getFullYear()
         let nextPaymentMonth = registration.getMonth() + 1
@@ -134,13 +130,13 @@ export const useUserStore = defineStore('userStore', {
           nextPaymentYear++
         }
 
-        const daysInMonth = new Date(nextPaymentYear, nextPaymentMonth + 1, 0).getDate()
+        const daysInMonth = moment([nextPaymentYear, nextPaymentMonth]).daysInMonth()
 
         if (dueDay > daysInMonth) {
           dueDay = daysInMonth
         }
 
-        const dueDate = new Date(nextPaymentYear, nextPaymentMonth, dueDay)
+        const dueDate = moment([nextPaymentYear, nextPaymentMonth, dueDay]).toDate()
 
         if (currentDate > dueDate) {
           return 'blocked'
@@ -212,6 +208,7 @@ export const useUserStore = defineStore('userStore', {
           where('account', '==', account),
           where('date', '>=', firstDayOfMonth)
         )
+        /* eslint-disable */
         function searchValue(object, searchedValue) {
           return Object.values(object).some((value) => {
             if (typeof value === 'object') {
@@ -220,7 +217,7 @@ export const useUserStore = defineStore('userStore', {
             return value === searchedValue
           })
         }
-
+        /* eslint-enable */
         const auth = getAuth()
         const accountVet = auth.currentUser.uid
 

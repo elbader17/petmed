@@ -281,7 +281,7 @@ const sendForm = async () => {
   }
 
   if (counts.value.cantidadRadiografias > 1) {
-    for (var x = 0; x < counts.value.cantidadRadiografias - 1; x++) {
+    for (var y = 0; y < counts.value.cantidadRadiografias - 1; y++) {
       await databaseClientPlanStore.updatePlan(
         validate.value.data.planId,
         ['Radiografías'],
@@ -291,7 +291,7 @@ const sendForm = async () => {
   }
 
   if (counts.value.cantidadVacunas > 1) {
-    for (var x = 0; x < counts.value.cantidadVacunas - 1; x++) {
+    for (var z = 0; z < counts.value.cantidadVacunas - 1; z++) {
       await databaseClientPlanStore.updatePlan(
         validate.value.data.planId,
         ['Vacunas'],
