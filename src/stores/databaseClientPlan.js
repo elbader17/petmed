@@ -281,9 +281,9 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         this.plans = this.plans.map((item) =>
           item.id === id
             ? {
-                ...item,
-                plans: item.plans.filter((value) => value !== plan)
-              }
+              ...item,
+              plans: item.plans.filter((value) => value !== plan)
+            }
             : item
         )
       } catch (error) {
@@ -356,9 +356,9 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
         const petsSnapshot = await getDocs(petsRef)
         const petsData = petsSnapshot.docs[0].data()
 
-        const usersRef = query(collection(db, 'users'), where('id', '==', petsData.client))
+        /* const usersRef = query(collection(db, 'users'), where('id', '==', petsData.client))
         const usersSnapshot = await getDocs(usersRef)
-        const userData = usersSnapshot.docs[0].data()
+        const userData = usersSnapshot.docs[0].data() */
 
         const dateOfActivationISO = formatDate(petsData.registration_code)
         const dateOfActivation = new Date(dateOfActivationISO)
