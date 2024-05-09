@@ -199,6 +199,8 @@ const isAudit = () => {
 }
 
 const sendForm = async () => {
+  validate.value.send = true
+
   if (
     validate.value.data.anamnesis === '' ||
     validate.value.data.temp === '' ||
@@ -221,6 +223,7 @@ const sendForm = async () => {
     !isAudit()
   ) {
     alert('Faltan datos por completar')
+    validate.value.send = false
     return
   }
 
@@ -251,6 +254,7 @@ const sendForm = async () => {
 
   if (!practiceKeys.some((key) => practicesList[key])) {
     alert('Debe seleccionar un tipo de practica')
+    validate.value.send = false
     return
   }
 
@@ -367,23 +371,14 @@ const renderCoverage = (data) => {
 
     <div class="container">
       <template v-for="(practice, index) in databaseVetStore.practices" :key="practice">
-        <div
-          v-if="
-            practice !== 'Análisis clínicos no específicos' &&
-            practice !== 'Análisis clínicos específico' 
-          "
-        >
+        <div v-if="
+          practice !== 'Análisis clínicos no específicos' &&
+          practice !== 'Análisis clínicos específico'
+        ">
           <label style="display: inline-block">
             {{ practice }}
-            <input
-              :disabled="!conditionalRender(index)"
-              type="checkbox"
-              :id="practice"
-              :name="practice"
-              :value="practice"
-              v-model="validate.data.practices[practice]"
-              style="display: inline-block"
-            />
+            <input :disabled="!conditionalRender(index)" type="checkbox" :id="practice" :name="practice"
+              :value="practice" v-model="validate.data.practices[practice]" style="display: inline-block" />
             <span :style="{ color: conditionalRender(index) ? 'green' : 'black' }">
               {{ renderCoverage(conditionalRender(index)) }}
             </span>
@@ -391,59 +386,37 @@ const renderCoverage = (data) => {
         </div>
       </template>
     </div>
-    <div
-      v-if="
-        validate.data.practices['Vacunas'] ||
-        validate.data.practices['Radiografías'] ||
-        validate.data.practices['Aplicaciones (Inyectables)']
-      "
-      style="background-color: #9e63c4; padding: 10px; border-radius: 5px"
-    >
+    <div v-if="
+      validate.data.practices['Vacunas'] ||
+      validate.data.practices['Radiografías'] ||
+      validate.data.practices['Aplicaciones (Inyectables)']
+    " style="background-color: #9e63c4; padding: 10px; border-radius: 5px">
       <div v-if="validate.data.practices['Vacunas']" class="input-container">
         <label for="vacunas" class="title-counter">Cantidad de Vacunas:</label>
         <input type="number" id="vacunas" v-model="counts.cantidadVacunas" class="short-input" />
         <label for="topeVacunas" class="title-counter">
           Tope de cobertura
           {{
-            validate.data.practicesOfPet.practices['4'].amount <= 0
-              ? 'Se alcanzó el límite de cobertura'
-              : validate.data.practicesOfPet.practices['4'].amount
-          }}
-        </label>
+            validate.data.practicesOfPet.practices['4'].amount <= 0 ? 'Se alcanzó el límite de cobertura' :
+              validate.data.practicesOfPet.practices['4'].amount }} </label>
       </div>
       <div v-if="validate.data.practices['Radiografías']" class="input-container">
         <label for="radiografias" class="title-counter">Cantidad de radiografías:</label>
-        <input
-          type="number"
-          id="radiografias"
-          v-model="counts.cantidadRadiografias"
-          class="short-input"
-        />
+        <input type="number" id="radiografias" v-model="counts.cantidadRadiografias" class="short-input" />
         <label for="topeRadiografias" class="title-counter">
           Tope de cobertura
           {{
-            validate.data.practicesOfPet.practices['9'].amount <= 0
-              ? 'Se alcanzó el límite de cobertura'
-              : validate.data.practicesOfPet.practices['9'].amount
-          }}
-        </label>
+            validate.data.practicesOfPet.practices['9'].amount <= 0 ? 'Se alcanzó el límite de cobertura' :
+              validate.data.practicesOfPet.practices['9'].amount }} </label>
       </div>
       <div v-if="validate.data.practices['Aplicaciones (Inyectables)']" class="input-container">
         <label for="aplicaciones" class="title-counter">Cantidad de aplicaciones:</label>
-        <input
-          type="number"
-          id="aplicaciones"
-          v-model="counts.cantidadAplicaciones"
-          class="short-input"
-        />
+        <input type="number" id="aplicaciones" v-model="counts.cantidadAplicaciones" class="short-input" />
         <label for="topeAplicaciones" class="title-counter">
           Tope de cobertura
           {{
-            validate.data.practicesOfPet.practices['5'].amount <= 0
-              ? 'Se alcanzó el límite de cobertura'
-              : validate.data.practicesOfPet.practices['5'].amount
-          }}
-        </label>
+            validate.data.practicesOfPet.practices['5'].amount <= 0 ? 'Se alcanzó el límite de cobertura' :
+              validate.data.practicesOfPet.practices['5'].amount }} </label>
       </div>
     </div>
     <section>
@@ -461,25 +434,13 @@ const renderCoverage = (data) => {
       <input disabled type="text" id="socio" v-model="validate.data.socio" name="socio" />
 
       <label for="numAffiliate">Número de Afiliado:</label>
-      <input
-        disabled
-        type="text"
-        id="numAffiliate"
-        v-model="validate.data.numAffiliate"
-        name="numAffiliate"
-      />
+      <input disabled type="text" id="numAffiliate" v-model="validate.data.numAffiliate" name="numAffiliate" />
 
       <label for="plan">Plan:</label>
       <input disabled type="text" id="plan" v-model="validate.data.plan" name="plan" />
 
       <label for="responsable">Responsable:</label>
-      <input
-        disabled
-        type="text"
-        id="responsable"
-        v-model="validate.data.responsible"
-        name="responsable"
-      />
+      <input disabled type="text" id="responsable" v-model="validate.data.responsible" name="responsable" />
     </section>
 
     <section>
@@ -500,12 +461,7 @@ const renderCoverage = (data) => {
       <input type="text" id="mucosa" v-model="validate.data.mucousMembrane" name="mucosa" />
 
       <label for="piel_anexos">Estado de Piel y Anexos:</label>
-      <input
-        type="text"
-        id="piel_anexos"
-        v-model="validate.data.skinCondition"
-        name="piel_anexos"
-      />
+      <input type="text" id="piel_anexos" v-model="validate.data.skinCondition" name="piel_anexos" />
 
       <label for="reflejos">Reflejos:</label>
       <input type="text" id="reflejos" v-model="validate.data.feflexes" name="reflejos" />
@@ -517,20 +473,10 @@ const renderCoverage = (data) => {
       <input type="text" id="cabeza_cuello" v-model="validate.data.headNeck" name="cabeza_cuello" />
 
       <label for="miembros_anteriores">Miembros Anteriores:</label>
-      <input
-        type="text"
-        id="miembros_anteriores"
-        v-model="validate.data.formerMembers"
-        name="miembros_anteriores"
-      />
+      <input type="text" id="miembros_anteriores" v-model="validate.data.formerMembers" name="miembros_anteriores" />
 
       <label for="miembros_posteriores">Miembros Posteriores:</label>
-      <input
-        type="text"
-        id="miembros_posteriores"
-        v-model="validate.data.hindLimbs"
-        name="miembros_posteriores"
-      />
+      <input type="text" id="miembros_posteriores" v-model="validate.data.hindLimbs" name="miembros_posteriores" />
 
       <label for="torax">Tórax:</label>
       <input type="text" id="torax" v-model="validate.data.torax" name="torax" />
@@ -539,33 +485,20 @@ const renderCoverage = (data) => {
       <input type="text" id="abdomen" v-model="validate.data.abdomen" name="abdomen" />
 
       <label for="estudios">Estudios Complementarios:</label>
-      <input
-        type="text"
-        id="estudios"
-        v-model="validate.data.complementaryStudies"
-        name="estudios"
-      />
+      <input type="text" id="estudios" v-model="validate.data.complementaryStudies" name="estudios" />
 
       <label for="diagnosis">Diagnostico:</label>
       <input type="text" id="diagnosis" v-model="validate.data.diagnosis" name="diagnosis" />
 
       <label for="differentialDiagnosis">Diagnostico Diferencial:</label>
-      <input
-        type="text"
-        id="differentialDiagnosis"
-        v-model="validate.data.differentialDiagnosis"
-        name="differentialDiagnosis"
-      />
+      <input type="text" id="differentialDiagnosis" v-model="validate.data.differentialDiagnosis"
+        name="differentialDiagnosis" />
 
       <label for="treatment">Tratamiento:</label>
       <input type="text" id="treatment" v-model="validate.data.treatment" name="treatment" />
 
       <label for="observaciones">Observaciones:</label>
-      <textarea
-        id="observaciones"
-        v-model="validate.data.observations"
-        name="observaciones"
-      ></textarea>
+      <textarea id="observaciones" v-model="validate.data.observations" name="observaciones"></textarea>
     </section>
     <section>
       <h2>Auditoria</h2>
@@ -582,13 +515,7 @@ const renderCoverage = (data) => {
         <label for="odontology">Odontología</label>
       </div>
     </section>
-    <input
-      :disabled="validate.send"
-      type="button"
-      :class="validate.style"
-      value="Enviar"
-      @click="sendForm"
-    />
+    <input :disabled="validate.send" type="button" :class="validate.style" value="Enviar" @click="sendForm" />
   </form>
 </template>
 
