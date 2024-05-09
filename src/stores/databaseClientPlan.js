@@ -486,18 +486,12 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           const plans = data.plans
 
           for (let i = 0; i < plans.length; i++) {
-            const planDate = new Date(plans[i].date)
-            const currentDate = new Date()
+            const planDate = new Date(plans[i].date);
+            const currentDate = new Date();
 
-            planDate.setHours(0, 0, 0, 0)
-            currentDate.setHours(0, 0, 0, 0)
+            const monthsPassed = (currentDate - planDate) / (1000 * 60 * 60 * 24 * 30);
 
-            currentDate.setMonth(planDate.getMonth())
-            if (currentDate.getDate() > planDate.getDate()) {
-              currentDate.setDate(planDate.getDate())
-            }
-
-            if (currentDate > planDate) {
+            if (monthsPassed >= 1) {
               let plan = plans[i].plan
 
               if (Object.prototype.hasOwnProperty.call(valuesToUpdate, plan)) {
