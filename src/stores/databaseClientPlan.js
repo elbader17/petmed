@@ -489,9 +489,9 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
             const planDate = new Date(plans[i].date);
             const currentDate = new Date();
 
-            const monthsPassed = (currentDate - planDate) / (1000 * 60 * 60 * 24 * 30);
+            const nextPlanDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), planDate.getDate());
 
-            if (monthsPassed >= 1) {
+            if (currentDate >= nextPlanDate) {
               let plan = plans[i].plan
 
               if (Object.prototype.hasOwnProperty.call(valuesToUpdate, plan)) {
@@ -499,6 +499,8 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
               }
 
               await updateDoc(docRef, { [`plans`]: plans[i] })
+            } else {
+              console.log('No pasó un mes')
             }
           }
           await updateDoc(docRef, { plans: plans })

@@ -200,6 +200,7 @@ const isAudit = () => {
 
 const sendForm = async () => {
   validate.value.send = true
+  validate.value.style = 'enabled'
 
   if (
     validate.value.data.anamnesis === '' ||
@@ -224,6 +225,7 @@ const sendForm = async () => {
   ) {
     alert('Faltan datos por completar')
     validate.value.send = false
+    validate.value.style = 'disabled'
     return
   }
 
@@ -255,6 +257,7 @@ const sendForm = async () => {
   if (!practiceKeys.some((key) => practicesList[key])) {
     alert('Debe seleccionar un tipo de practica')
     validate.value.send = false
+    validate.value.style = 'disabled'
     return
   }
 
