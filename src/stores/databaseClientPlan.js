@@ -488,19 +488,20 @@ export const useDatabaseClientPlanStore = defineStore('databaseClientPlanStore',
           for (let i = 0; i < plans.length; i++) {
             const planDate = new Date(plans[i].date);
             const currentDate = new Date();
+            const currentMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
 
-            const nextPlanDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), planDate.getDate());
-
-            if (currentDate >= nextPlanDate) {
+            if (planDate < currentMonthDate) {
               let plan = plans[i].plan
 
               if (Object.prototype.hasOwnProperty.call(valuesToUpdate, plan)) {
                 plans[i].practices = { ...plans[i].practices, ...valuesToUpdate[plan] }
               }
 
+              plans[i].date = currentMonthDate.toISOString().slice(0, 16)
+
               await updateDoc(docRef, { [`plans`]: plans[i] })
             } else {
-              console.log('No pasó un mes')
+              console.log('No pasó un nuevo mes')
             }
           }
           await updateDoc(docRef, { plans: plans })
