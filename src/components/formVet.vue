@@ -374,19 +374,14 @@ const renderCoverage = (data) => {
 
     <div class="container">
       <template v-for="(practice, index) in databaseVetStore.practices" :key="practice">
-        <div v-if="
-          practice !== 'Análisis clínicos no específicos' &&
-          practice !== 'Análisis clínicos específico'
-        ">
-          <label style="display: inline-block">
-            {{ practice }}
-            <input :disabled="!conditionalRender(index)" type="checkbox" :id="practice" :name="practice"
-              :value="practice" v-model="validate.data.practices[practice]" style="display: inline-block" />
-            <span :style="{ color: conditionalRender(index) ? 'green' : 'black' }">
-              {{ renderCoverage(conditionalRender(index)) }}
-            </span>
-          </label>
-        </div>
+        <label style="display: inline-block">
+          {{ practice }}
+          <input :disabled="!conditionalRender(index)" type="checkbox" :id="practice" :name="practice"
+            :value="practice" v-model="validate.data.practices[practice]" style="display: inline-block" />
+          <span :style="{ color: conditionalRender(index) ? 'green' : 'black' }">
+            {{ renderCoverage(conditionalRender(index)) }}
+          </span>
+        </label>
       </template>
     </div>
     <div v-if="
