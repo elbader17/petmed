@@ -102,12 +102,14 @@ export const useDatabaseProvidersStore = defineStore('databaseProvidersStore', {
       try {
         const queryRef = query(collection(db, 'providers'));
         const querySnapshot = await getDocs(queryRef);
+        const providers = [];
         querySnapshot.forEach((doc) => {
-          this.providers.push({
+          providers.push({
             id: doc.id,
             ...doc.data()
           })
-        })
+        });
+        return providers;
       } catch (error) {
         console.log(error);
       } finally {

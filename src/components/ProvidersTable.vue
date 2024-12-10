@@ -1,5 +1,5 @@
 <script setup>
-defineProps (['data'])
+defineProps(['data'])
 </script>
 
 <template>
@@ -16,7 +16,7 @@ defineProps (['data'])
         <td class="body-provider">{{ item.name }}</td>
         <td class="body-item">{{ item.address }}</td>
         <td class="body-item">{{ item.phone }}</td>
-        <td class="body-item">{{ item.location }}</td>
+        <td class="body-item">{{ item.city }}</td>
         <td class="body-item">{{ item.specialty }}</td>
       </tbody>
     </table>

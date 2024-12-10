@@ -1,15 +1,23 @@
 <script setup>
+import { useDatabaseProvidersStore } from '@/stores/databaseProviders';
+import { ref, onBeforeMount } from 'vue';
 import ContentBanner from '../components/ContentBanner.vue';
 import ContentSeparator from '../components/icons/ContentSeparator.vue';
 import ProvidersTable from '../components/ProvidersTable.vue';
 import ProvidersLine from '../components/ProvidersLine.vue';
 import imageBanner from '@/assets/img/banner_cartilla.jpg';
 import imageTitle from '@/assets/img/cartilla.png';
-import providers from '@/data/providers.json';
 import { useCheckScreen } from '@/composables/checkScreen';
 
+const databaseProvidersStore = useDatabaseProvidersStore();
+
 const { mobile } = useCheckScreen();
-const data = providers;
+
+const data = ref([]);
+
+onBeforeMount(async () => {
+  data.value = await databaseProvidersStore.getAllProviders();
+});
 </script>
 
 <template>

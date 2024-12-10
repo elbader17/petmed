@@ -32,7 +32,7 @@ const isOpen = (index) => {
         <div class="line-content" v-if="isOpen(index)">
           <p class="content-item">{{ item.address }}</p>
           <p class="content-item">{{ item.phone }}</p>
-          <p class="content-item">{{ item.location }}</p>
+          <p class="content-item">{{ item.city }}</p>
           <p class="content-item">{{ item.specialty }}</p>
         </div>
       </transition>
