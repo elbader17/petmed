@@ -6,18 +6,22 @@ defineProps(['data'])
   <section class="providers-content">
     <table class="providers-table">
       <thead class="table-head">
-        <th class="head-provider">Prestadores</th>
-        <th class="head-item">Dirección</th>
-        <th class="head-item">Teléfono</th>
-        <th class="head-item">Localidad</th>
-        <th class="head-item">Especialidad</th>
+        <tr>
+          <th class="head-provider">Prestadores</th>
+          <th class="head-item">Dirección</th>
+          <th class="head-item">Teléfono</th>
+          <th class="head-item">Localidad</th>
+          <th class="head-item">Especialidad</th>
+        </tr>
       </thead>
-      <tbody class="table-body" v-for="item in data" :key="item.id">
-        <td class="body-provider">{{ item.name }}</td>
-        <td class="body-item">{{ item.address }}</td>
-        <td class="body-item">{{ item.phone }}</td>
-        <td class="body-item">{{ item.city }}</td>
-        <td class="body-item">{{ item.specialty }}</td>
+      <tbody class="table-body">
+        <tr v-for="item in data" :key="item.id">
+          <td class="body-provider">{{ item.name }}</td>
+          <td class="body-item">{{ item.address }}</td>
+          <td class="body-item">{{ item.phone }}</td>
+          <td class="body-item">{{ item.city }}</td>
+          <td class="body-item">{{ item.specialty }}</td>
+        </tr>
       </tbody>
     </table>
   </section>
